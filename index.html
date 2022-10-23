@@ -4,10 +4,108 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous">
+    <link rel="icon" type="image/jpg" href="assets/img/fav.png"/>
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/e7d31838ca.js" crossorigin="anonymous"></script>
+    <!-- Taildwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>AhorrAdAs | Julieta Bondi | Isabel Alvarado</title>
 </head>
 <body>
-    
+    <header class="flex justify-between bg-pink-700 py-5 px-10 text-white shadow-xl">
+        <a href="#" class="flex text-4xl"><i class="fa-solid fa-wallet mr-3"></i><h1>AhorrADAs</h1></a>
+        <nav>
+            <ul class="flex ">
+                <li><a href="#" class="text-2xl"><i class="fa-solid fa-chart-line mr-2"></i>Balances</a></li>
+                <li class="ml-7"><a href="#" class="text-2xl"><i class="fa-solid fa-tag mr-2"></i>Categorías</a></li>
+                <li class="ml-7"><a href="#" class="text-2xl"><i class="fa-solid fa-chart-pie mr-2"></i>Reportes</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="flex justify-center py-20">
+
+        <!-- Balance Section -->
+        
+        <section id="secBalance" class="w-[60%]">
+            <div class="flex justify-between w-full">
+                <div>
+                    <div id="balance" class="bg-pink-100 w-80 p-7 mb-7 rounded-md shadow-inner">
+                        <h2 class="text-3xl font-black">Balance</h2>
+                        <div class="flex justify-between">
+                            <p class="">Ganancias</p>
+                            <p class="">+$0</p>
+                        </div>
+                        <div class="flex justify-between">
+                            <p class="">Gastoss</p>
+                            <p class="">-$0</p>
+                        </div>
+                        <div class="flex justify-between">
+                            <p class="">Total</p>
+                            <p class="">$0</p>
+                        </div>
+                    </div>
+
+                    <div id="filtros" class="bg-pink-100 w-80 p-7 rounded-md shadow-inner">
+                        <div class="">
+                            <h3 class="text-3xl font-black">Filtros</h3>
+                            <a href="#">Ocultar Filtros</a>
+                        </div>
+                        <form>
+                            <div>
+                            <label for="type">Tipo</label>
+                                <select name="type" id="type">
+                                    <option value="todos" selected>Todos</option>
+                                    <option value="gasto">Gasto</option>
+                                    <option value="ganancia">Ganancia</option>
+                                </select>
+                            </div>
+
+                            <div class="">
+                                <label for="category">Categoría</label>
+                                <select name="category" id="category">
+                                    <option value="todas" selected>Todas</option>
+                                    <option value="comidas">Gasto</option>
+                                    <option value="servicios">Ganancia</option>
+                                    <option value="salidas">Salidas</option>
+                                    <option value="educacion">Educacion</option>
+                                    <option value="transporte">Transporte</option>
+                                    <option value="trabajo">Trabajo</option>
+                                </select>
+                            </div>
+
+                            <div class="">
+                                <label for="date">Desde</label>
+                                <input type="date" name="date" id="date">
+                            </div>
+
+                            <div class="">
+                                <label for="order">Ordenar por</label>
+                                <select name="order" id="order">
+                                    <option value="masRec" selected>Más reciente</option>
+                                    <option value="menRec">Menos reciente</option>
+                                    <option value="mayMon">Mayor monto</option>
+                                    <option value="menMon">Menor monto</option>
+                                    <option value="az">A/Z</option>
+                                    <option value="za">Z/A</option>
+                                </select>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </div>
+
+                <div id="operations" class="bg-pink-100 w-[750px] p-7 rounded-md shadow-inner">
+                    <div class="flex justify-between">
+                        <h3 class="text-2xl font-black">Operaciones</h3>
+                        <button>+ Nueva Operación</button>
+                    </div>
+                </div>
+            </div> 
+        </section>
+    </main>
 
     <script src="js/app.js"></script>
 </body>
