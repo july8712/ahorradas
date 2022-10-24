@@ -29,7 +29,7 @@
 
         <!-- Balance Section -->
         
-        <section id="secBalance" class="w-[60%]">
+        <!-- <section id="secBalance" class="w-[60%]">
             <div class="flex justify-between w-full">
                 <div>
                     <div id="balance" class="bg-pink-100 w-80 p-7 mb-7 rounded-md shadow-inner text-lg">
@@ -107,7 +107,7 @@
                     </div>
                 </div>
             </div> 
-        </section>
+        </section> -->
 
         <!-- Categories Section -->
 
@@ -178,47 +178,49 @@
 
         <!-- New Operation -->
 
-        <!-- <section id="newOperation">
-            <div>
-                <h2>Nueva operación</h2>
+        <section id="newOperation">
+            <div class="flex flex-col bg-pink-100 w-[700px] p-7 rounded-md shadow-inner">
+                <div class="mb-5">
+                    <h2 class="text-3xl font-black">Nueva operación</h2>
+                </div>
+                <form action="">
+                    <div class="flex flex-col mt-5 font-bold">
+                        <label for="description" class="font-bold mb-1">Descripción</label>
+                        <input type="text" name="description" id="description" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
+                    </div>
+                    <div class="flex flex-col mt-5 font-bold">
+                        <label for="mont" class="font-bold mb-1">Monto</label>
+                        <input type="number" id="mont" name="mont" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
+                    </div>
+                    <div class="flex flex-col mt-5 font-bold">
+                        <label for="type" class="font-bold mb-1">Tipo</label>
+                        <select name="type" id="type" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
+                            <option value="spent">Gasto</option>
+                            <option value="gain">Ganancia</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col mt-5 font-bold">
+                        <label for="category" class="font-bold mb-1">Categoría</label>
+                        <select name="category" id="category" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
+                            <option value="foods">Comidas</option>
+                            <option value="services">Servicios</option>
+                            <option value="departures">Salidas</option>
+                            <option value="education">Educación</option>
+                            <option value="transport">Transporte</option>
+                            <option value="work">Trabajo</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col mt-5 font-bold">
+                        <label for="date" class="font-bold mb-1">Monto</label>
+                        <input type="date" id="date" name="date" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
+                    </div>
+                    <div class="flex justify-end mt-10 font-bold">
+                        <button class="py-3 px-5 bg-[#d8568c] hover:bg-pink-300 text-white rounded-lg font-bold text-lg">Cancelar</button>
+                        <button class="py-3 px-5 bg-[#be185d] hover:bg-pink-600 text-white rounded-lg font-bold text-lg ml-3">Agregar</button>
+                    </div>
+                </form>
             </div>
-            <form action="">
-                <div>
-                    <label for="description">Descripción</label>
-                    <input type="text" name="description" id="description">
-                </div>
-                <div>
-                    <label for="mont">Monto</label>
-                    <input type="number" id="mont" name="mont">
-                </div>
-                <div>
-                    <label for="type">Tipo</label>
-                    <select name="type" id="type">
-                        <option value="spent">Gasto</option>
-                        <option value="gain">Ganancia</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="category">Categoría</label>
-                    <select name="category" id="category">
-                        <option value="foods">Comidas</option>
-                        <option value="services">Servicios</option>
-                        <option value="departures">Salidas</option>
-                        <option value="education">Educación</option>
-                        <option value="transport">Transporte</option>
-                        <option value="work">Trabajo</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="date">Monto</label>
-                    <input type="date" id="date" name="date">
-                </div>
-                <div>
-                    <button>Cancelar</button>
-                    <button>Agregar</button>
-                </div>
-            </form>
-        </section> -->
+        </section>
     </main>
     <script src="js/app.js"></script>
 </body>
