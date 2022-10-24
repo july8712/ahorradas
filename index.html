@@ -29,7 +29,7 @@
 
         <!-- Balance Section -->
         
-        <!-- <section id="secBalance" class="w-[60%]">
+        <section id="secBalance" class="w-[60%]">
             <div class="flex justify-between w-full">
                 <div>
                     <div id="balance" class="bg-pink-100 w-80 p-7 mb-7 rounded-md shadow-inner text-lg">
@@ -107,73 +107,6 @@
                     </div>
                 </div>
             </div> 
-        </section> -->
-
-        <!-- Categories Section -->
-
-        <section id="secCategories">
-            <div class="bg-pink-100 w-[800px] p-7 rounded-md shadow-inner">
-                <h2 class="text-3xl font-black pb-8">Categorías</h2>
-                <label for="input-categories" class="text-lg font-bold">Nombre</label>
-                <div class="flex pb-10 justify-between">
-                    <input type="text" class="w-4/5 h-10 rounded shadow-inner" id="input-categories" name="input-categories">
-                    <button class="w-1/6 rounded-lg bg-green-500 ">Agregar</button>
-                </div>
-                <div class="space-y-8">
-                    <div class="flex justify-between">
-                        <span class="bg-green-200/50">Comida</span>
-                        <div>
-                            <a href="">Editar</a>
-                            <a href="" class="ml-3">Eliminar</a>
-                        </div>
-                    </div>
-                    <div class="flex justify-between">
-                        <span  class="bg-green-200/50">Servicios</span>
-                        <div>
-                            <a href="">Editar</a>
-                            <a href="" class="ml-3">Eliminar</a>
-                        </div>
-                    </div>
-                    <div class="flex justify-between">
-                        <span  class="bg-green-200/50">Educación</span>
-                        <div>
-                            <a href="">Editar</a>
-                            <a href="" class="ml-3">Eliminar</a>
-                        </div>
-                    </div>
-                    <div class="flex justify-between">
-                        <span  class="bg-green-200/50">Transporte</span>
-                        <div>
-                            <a href="">Editar</a>
-                            <a href="" class="ml-3">Eliminar</a>
-                        </div>
-                    </div>
-                    <div class="flex justify-between">
-                        <span  class="bg-green-200/50">Trabajo</span>
-                        <div>
-                            <a href="">Editar</a>
-                            <a href="" class="ml-3">Eliminar</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section Reports -->
-
-        <section id="secReports">
-            <div class="flex bg-pink-100 w-[700px] p-7 rounded-md shadow-inner">
-                <div class="flex justify-center">
-                    <h2 class="text-3xl font-black">Reportes</h2>
-                    <div class="">
-                        <img src="assets/img-reports.svg" alt="" class="w-96 pt-14 pb-10">
-                        <div class="flex-col pt-6 pb-14">
-                            <h3 class="text-center">Operaciones insuficientes</h3>
-                            <p class="text-center">Prueba agregando más operaciones</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </section>
 
         <!-- Categories Section -->
@@ -226,14 +159,14 @@
             </div>
         </section> -->
 
-        <!-- Reports Section -->
+        <!-- Section Reports -->
 
         <!-- <section id="secReports">
             <div class="flex bg-pink-100 w-[700px] p-7 rounded-md shadow-inner">
                 <div class="flex justify-center">
                     <h2 class="text-3xl font-black">Reportes</h2>
                     <div class="">
-                        <img src="assets/img/charts.png" alt="Reports" class="w-96 pt-14 pb-10">
+                        <img src="assets/img-reports.svg" alt="" class="w-96 pt-14 pb-10">
                         <div class="flex-col pt-6 pb-14">
                             <h3 class="text-center">Operaciones insuficientes</h3>
                             <p class="text-center">Prueba agregando más operaciones</p>
@@ -241,6 +174,50 @@
                     </div>
                 </div>
             </div>
+        </section> -->
+
+        <!-- New Operation -->
+
+        <!-- <section id="newOperation">
+            <div>
+                <h2>Nueva operación</h2>
+            </div>
+            <form action="">
+                <div>
+                    <label for="description">Descripción</label>
+                    <input type="text" name="description" id="description">
+                </div>
+                <div>
+                    <label for="mont">Monto</label>
+                    <input type="number" id="mont" name="mont">
+                </div>
+                <div>
+                    <label for="type">Tipo</label>
+                    <select name="type" id="type">
+                        <option value="spent">Gasto</option>
+                        <option value="gain">Ganancia</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="category">Categoría</label>
+                    <select name="category" id="category">
+                        <option value="foods">Comidas</option>
+                        <option value="services">Servicios</option>
+                        <option value="departures">Salidas</option>
+                        <option value="education">Educación</option>
+                        <option value="transport">Transporte</option>
+                        <option value="work">Trabajo</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="date">Monto</label>
+                    <input type="date" id="date" name="date">
+                </div>
+                <div>
+                    <button>Cancelar</button>
+                    <button>Agregar</button>
+                </div>
+            </form>
         </section> -->
     </main>
     <script src="js/app.js"></script>
