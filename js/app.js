@@ -96,6 +96,23 @@ const changeSection = (id) => {
    }
 }
 
+// generateCategory
+
+const generateCategory = (categoryList) => {
+    for (const {id, name} of categoryList) {
+        containerCategory.innerHTML += `
+        <div class="flex justify-between">
+            <p id="${id}" class="bg-[#F599BF]/75">${name}</p>
+            <div>
+                <button data-id="${id}">Editar</button>
+                <button data-id="${id}" class="ml-3">Eliminar</button>
+            </div>
+        </div>
+        `
+    }
+}
+generateCategory(categoryList)
+
 // ***************************************** Events *******************************************
 
 
@@ -118,4 +135,18 @@ btnReports.addEventListener('click', () =>{
 btnNewOperation.addEventListener('click', () =>{
     changeSection(btnNewOperation)
 })
+
+btnAddCategory.addEventListener('click', () =>{
+    categoryList.push({
+        id:categoryList.length +1,
+        name:inputCategory.value 
+    })
+    containerCategory.innerHTML= ""
+    generateCategory(categoryList)
+    localStorage.setItem("categories", JSON.stringify(categoryList))
+    // JSON.parse(localStorage.getItem("categories"))
+})
+
+// const copyCategory = JSON.parse(localStorage.getItem("categories"))
+// console.log(copyCategory)
 
