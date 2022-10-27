@@ -18,8 +18,40 @@ const secCategories = $('#secCategories');
 const secReports = $('#secReports');
 const newOperation = $('#newOperation');
 
+// Categories
+
+const containerCategory = $('#containerCategory')
+const inputCategory = $('#input-category')
+const btnAddCategory = $('#add-category')
+
 // ***************************************** End Variables *******************************************
 
+// ***************************************** Arrays of Objects ***************************************
+
+const categoryList = [
+    {
+        id: 0,
+        name: "Comida"
+    },
+    {
+        id: 1,
+        name: "Servicios"
+    },
+    {
+        id: 2,
+        name: "Educación"
+    },
+    {
+        id: 3,
+        name: "Transporte"
+    },
+    {
+        id: 4,
+        name: "Trabajo"
+    },
+
+
+]
 
 // ******************************************* Functions *********************************************
 
@@ -86,3 +118,4 @@ btnReports.addEventListener('click', () =>{
 btnNewOperation.addEventListener('click', () =>{
     changeSection(btnNewOperation)
 })
+
