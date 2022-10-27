@@ -11,12 +11,14 @@ const btnCategories = $('#btn-categories');
 const btnReports = $('#btn-reports');
 const btnNewOperation = $('#new-operation');
 
+
 // Sections
 
 const secBalance = $('#secBalance');
 const secCategories = $('#secCategories');
 const secReports = $('#secReports');
 const newOperation = $('#newOperation');
+const editCategory = $('#editCategory')
 
 // Categories
 
@@ -64,6 +66,7 @@ const changeSection = (id) => {
             secCategories.style.display = 'none'
             secReports.style.display = 'none'
             newOperation.style.display = 'none'
+            editCategory.style.display = 'none'
         break;
 
         case btnBalances:
@@ -71,6 +74,7 @@ const changeSection = (id) => {
             secCategories.style.display = 'none'
             secReports.style.display = 'none'
             newOperation.style.display = 'none'
+            editCategory.style.display = 'none'
         break;
 
         case btnCategories:
@@ -78,6 +82,7 @@ const changeSection = (id) => {
             secCategories.style.display = 'block'
             secReports.style.display = 'none'
             newOperation.style.display = 'none'
+            editCategory.style.display = 'none'
         break;
 
         case btnReports:
@@ -85,6 +90,7 @@ const changeSection = (id) => {
             secCategories.style.display = 'none'
             secReports.style.display = 'block'
             newOperation.style.display = 'none'
+            editCategory.style.display = 'none'
         break;
 
         case btnNewOperation:
@@ -92,6 +98,15 @@ const changeSection = (id) => {
             secCategories.style.display = 'none'
             secReports.style.display = 'none'
             newOperation.style.display = 'block'
+            editCategory.style.display = 'none'
+        break;
+
+        case btnEdit:
+            secBalance.style.display = 'none' 
+            secCategories.style.display = 'none'
+            secReports.style.display = 'none'
+            newOperation.style.display = 'none'
+            editCategory.style.display = 'block'
         break;
    }
 }
@@ -104,7 +119,7 @@ const generateCategory = (categoryList) => {
         <div class="flex justify-between">
             <p id="${id}" class="bg-[#F599BF]/75 capitalize">${name}</p>
             <div>
-                <button data-id="${id}">Editar</button>
+                <button id="btnEdit" data-id="${id}">Editar</button>
                 <button data-id="${id}" class="ml-3">Eliminar</button>
             </div>
         </div>
@@ -112,6 +127,9 @@ const generateCategory = (categoryList) => {
     }
 }
 generateCategory(categoryList)
+//
+const btnEdit = $('#btnEdit')
+//
 
 // ***************************************** Events *******************************************
 
@@ -134,6 +152,10 @@ btnReports.addEventListener('click', () =>{
 
 btnNewOperation.addEventListener('click', () =>{
     changeSection(btnNewOperation)
+})
+
+btnEdit.addEventListener('click', () =>{
+    changeSection(btnEdit)
 })
 
 btnAddCategory.addEventListener('click', () =>{
