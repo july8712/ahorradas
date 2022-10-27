@@ -136,3 +136,17 @@ btnNewOperation.addEventListener('click', () =>{
     changeSection(btnNewOperation)
 })
 
+btnAddCategory.addEventListener('click', () =>{
+    categoryList.push({
+        id:categoryList.length +1,
+        name:inputCategory.value 
+    })
+    containerCategory.innerHTML= ""
+    generateCategory(categoryList)
+    localStorage.setItem("categories", JSON.stringify(categoryList))
+    // JSON.parse(localStorage.getItem("categories"))
+})
+
+// const copyCategory = JSON.parse(localStorage.getItem("categories"))
+// console.log(copyCategory)
+
