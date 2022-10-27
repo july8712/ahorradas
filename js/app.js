@@ -96,6 +96,23 @@ const changeSection = (id) => {
    }
 }
 
+// generateCategory
+
+const generateCategory = (categoryList) => {
+    for (const {id, name} of categoryList) {
+        containerCategory.innerHTML += `
+        <div class="flex justify-between">
+            <p id="${id}" class="bg-[#F599BF]/75">${name}</p>
+            <div>
+                <button data-id="${id}">Editar</button>
+                <button data-id="${id}" class="ml-3">Eliminar</button>
+            </div>
+        </div>
+        `
+    }
+}
+generateCategory(categoryList)
+
 // ***************************************** Events *******************************************
 
 
