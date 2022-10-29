@@ -140,7 +140,25 @@ const categoryEdit = (id) => {
     $("#input-edit-category").value = chosenCategory.name
     btnEditCategory.setAttribute("data-id", id)
 }
-
+const saveCategoryData = (id) => {
+    return {
+        id: id,
+        name: $("#input-edit-category").value   
+    }
+}
+const categoryEdit2 = (id) => {
+    return categoryList.map(category => {
+        if (category.id === parseInt(id)) {
+            return saveCategoryData(id)
+        }
+        return category
+    })
+}
+btnEditCategory.addEventListener("click", () => {
+    const catId = btnEditCategory.getAttribute("data-id")
+    containerCategory.innerHTML= ""
+    generateCategory(categoryEdit2(parseInt(catId)))
+})
 
 // ***************************************** Events *******************************************
 
@@ -168,8 +186,6 @@ for (const btn of btnEdit) {
         changeSection(btnEdit)
     })
 }
-
-
 
 btnAddCategory.addEventListener('click', () =>{
     categoryList.push({
