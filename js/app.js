@@ -51,8 +51,6 @@ const categoryList = [
         id: 4,
         name: "Trabajo"
     },
-
-
 ]
 
 // ******************************************* Functions *********************************************
@@ -114,25 +112,28 @@ const changeSection = (id) => {
 // generateCategory
 
 const generateCategory = (categoryList) => {
+    console.log(categoryList)
     for (const {id, name} of categoryList) {
         containerCategory.innerHTML += `
         <div class="flex justify-between">
             <p id="${id}" class="bg-[#F599BF]/75 capitalize">${name}</p>
             <div>
-                <button id="btnEdit" data-id="${id}">Editar</button>
-                <button data-id="${id}" class="ml-3">Eliminar</button>
+                <button class="btnEdit" onclick="categoryEdit(${id})">Editar</button>
+                <button class="ml-3">Eliminar</button>
             </div>
         </div>
         `
     }
 }
 generateCategory(categoryList)
+
 //
-const btnEdit = $('#btnEdit')
+const btnEdit = $$('.btnEdit')
+const btnEditCategory = $('#btn-cat-edit')
 //
+
 
 // ***************************************** Events *******************************************
-
 
 logo.addEventListener('click', () =>{
     changeSection(logo)
@@ -154,9 +155,7 @@ btnNewOperation.addEventListener('click', () =>{
     changeSection(btnNewOperation)
 })
 
-btnEdit.addEventListener('click', () =>{
-    changeSection(btnEdit)
-})
+
 
 btnAddCategory.addEventListener('click', () =>{
     categoryList.push({
@@ -165,7 +164,7 @@ btnAddCategory.addEventListener('click', () =>{
     })
     containerCategory.innerHTML= ""
     generateCategory(categoryList)
-    localStorage.setItem("categories", JSON.stringify(categoryList))
+    // localStorage.setItem("categories", JSON.stringify(categoryList))
     // JSON.parse(localStorage.getItem("categories"))
 })
 
