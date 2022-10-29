@@ -128,9 +128,18 @@ const generateCategory = (categoryList) => {
 generateCategory(categoryList)
 
 //
-const btnEdit = $$('.btnEdit')
-const btnEditCategory = $('#btn-cat-edit')
+let btnEdit = $$('.btnEdit')
+let btnEditCategory = $('#btn-cat-edit')
 //
+const findCategory = (id) => {
+    return categoryList.find(category => category.id === parseInt(id))
+}
+
+const categoryEdit = (id) => {
+    const chosenCategory = findCategory(id)
+    $("#input-edit-category").value = chosenCategory.name
+    btnEditCategory.setAttribute("data-id", id)
+}
 
 
 // ***************************************** Events *******************************************
@@ -154,6 +163,11 @@ btnReports.addEventListener('click', () =>{
 btnNewOperation.addEventListener('click', () =>{
     changeSection(btnNewOperation)
 })
+for (const btn of btnEdit) {
+    btn.addEventListener('click', () =>{
+        changeSection(btnEdit)
+    })
+}
 
 
 
