@@ -163,6 +163,21 @@ btnEditCategory.addEventListener("click", () => {
     generateCategory(categoryEdit2(parseInt(catId)))
 })
 
+let btnDelete = $$('.btnDelete')
+
+const removeCategory = (id) => {
+    return categoryList.filter(category => category.id !== parseInt(id))
+}
+
+for (const btn of btnDelete) {
+    btn.addEventListener('click', () =>{
+        const productId = btn.getAttribute("data-id")
+        containerCategory.innerHTML= ""
+        generateCategory(removeCategory(productId))
+    })
+    
+}
+
 
 
 // ***************************************** Events *******************************************
