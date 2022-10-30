@@ -111,54 +111,37 @@ const changeSection = (id) => {
 
 // generateCategory
 
-const generateCategory = (categoryList) => {
-    console.log(categoryList)
-    for (const {id, name} of categoryList) {
+const generateCategory = (categories) => {
+    // console.log(categoryList)
+    // for (const {id, name} of categoryList) {
+    categories.map(category => {
+        const { id, name } = category
         containerCategory.innerHTML += `
         <div class="flex justify-between">
             <p id="${id}" class="bg-[#F599BF]/75 capitalize">${name}</p>
             <div>
                 <button class="btnEdit" onclick="categoryEdit(${id})">Editar</button>
-                <button class="ml-3">Eliminar</button>
+                <button class="btnDelete" data-id=${id} ">Eliminar</button>
             </div>
         </div>
         `
-    }
+        })
 }
+
 generateCategory(categoryList)
 
-//
+// editCategoryFunctionality
+
 let btnEdit = $$('.btnEdit')
 let btnEditCategory = $('#btn-cat-edit')
-//
+
 const findCategory = (id) => {
     return categoryList.find(category => category.id === parseInt(id))
 }
 
-const categoryEdit = (id) => {
-    const chosenCategory = findCategory(id)
-    $("#input-edit-category").value = chosenCategory.name
-    btnEditCategory.setAttribute("data-id", id)
-}
-const saveCategoryData = (id) => {
-    return {
-        id: id,
-        name: $("#input-edit-category").value   
-    }
-}
-const categoryEdit2 = (id) => {
-    return categoryList.map(category => {
-        if (category.id === parseInt(id)) {
-            return saveCategoryData(id)
-        }
-        return category
-    })
-}
-btnEditCategory.addEventListener("click", () => {
-    const catId = btnEditCategory.getAttribute("data-id")
-    containerCategory.innerHTML= ""
-    generateCategory(categoryEdit2(parseInt(catId)))
-})
+
+
+
 
 // ***************************************** Events *******************************************
 
@@ -181,6 +164,7 @@ btnReports.addEventListener('click', () =>{
 btnNewOperation.addEventListener('click', () =>{
     changeSection(btnNewOperation)
 })
+
 for (const btn of btnEdit) {
     btn.addEventListener('click', () =>{
         changeSection(btnEdit)
