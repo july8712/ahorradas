@@ -149,7 +149,19 @@ const saveCategoryData = (id) => {
         name: $("#input-edit-category").value   
     }
 }
-
+const categoryEdit2 = (id) => {
+    return categoryList.map(category => {
+        if (category.id === parseInt(id)) {
+            return saveCategoryData(id)
+        }
+        return category
+    })
+}
+btnEditCategory.addEventListener("click", () => {
+    const catId = btnEditCategory.getAttribute("data-id")
+    containerCategory.innerHTML= ""
+    generateCategory(categoryEdit2(parseInt(catId)))
+})
 
 
 
