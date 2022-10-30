@@ -138,7 +138,17 @@ let btnEditCategory = $('#btn-cat-edit')
 const findCategory = (id) => {
     return categoryList.find(category => category.id === parseInt(id))
 }
-
+const categoryEdit = (id) => {
+    const chosenCategory = findCategory(id)
+    $("#input-edit-category").value = chosenCategory.name
+    btnEditCategory.setAttribute("data-id", id)
+}
+const saveCategoryData = (id) => {
+    return {
+        id: id,
+        name: $("#input-edit-category").value   
+    }
+}
 
 
 
