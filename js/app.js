@@ -111,30 +111,33 @@ const changeSection = (id) => {
 
 // generateCategory
 
-const generateCategory = (categoryList) => {
-    console.log(categoryList)
-    for (const {id, name} of categoryList) {
+const generateCategory = (categories) => {
+    // console.log(categoryList)
+    // for (const {id, name} of categoryList) {
+    categories.map(category => {
+        const { id, name } = category
         containerCategory.innerHTML += `
         <div class="flex justify-between">
             <p id="${id}" class="bg-[#F599BF]/75 capitalize">${name}</p>
             <div>
                 <button class="btnEdit" onclick="categoryEdit(${id})">Editar</button>
-                <button class="ml-3">Eliminar</button>
+                <button class="btnDelete" data-id=${id} ">Eliminar</button>
             </div>
         </div>
         `
-    }
+        })
 }
+
 generateCategory(categoryList)
 
-//
+// editCategoryFunctionality
+
 let btnEdit = $$('.btnEdit')
 let btnEditCategory = $('#btn-cat-edit')
-//
+
 const findCategory = (id) => {
     return categoryList.find(category => category.id === parseInt(id))
 }
-
 const categoryEdit = (id) => {
     const chosenCategory = findCategory(id)
     $("#input-edit-category").value = chosenCategory.name
@@ -160,6 +163,8 @@ btnEditCategory.addEventListener("click", () => {
     generateCategory(categoryEdit2(parseInt(catId)))
 })
 
+
+
 // ***************************************** Events *******************************************
 
 logo.addEventListener('click', () =>{
@@ -181,6 +186,7 @@ btnReports.addEventListener('click', () =>{
 btnNewOperation.addEventListener('click', () =>{
     changeSection(btnNewOperation)
 })
+
 for (const btn of btnEdit) {
     btn.addEventListener('click', () =>{
         changeSection(btnEdit)
