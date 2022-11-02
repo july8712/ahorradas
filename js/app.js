@@ -53,6 +53,8 @@ const categoryList = [
     },
 ]
 
+let saveCategories = [];
+
 // ******************************************* Functions *********************************************
 
 // changeSection
@@ -112,25 +114,20 @@ const changeSection = (id) => {
 // generateCategory
 
 const generateCategory = (categories) => {
-    // console.log(categoryList)
-    // for (const {id, name} of categoryList) {
-    categories.map(category => {
-        const { id, name } = category
+    categories.map(categories => {
+        const { id, name } = categories
         containerCategory.innerHTML += `
         <div class="flex justify-between">
-            <p id="${id}" class="bg-[#F599BF]/75 capitalize">${name}</p>
+            <p id="${id}" class="bg-[#F599BF]/75 capitalize p-1 rounded">${name}</p>
             <div>
-                <button class="btnEdit" onclick="categoryEdit(${id})">Editar</button>
-                <button class="btnDelete" data-id=${id} ">Eliminar</button>
+                <button class="btnEdit text-[#F599BF] font-semibold" onclick="categoryEdit(${id})">Editar</button>
+                <button class="btnDelete pl-3 font-bold text-red-600" data-id=${id} ">Eliminar</button>
             </div>
         </div>
         `
         })
 }
 
-generateCategory(categoryList)
-
-// editCategoryFunctionality
 
 let btnEdit = $$('.btnEdit')
 let btnEditCategory = $('#btn-cat-edit')
@@ -209,16 +206,24 @@ for (const btn of btnEdit) {
 }
 
 btnAddCategory.addEventListener('click', () =>{
-    categoryList.push({
+    saveCategories.push({
         id:categoryList.length +1,
         name:inputCategory.value 
     })
     containerCategory.innerHTML= ""
-    generateCategory(categoryList)
-    // localStorage.setItem("categories", JSON.stringify(categoryList))
-    // JSON.parse(localStorage.getItem("categories"))
+    localStorage.setItem("categories", JSON.stringify(saveCategories))
+    generateCategory(saveCategories)
 })
 
-// const copyCategory = JSON.parse(localStorage.getItem("categories"))
-// console.log(copyCategory)
 
+window.addEventListener('load', () => {
+    const lsCategories = JSON.parse(localStorage.getItem("categories"));
+
+    if(lsCategories == null){
+        saveCategories = [...categoryList];
+    }else{
+        saveCategories = [...lsCategories];
+    }
+
+    generateCategory(saveCategories)
+})
