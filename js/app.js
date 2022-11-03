@@ -223,6 +223,9 @@ btnAddCategory.addEventListener('click', () =>{
     containerCategory.innerHTML= ""
     localStorage.setItem("categories", JSON.stringify(saveCategories))
     generateCategory(saveCategories)
+    selectFilterCategory.innerHTML= ""
+    filterListCategory(saveCategories);
+    inputCategory.value = "" 
 })
 
 for (const btn of btnDelete) {
