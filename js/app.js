@@ -18,13 +18,20 @@ const secBalance = $('#secBalance');
 const secCategories = $('#secCategories');
 const secReports = $('#secReports');
 const newOperation = $('#newOperation');
-const editCategory = $('#editCategory')
+const editCategory = $('#editCategory');
+
+// Balance 
+
+const selectFilterCategory = $('#category');
 
 // Categories
 
 const containerCategory = $('#containerCategory')
 const inputCategory = $('#input-category')
 const btnAddCategory = $('#add-category')
+let btnEdit = $$('.btnEdit')
+let btnEditCategory = $('#btn-cat-edit')
+
 
 // ***************************************** End Variables *******************************************
 
@@ -128,9 +135,16 @@ const generateCategory = (categories) => {
         })
 }
 
+const filterListCategory = (categories) => {
+    categories.map(categories => {
+        const { name } = categories
+        console.log(name)
+        selectFilterCategory.innerHTML += `
+        <option value="${name}">${name}</option>
+        `
+    })
+}
 
-let btnEdit = $$('.btnEdit')
-let btnEditCategory = $('#btn-cat-edit')
 
 const findCategory = (id) => {
     return categoryList.find(category => category.id === parseInt(id))
@@ -154,6 +168,7 @@ const categoryEdit2 = (id) => {
         return category
     })
 }
+
 btnEditCategory.addEventListener("click", () => {
     const catId = btnEditCategory.getAttribute("data-id")
     containerCategory.innerHTML= ""
@@ -166,14 +181,7 @@ const removeCategory = (id) => {
     return categoryList.filter(category => category.id !== parseInt(id))
 }
 
-for (const btn of btnDelete) {
-    btn.addEventListener('click', () =>{
-        const productId = btn.getAttribute("data-id")
-        containerCategory.innerHTML= ""
-        generateCategory(removeCategory(productId))
-    })
-    
-}
+
 
 
 
@@ -205,6 +213,8 @@ for (const btn of btnEdit) {
     })
 }
 
+// Button for add category
+
 btnAddCategory.addEventListener('click', () =>{
     saveCategories.push({
         id:categoryList.length +1,
@@ -213,17 +223,34 @@ btnAddCategory.addEventListener('click', () =>{
     containerCategory.innerHTML= ""
     localStorage.setItem("categories", JSON.stringify(saveCategories))
     generateCategory(saveCategories)
+    selectFilterCategory.innerHTML= ""
+    filterListCategory(saveCategories);
+    inputCategory.value = "" 
 })
 
+for (const btn of btnDelete) {
+    btn.addEventListener('click', () =>{
+        const productId = btn.getAttribute("data-id")
+        containerCategory.innerHTML= ""
+        generateCategory(removeCategory(productId))
+    })
+}
+
+
+selectFilterCategory.addEventListener('change', (e) =>{
+    console.log(e.currentTarget.value)
+    // poner acá lo que va a pasar al cambiar el filtro de categoría
+})
+
+// Window on load
 
 window.addEventListener('load', () => {
     const lsCategories = JSON.parse(localStorage.getItem("categories"));
-
     if(lsCategories == null){
         saveCategories = [...categoryList];
     }else{
         saveCategories = [...lsCategories];
     }
-
     generateCategory(saveCategories)
+    filterListCategory(saveCategories);
 })
