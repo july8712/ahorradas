@@ -102,9 +102,29 @@
                         <h3 class="text-2xl font-black">Operaciones</h3>
                         <button class="py-3 px-5 bg-[#be185d] hover:bg-pink-600 text-white rounded-lg font-bold text-lg" id="new-operation">+ Nueva Operación</button>
                     </div>
-                    <div class="flex justify-center py-32">
+                    <div id="imgOperations" class="flex justify-center py-32">
                         <img src="assets/img/undraw_savings_re_eq4w.svg" alt="Savings" class="w-[400px]">
                     </div>
+                    <table id="table" class="w-full border-separate border-spacing-4 hidden">
+                        <thead>
+                            <tr>
+                                <th>Descripción</th>
+                                <th>Categoría</th>
+                                <th>Fecha</th>
+                                <th>Monto</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyOperation" class="font-light">
+                            <!-- <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr> -->
+                        </tbody>
+                    </table>
                 </div>
             </div> 
         </section>
@@ -188,11 +208,11 @@
                 <form action="">
                     <div class="flex flex-col mt-5 font-bold">
                         <label for="description" class="font-bold mb-1">Descripción</label>
-                        <input type="text" name="description" id="description" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
+                        <input type="text" name="description" id="input-description-operation" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
                     </div>
                     <div class="flex flex-col mt-5 font-bold">
                         <label for="mont" class="font-bold mb-1">Monto</label>
-                        <input type="number" id="mont" name="mont" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
+                        <input type="number" id="input-mont-operation" name="mont" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
                     </div>
                     <div class="flex flex-col mt-5 font-bold">
                         <label for="type" class="font-bold mb-1">Tipo</label>
@@ -202,23 +222,23 @@
                         </select>
                     </div>
                     <div class="flex flex-col mt-5 font-bold">
-                        <label for="category" class="font-bold mb-1">Categoría</label>
-                        <select name="category" id="category" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
-                            <option value="foods">Comidas</option>
+                        <label for="categoryOperation" class="font-bold mb-1">Categoría</label>
+                        <select name="categoryOperation" id="categoryOperation" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
+                            <!-- <option value="foods">Comidas</option>
                             <option value="services">Servicios</option>
                             <option value="departures">Salidas</option>
                             <option value="education">Educación</option>
                             <option value="transport">Transporte</option>
-                            <option value="work">Trabajo</option>
+                            <option value="work">Trabajo</option> -->
                         </select>
                     </div>
                     <div class="flex flex-col mt-5 font-bold">
-                        <label for="date" class="font-bold mb-1">Monto</label>
+                        <label for="date" class="font-bold mb-1">Fecha</label>
                         <input type="date" id="date" name="date" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
                     </div>
                     <div class="flex justify-end mt-10 font-bold">
                         <button class="py-3 px-5 bg-[#d8568c] hover:bg-pink-300 text-white rounded-lg font-bold text-lg">Cancelar</button>
-                        <button class="py-3 px-5 bg-[#be185d] hover:bg-pink-600 text-white rounded-lg font-bold text-lg ml-3">Agregar</button>
+                        <button id="btnAgregarOperation" class="py-3 px-5 bg-[#be185d] hover:bg-pink-600 text-white rounded-lg font-bold text-lg ml-3">Agregar</button>
                     </div>
                 </form>
             </div>

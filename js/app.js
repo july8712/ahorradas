@@ -61,6 +61,7 @@ const categoryList = [
 ]
 
 let saveCategories = [];
+let operationList = []
 
 // ******************************************* Functions *********************************************
 
@@ -145,7 +146,7 @@ const filterListCategory = (categories) => {
     })
 }
 
-
+//////////////// CODIGO EN PROCESO ///////////////////////////
 const findCategory = (id) => {
     return categoryList.find(category => category.id === parseInt(id))
 }
@@ -168,7 +169,6 @@ const categoryEdit2 = (id) => {
         return category
     })
 }
-
 btnEditCategory.addEventListener("click", () => {
     const catId = btnEditCategory.getAttribute("data-id")
     containerCategory.innerHTML= ""
@@ -180,9 +180,51 @@ let btnDelete = $$('.btnDelete')
 const removeCategory = (id) => {
     return categoryList.filter(category => category.id !== parseInt(id))
 }
+//////////////// CODIGO EN PROCESO ///////////////////////////
 
+// newOperationFunctionality
 
+const inputSelectCategory = $('#categoryOperation')
 
+let generateOperationTable = (categories) =>{
+    categories.map(categories => {
+        const { name } = categories
+        console.log(name)
+        inputSelectCategory.innerHTML += `
+        <option value="${name}" class="capitalize">${name}</option>
+        `
+    })}
+
+let inputDescription = $('#input-description-operation')
+let inputMont = $('#input-mont-operation')
+
+btnAgregarOperation.addEventListener("click", (e) => {
+    e.preventDefault()
+    operationList.push({
+        description:inputDescription.value,
+        category:inputSelectCategory.value,
+        mont:inputMont.value
+    })
+    $('#imgOperations').classList.add('hidden')
+    $('#table').classList.remove('hidden')
+    tbodyOperation.innerHTML= ""
+    generateTable(operationList)
+    
+})
+let tbodyOperation = $('#tbodyOperation')
+const generateTable = (operationList) =>{
+    for (const {description, category, mont} of operationList){
+        console.log(operationList)
+        tbodyOperation.innerHTML += `<tr>
+        <th>${description}</th>
+        <th>${category}</th>
+        <th>fecha</th>
+        <th>${mont}</th>
+        <th>botones</th>
+    </tr>`
+        
+    }
+}
 
 
 // ***************************************** Events *******************************************
@@ -225,7 +267,9 @@ btnAddCategory.addEventListener('click', () =>{
     generateCategory(saveCategories)
     selectFilterCategory.innerHTML= ""
     filterListCategory(saveCategories);
-    inputCategory.value = "" 
+    inputCategory.value = ""
+    inputSelectCategory.innerHTML= "" 
+    generateOperationTable(saveCategories)
 })
 
 for (const btn of btnDelete) {
@@ -252,5 +296,6 @@ window.addEventListener('load', () => {
         saveCategories = [...lsCategories];
     }
     generateCategory(saveCategories)
-    filterListCategory(saveCategories);
+    filterListCategory(saveCategories)
+    generateOperationTable(saveCategories)
 })
