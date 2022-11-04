@@ -126,7 +126,7 @@ const generateCategory = (categories) => {
         const { id, name } = categories
         containerCategory.innerHTML += `
         <div class="flex justify-between">
-            <p id="${id}" class="bg-[#F599BF] capitalize p-1 rounded">${name}</p>
+            <p id="${id}" class="bg-[#F599BF] p-1 rounded">${name}</p>
             <div>
                 <button class="btnEdit text-[#F599BF] font-semibold" onclick="categoryEdit(${id})">Editar</button>
                 <button class="btnDelete pl-3 font-bold text-red-600" data-id=${id} ">Eliminar</button>
@@ -141,10 +141,17 @@ const filterListCategory = (categories) => {
         const { name } = categories
         console.log(name)
         selectFilterCategory.innerHTML += `
-        <option value="${name}" class="capitalize">${name}</option>
+        <option value="${name}">${name}</option>
         `
     })
 }
+
+// Function to capitalize the first letter
+
+const capitalize = (word) => {
+    return word[0].toUpperCase() + word.slice(1);
+}
+
 
 //////////////// CODIGO EN PROCESO ///////////////////////////
 const findCategory = (id) => {
@@ -191,7 +198,7 @@ let generateOperationTable = (categories) =>{
         const { name } = categories
         console.log(name)
         inputSelectCategory.innerHTML += `
-        <option value="${name}" class="capitalize">${name}</option>
+        <option value="${name}">${name}</option>
         `
     })}
 
@@ -260,7 +267,7 @@ for (const btn of btnEdit) {
 btnAddCategory.addEventListener('click', () =>{
     saveCategories.push({
         id:categoryList.length +1,
-        name:inputCategory.value 
+        name: capitalize(inputCategory.value) 
     })
     containerCategory.innerHTML= ""
     localStorage.setItem("categories", JSON.stringify(saveCategories))
