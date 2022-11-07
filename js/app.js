@@ -32,10 +32,18 @@ const btnAddCategory = $('#add-category')
 let btnEdit = $$('.btnEdit')
 let btnEditCategory = $('#btn-cat-edit')
 
+// ver si estas variables van acá
+
+const inputSelectCategory = $('#categoryOperation')
+let inputDescription = $('#input-description-operation')
+let inputMont = $('#input-mont-operation')
+let tbodyOperation = $('#tbodyOperation')
+
 // Filters
 
 const hideFilters = $('#hideFilters');
 const formFilters = $('#formFilters');
+const date = $('#date');
 
 
 
@@ -190,7 +198,6 @@ const removeCategory = (id) => {
 
 // newOperationFunctionality
 
-const inputSelectCategory = $('#categoryOperation')
 
 let generateOperationTable = (categories) =>{
     categories.map(categories => {
@@ -201,8 +208,6 @@ let generateOperationTable = (categories) =>{
         `
     })}
 
-let inputDescription = $('#input-description-operation')
-let inputMont = $('#input-mont-operation')
 
 btnAgregarOperation.addEventListener("click", (e) => {
     e.preventDefault()
@@ -217,7 +222,8 @@ btnAgregarOperation.addEventListener("click", (e) => {
     generateTable(operationList)
     
 })
-let tbodyOperation = $('#tbodyOperation')
+
+
 const generateTable = (operationList) =>{
     for (const {description, category, mont} of operationList){
         console.log(operationList)
@@ -232,6 +238,11 @@ const generateTable = (operationList) =>{
     }
 }
 
+// Date filter
+
+const year = new Date().getFullYear()
+const month = new Date().getMonth()
+date.value = `${year}-${month+1}-01`
 
 // ***************************************** Events *******************************************
 
