@@ -37,9 +37,26 @@ let inputDescription = $('#input-description-operation')
 let inputMont = $('#input-mont-operation')
 let tbodyOperation = $('#tbodyOperation')
 
+
+// ver si estas variables van acá
+
+const inputSelectCategory = $('#categoryOperation')
+let inputDescription = $('#input-description-operation')
+let inputMont = $('#input-mont-operation')
+let tbodyOperation = $('#tbodyOperation')
+
+// Filters
+
+const hideFilters = $('#hideFilters');
+const formFilters = $('#formFilters');
+const date = $('#date');
+
+
+=======
 for(let i = 0; i < btnDelete.length; i++) {
     console.log(btnDelete[i]);
 }
+
 
 // ***************************************** End Variables *******************************************
 
@@ -240,6 +257,7 @@ btnAgregarOperation.addEventListener("click", (e) => {
     
 })
 
+
 const generateTable = (operationList) =>{
     for (const {description, category, mont} of operationList){
         // console.log(operationList)
@@ -254,6 +272,11 @@ const generateTable = (operationList) =>{
     }
 }
 
+// Date filter
+
+const year = new Date().getFullYear()
+const month = new Date().getMonth()
+date.value = `${year}-${month+1}-01`
 
 // ***************************************** Events *******************************************
 
@@ -315,6 +338,15 @@ for (const btn of btnDelete) {
 selectFilterCategory.addEventListener('change', (e) =>{
     console.log(e.currentTarget.value)
     // poner acá lo que va a pasar al cambiar el filtro de categoría
+})
+
+hideFilters.addEventListener('click',() => {
+    formFilters.classList.toggle('hidden')
+    if(formFilters.classList.contains('hidden')){
+        hideFilters.innerHTML = 'Mostrar Filtros'
+    }else{
+        hideFilters.innerHTML = 'Ocultar Filtros'
+    }
 })
 
 // Window on load
