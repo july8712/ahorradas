@@ -32,6 +32,12 @@ const btnAddCategory = $('#add-category')
 let btnEdit = $$('.btnEdit')
 let btnEditCategory = $('#btn-cat-edit')
 
+// Filters
+
+const hideFilters = $('#hideFilters');
+const formFilters = $('#formFilters');
+
+
 
 // ***************************************** End Variables *******************************************
 
@@ -284,6 +290,15 @@ for (const btn of btnDelete) {
 selectFilterCategory.addEventListener('change', (e) =>{
     console.log(e.currentTarget.value)
     // poner acá lo que va a pasar al cambiar el filtro de categoría
+})
+
+hideFilters.addEventListener('click',() => {
+    formFilters.classList.toggle('hidden')
+    if(formFilters.classList.contains('hidden')){
+        hideFilters.innerHTML = 'Mostrar Filtros'
+    }else{
+        hideFilters.innerHTML = 'Ocultar Filtros'
+    }
 })
 
 // Window on load
