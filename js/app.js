@@ -356,5 +356,5 @@ hideFilters.addEventListener('click',() => {
 window.addEventListener('load', () => {
     generateCategory(getDataFromLocalStorage('categories'))
     filterListCategory(getDataFromLocalStorage('categories'))
-    generateOperationTable()
+    generateOperationTable(getDataFromLocalStorage('categories'))
 })
