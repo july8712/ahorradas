@@ -1,7 +1,7 @@
 const $ = (selector) => document.querySelector(selector)
 const $$ = (selector) => document.querySelectorAll(selector)
 
-// ***************************************** Variables ***********************************************
+// ************** Variables ****************
 
 // Buttons
 
@@ -24,13 +24,19 @@ const editCategory = $('#editCategory');
 
 const selectFilterCategory = $('#category');
 
-// Categories
+// Categories and add new operation
 
 const containerCategory = $('#containerCategory')
 const inputCategory = $('#input-category')
 const btnAddCategory = $('#add-category')
 let btnEdit = $$('.btnEdit')
 let btnEditCategory = $('#btn-cat-edit')
+let btnDelete = $$('.btnDelete')
+// const inputSelectCategory = $('#categoryOperation')
+// let inputDescription = $('#input-description-operation')
+// let inputMont = $('#input-mont-operation')
+// let tbodyOperation = $('#tbodyOperation')
+
 
 // ver si estas variables van acá
 
@@ -47,9 +53,14 @@ const date = $('#date');
 
 
 
-// ***************************************** End Variables *******************************************
+for(let i = 0; i < btnDelete.length; i++) {
+    console.log(btnDelete[i]);
+}
 
-// ***************************************** Arrays of Objects ***************************************
+
+// ************** End Variables ****************
+
+// ************** Arrays of Objects **************
 
 const categoryList = [
     {
@@ -74,10 +85,9 @@ const categoryList = [
     },
 ]
 
-let saveCategories = [];
 let operationList = []
 
-// ******************************************* Functions *********************************************
+// *************** Functions ***************
 
 // changeSection
 
@@ -133,31 +143,53 @@ const changeSection = (id) => {
    }
 }
 
+// Functions for Local Storage
+
+const getDataFromLocalStorage = (key) => {
+    return JSON.parse(localStorage.getItem(key))
+}
+
+const saveDataInLocalStorage = (key, data) => {
+    localStorage.setItem(key, JSON.stringify(data))
+}
+
+if (!getDataFromLocalStorage('categories')) {
+    saveDataInLocalStorage('categories', categoryList)
+}
+
 // generateCategory
 
 const generateCategory = (categories) => {
-    categories.map(categories => {
-        const { id, name } = categories
+    containerCategory.innerHTML = ""
+    categories.map(category => {
+        const { id, name } = category
         containerCategory.innerHTML += `
         <div class="flex justify-between">
-            <p id="${id}" class="bg-[#F599BF] capitalize p-1 rounded">${name}</p>
+            <p id="${id}" class="bg-[#F599BF] p-1 rounded">${name}</p>
             <div>
                 <button class="btnEdit text-[#F599BF] font-semibold" onclick="categoryEdit(${id})">Editar</button>
-                <button class="btnDelete pl-3 font-bold text-red-600" data-id=${id} ">Eliminar</button>
+                <button class="btnDelete pl-3 font-bold text-red-600" data-id=${id} id="delete${id}">Eliminar</button>
             </div>
         </div>
         `
         })
 }
 
+
 const filterListCategory = (categories) => {
     categories.map(categories => {
         const { name } = categories
-        console.log(name)
+        // console.log(name)
         selectFilterCategory.innerHTML += `
-        <option value="${name}" class="capitalize">${name}</option>
+        <option value="${name}">${name}</option>
         `
     })
+}
+
+// Function to capitalize the first letter
+
+const capitalize = (word) => {
+    return word[0].toUpperCase() + word.slice(1);
 }
 
 //////////////// CODIGO EN PROCESO ///////////////////////////
@@ -176,7 +208,7 @@ const saveCategoryData = (id) => {
     }
 }
 const categoryEdit2 = (id) => {
-    return categoryList.map(category => {
+    return getDataFromLocalStorage('categories').map(category => {
         if (category.id === parseInt(id)) {
             return saveCategoryData(id)
         }
@@ -189,11 +221,12 @@ btnEditCategory.addEventListener("click", () => {
     generateCategory(categoryEdit2(parseInt(catId)))
 })
 
-let btnDelete = $$('.btnDelete')
 
-const removeCategory = (id) => {
-    return categoryList.filter(category => category.id !== parseInt(id))
-}
+
+
+// const removeCategory = (id) => {
+//     return categoryList.filter(category => category.id !== parseInt(id))
+// }
 //////////////// CODIGO EN PROCESO ///////////////////////////
 
 // newOperationFunctionality
@@ -202,9 +235,9 @@ const removeCategory = (id) => {
 let generateOperationTable = (categories) =>{
     categories.map(categories => {
         const { name } = categories
-        console.log(name)
+        // console.log(name)
         inputSelectCategory.innerHTML += `
-        <option value="${name}" class="capitalize">${name}</option>
+        <option value="${name}">${name}</option>
         `
     })}
 
@@ -226,7 +259,7 @@ btnAgregarOperation.addEventListener("click", (e) => {
 
 const generateTable = (operationList) =>{
     for (const {description, category, mont} of operationList){
-        console.log(operationList)
+        // console.log(operationList)
         tbodyOperation.innerHTML += `<tr>
         <th>${description}</th>
         <th>${category}</th>
@@ -244,7 +277,7 @@ const year = new Date().getFullYear()
 const month = new Date().getMonth()
 date.value = `${year}-${month+1}-01`
 
-// ***************************************** Events *******************************************
+// ************** Events ****************
 
 logo.addEventListener('click', () =>{
     changeSection(logo)
@@ -256,6 +289,7 @@ btnBalances.addEventListener('click', () =>{
 
 btnCategories.addEventListener('click', () =>{
     changeSection(btnCategories)
+    generateCategory(getDataFromLocalStorage('categories'))
 })
 
 btnReports.addEventListener('click', () =>{
@@ -275,27 +309,29 @@ for (const btn of btnEdit) {
 // Button for add category
 
 btnAddCategory.addEventListener('click', () =>{
-    saveCategories.push({
+    let categoriesLocalStorage = getDataFromLocalStorage('categories')
+    categoriesLocalStorage.push({
         id:categoryList.length +1,
-        name:inputCategory.value 
+        name: capitalize(inputCategory.value) 
     })
     containerCategory.innerHTML= ""
-    localStorage.setItem("categories", JSON.stringify(saveCategories))
-    generateCategory(saveCategories)
+    localStorage.setItem("categories", JSON.stringify(categoriesLocalStorage))
+    generateCategory(getDataFromLocalStorage('categories'))
     selectFilterCategory.innerHTML= ""
-    filterListCategory(saveCategories);
+    filterListCategory(getDataFromLocalStorage('categories'));
     inputCategory.value = ""
     inputSelectCategory.innerHTML= "" 
-    generateOperationTable(saveCategories)
+    generateOperationTable(getDataFromLocalStorage('categories'))
 })
 
 for (const btn of btnDelete) {
     btn.addEventListener('click', () =>{
         const productId = btn.getAttribute("data-id")
-        containerCategory.innerHTML= ""
-        generateCategory(removeCategory(productId))
+        // containerCategory.innerHTML= ""
+        // generateCategory(removeCategory(productId))
     })
 }
+// console.log(btnDelete, "este es el botón borrar" );
 
 
 selectFilterCategory.addEventListener('change', (e) =>{
@@ -315,13 +351,7 @@ hideFilters.addEventListener('click',() => {
 // Window on load
 
 window.addEventListener('load', () => {
-    const lsCategories = JSON.parse(localStorage.getItem("categories"));
-    if(lsCategories == null){
-        saveCategories = [...categoryList];
-    }else{
-        saveCategories = [...lsCategories];
-    }
-    generateCategory(saveCategories)
-    filterListCategory(saveCategories)
-    generateOperationTable(saveCategories)
+    generateCategory(getDataFromLocalStorage('categories'))
+    filterListCategory(getDataFromLocalStorage('categories'))
+    generateOperationTable()
 })
