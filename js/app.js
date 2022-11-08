@@ -58,6 +58,7 @@ for(let i = 0; i < btnDelete.length; i++) {
 }
 
 
+
 // ************** End Variables ****************
 
 // ************** Arrays of Objects **************
@@ -85,6 +86,7 @@ const categoryList = [
     },
 ]
 
+let saveCategories = [];
 let operationList = []
 
 // *************** Functions ***************
@@ -224,9 +226,9 @@ btnEditCategory.addEventListener("click", () => {
 
 
 
-// const removeCategory = (id) => {
-//     return categoryList.filter(category => category.id !== parseInt(id))
-// }
+// // const removeCategory = (id) => {
+// //     return categoryList.filter(category => category.id !== parseInt(id))
+// // }
 //////////////// CODIGO EN PROCESO ///////////////////////////
 
 // newOperationFunctionality
@@ -290,6 +292,7 @@ btnBalances.addEventListener('click', () =>{
 btnCategories.addEventListener('click', () =>{
     changeSection(btnCategories)
     generateCategory(getDataFromLocalStorage('categories'))
+    generateCategory(getDataFromLocalStorage('categories'))
 })
 
 btnReports.addEventListener('click', () =>{
@@ -312,7 +315,7 @@ btnAddCategory.addEventListener('click', () =>{
     let categoriesLocalStorage = getDataFromLocalStorage('categories')
     categoriesLocalStorage.push({
         id:categoryList.length +1,
-        name: capitalize(inputCategory.value) 
+        name: capitalize( capitalize(inputCategory.value)) 
     })
     containerCategory.innerHTML= ""
     localStorage.setItem("categories", JSON.stringify(categoriesLocalStorage))
