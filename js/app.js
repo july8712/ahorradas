@@ -1,7 +1,7 @@
 const $ = (selector) => document.querySelector(selector)
 const $$ = (selector) => document.querySelectorAll(selector)
 
-// ***************************************** Variables ***********************************************
+// ************** Variables ****************
 
 // Buttons
 
@@ -10,7 +10,6 @@ const btnBalances = $('#btn-balances');
 const btnCategories = $('#btn-categories');
 const btnReports = $('#btn-reports');
 const btnNewOperation = $('#new-operation');
-
 
 // Sections
 
@@ -24,18 +23,31 @@ const editCategory = $('#editCategory');
 
 const selectFilterCategory = $('#category');
 
-// Categories
+// Categories and add new operation
 
 const containerCategory = $('#containerCategory')
 const inputCategory = $('#input-category')
 const btnAddCategory = $('#add-category')
-let btnEdit = $$('.btnEdit')
-let btnEditCategory = $('#btn-cat-edit')
+const btnAddOperation = $('#btnAddOperation')
+
+// ver si estas variables van acá
+
+const inputSelectCategory = $('#categoryOperation')
+let inputDescription = $('#input-description-operation')
+let inputMont = $('#input-mont-operation')
+let tbodyOperation = $('#tbodyOperation')
+let inputDateForm = $('#dateForm')
+
+// Filters
+
+const hideFilters = $('#hideFilters');
+const formFilters = $('#formFilters');
+const date = $('#date');
 
 
-// ***************************************** End Variables *******************************************
+// ************** End Variables ****************
 
-// ***************************************** Arrays of Objects ***************************************
+// ************** Arrays of Objects **************
 
 const categoryList = [
     {
@@ -60,10 +72,9 @@ const categoryList = [
     },
 ]
 
-let saveCategories = [];
 let operationList = []
 
-// ******************************************* Functions *********************************************
+// *************** Functions ***************
 
 // changeSection
 
@@ -109,27 +120,42 @@ const changeSection = (id) => {
             editCategory.style.display = 'none'
         break;
 
-        case btnEdit:
-            secBalance.style.display = 'none' 
-            secCategories.style.display = 'none'
-            secReports.style.display = 'none'
-            newOperation.style.display = 'none'
-            editCategory.style.display = 'block'
-        break;
+        // case btnEdit:
+        //     secBalance.style.display = 'none' 
+        //     secCategories.style.display = 'none'
+        //     secReports.style.display = 'none'
+        //     newOperation.style.display = 'none'
+        //     editCategory.style.display = 'block'
+        // break;
    }
+}
+
+// Functions for Local Storage
+
+const getDataFromLocalStorage = (key) => {
+    return JSON.parse(localStorage.getItem(key))
+}
+
+const saveDataInLocalStorage = (key, data) => {
+    localStorage.setItem(key, JSON.stringify(data))
+}
+
+if (!getDataFromLocalStorage('categories')) {
+    saveDataInLocalStorage('categories', categoryList)
 }
 
 // generateCategory
 
 const generateCategory = (categories) => {
-    categories.map(categories => {
-        const { id, name } = categories
+    containerCategory.innerHTML = ""
+    categories.map(category => {
+        const { id, name } = category
         containerCategory.innerHTML += `
         <div class="flex justify-between">
-            <p id="${id}" class="bg-[#F599BF]/75 capitalize p-1 rounded">${name}</p>
+            <p id="${id}" class="bg-[#F599BF] p-1 rounded">${name}</p>
             <div>
                 <button class="btnEdit text-[#F599BF] font-semibold" onclick="categoryEdit(${id})">Editar</button>
-                <button class="btnDelete pl-3 font-bold text-red-600" data-id=${id} ">Eliminar</button>
+                <button class="btnDelete pl-3 font-bold text-red-600" data-id=${id} id="delete${id}">Eliminar</button>
             </div>
         </div>
         `
@@ -139,14 +165,22 @@ const generateCategory = (categories) => {
 const filterListCategory = (categories) => {
     categories.map(categories => {
         const { name } = categories
-        console.log(name)
         selectFilterCategory.innerHTML += `
         <option value="${name}">${name}</option>
         `
     })
 }
 
+// Function to capitalize the first letter
+
+const capitalize = (word) => {
+    return word[0].toUpperCase() + word.slice(1);
+}
+
 //////////////// CODIGO EN PROCESO ///////////////////////////
+let btnEdit = $$('.btnEdit')
+let btnEditCategory = $('#btn-cat-edit')
+let btnDelete = $$('.btnDelete')
 const findCategory = (id) => {
     return categoryList.find(category => category.id === parseInt(id))
 }
@@ -162,7 +196,7 @@ const saveCategoryData = (id) => {
     }
 }
 const categoryEdit2 = (id) => {
-    return categoryList.map(category => {
+    return getDataFromLocalStorage('categories').map(category => {
         if (category.id === parseInt(id)) {
             return saveCategoryData(id)
         }
@@ -175,35 +209,45 @@ btnEditCategory.addEventListener("click", () => {
     generateCategory(categoryEdit2(parseInt(catId)))
 })
 
-let btnDelete = $$('.btnDelete')
 
-const removeCategory = (id) => {
-    return categoryList.filter(category => category.id !== parseInt(id))
+
+
+// // const removeCategory = (id) => {
+// //     return categoryList.filter(category => category.id !== parseInt(id))
+// // }
+for (const btn of btnEdit) {
+    btn.addEventListener('click', () =>{
+        changeSection(btnEdit)
+    })
 }
+for (const btn of btnDelete) {
+    btn.addEventListener('click', () =>{
+        const productId = btn.getAttribute("data-id")
+        // containerCategory.innerHTML= ""
+        // generateCategory(removeCategory(productId))
+    })
+}
+// console.log(btnDelete, "este es el botón borrar" );
 //////////////// CODIGO EN PROCESO ///////////////////////////
 
 // newOperationFunctionality
 
-const inputSelectCategory = $('#categoryOperation')
-
 let generateOperationTable = (categories) =>{
     categories.map(categories => {
         const { name } = categories
-        console.log(name)
         inputSelectCategory.innerHTML += `
-        <option value="${name}" class="capitalize">${name}</option>
+        <option value="${name}">${name}</option>
         `
-    })}
+    })
+}
 
-let inputDescription = $('#input-description-operation')
-let inputMont = $('#input-mont-operation')
-
-btnAgregarOperation.addEventListener("click", (e) => {
+btnAddOperation.addEventListener("click", (e) => {
     e.preventDefault()
     operationList.push({
         description:inputDescription.value,
         category:inputSelectCategory.value,
         mont:inputMont.value
+        
     })
     $('#imgOperations').classList.add('hidden')
     $('#table').classList.remove('hidden')
@@ -211,23 +255,33 @@ btnAgregarOperation.addEventListener("click", (e) => {
     generateTable(operationList)
     
 })
-let tbodyOperation = $('#tbodyOperation')
+
+inputDateForm.addEventListener("change", (e) =>{
+    dateSelect = e.target.value
+})
+
 const generateTable = (operationList) =>{
     for (const {description, category, mont} of operationList){
-        console.log(operationList)
         tbodyOperation.innerHTML += `<tr>
-        <th>${description}</th>
+        <th class="capitalize">${description}</th>
         <th>${category}</th>
-        <th>fecha</th>
+        <th>${dateSelect}</th>
         <th>${mont}</th>
-        <th>botones</th>
+        <th><button class="pl-3 font-bold text-red-600">Editar</button>
+        <button class="pl-3 font-bold text-red-600">Eliminar</button></th>
     </tr>`
         
     }
 }
 
 
-// ***************************************** Events *******************************************
+// Date filter
+
+const year = new Date().getFullYear()
+const month = new Date().getMonth()
+date.value = `${year}-${month+1}-01`
+
+// ************** Events ****************
 
 logo.addEventListener('click', () =>{
     changeSection(logo)
@@ -239,6 +293,7 @@ btnBalances.addEventListener('click', () =>{
 
 btnCategories.addEventListener('click', () =>{
     changeSection(btnCategories)
+    generateCategory(getDataFromLocalStorage('categories'))
 })
 
 btnReports.addEventListener('click', () =>{
@@ -247,55 +302,45 @@ btnReports.addEventListener('click', () =>{
 
 btnNewOperation.addEventListener('click', () =>{
     changeSection(btnNewOperation)
+    
 })
-
-for (const btn of btnEdit) {
-    btn.addEventListener('click', () =>{
-        changeSection(btnEdit)
-    })
-}
 
 // Button for add category
 
 btnAddCategory.addEventListener('click', () =>{
-    saveCategories.push({
+    let categoriesLocalStorage = getDataFromLocalStorage('categories')
+    categoriesLocalStorage.push({
         id:categoryList.length +1,
-        name:inputCategory.value 
+        name: capitalize(capitalize(inputCategory.value)) 
     })
     containerCategory.innerHTML= ""
-    localStorage.setItem("categories", JSON.stringify(saveCategories))
-    generateCategory(saveCategories)
+    localStorage.setItem("categories", JSON.stringify(categoriesLocalStorage))
+    generateCategory(getDataFromLocalStorage('categories'))
     selectFilterCategory.innerHTML= ""
-    filterListCategory(saveCategories);
+    filterListCategory(getDataFromLocalStorage('categories'));
     inputCategory.value = ""
     inputSelectCategory.innerHTML= "" 
-    generateOperationTable(saveCategories)
+    generateOperationTable(getDataFromLocalStorage('categories'))
 })
-
-for (const btn of btnDelete) {
-    btn.addEventListener('click', () =>{
-        const productId = btn.getAttribute("data-id")
-        containerCategory.innerHTML= ""
-        generateCategory(removeCategory(productId))
-    })
-}
-
 
 selectFilterCategory.addEventListener('change', (e) =>{
     console.log(e.currentTarget.value)
     // poner acá lo que va a pasar al cambiar el filtro de categoría
 })
 
+hideFilters.addEventListener('click',() => {
+    formFilters.classList.toggle('hidden')
+    if(formFilters.classList.contains('hidden')){
+        hideFilters.innerHTML = 'Mostrar Filtros'
+    }else{
+        hideFilters.innerHTML = 'Ocultar Filtros'
+    }
+})
+
 // Window on load
 
 window.addEventListener('load', () => {
-    const lsCategories = JSON.parse(localStorage.getItem("categories"));
-    if(lsCategories == null){
-        saveCategories = [...categoryList];
-    }else{
-        saveCategories = [...lsCategories];
-    }
-    generateCategory(saveCategories)
-    filterListCategory(saveCategories)
-    generateOperationTable(saveCategories)
+    generateCategory(getDataFromLocalStorage('categories'))
+    filterListCategory(getDataFromLocalStorage('categories'))
+    generateOperationTable(getDataFromLocalStorage('categories'))
 })

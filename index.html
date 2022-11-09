@@ -48,12 +48,12 @@
                         </div>
                     </div>
 
-                    <div id="filtros" class="bg-pink-100 w-80 p-7 rounded-md shadow-inner text-lg">
+                    <div id="filters" class="bg-pink-100 w-80 p-7 rounded-md shadow-inner text-lg">
                         <div class="flex justify-between items-end">
                             <h3 class="text-3xl font-black">Filtros</h3>
-                            <a href="#" class="font-bold">Ocultar Filtros</a>
+                            <button class="font-bold" id="hideFilters">Ocultar Filtros</button>
                         </div>
-                        <form class="mt-5">
+                        <form class="mt-5" id="formFilters">
                             <div class="flex flex-col">
                                 <label for="type" class="font-bold mb-1">Tipo</label>
                                 <select name="type" id="type" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
@@ -66,13 +66,7 @@
                             <div class="flex flex-col">
                                 <label for="category" class="font-bold mt-4 mb-1">Categoría</label>
                                 <select name="category" id="category" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
-                                    <!-- <option value="todas" selected>Todas</option> -->
-                                    <!-- <option value="comidas">Gasto</option>
-                                    <option value="servicios">Ganancia</option>
-                                    <option value="salidas">Salidas</option>
-                                    <option value="educacion">Educacion</option>
-                                    <option value="transporte">Transporte</option>
-                                    <option value="trabajo">Trabajo</option> -->
+                                   
                                 </select>
                             </div>
 
@@ -116,13 +110,7 @@
                             </tr>
                         </thead>
                         <tbody id="tbodyOperation" class="font-light">
-                            <!-- <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr> -->
+                    
                         </tbody>
                     </table>
                 </div>
@@ -140,42 +128,6 @@
                     <button id="add-category"class="w-1/6 rounded-lg bg-[#be185d] hover:bg-pink-600 text-white font-bold text-lg ">Agregar</button>
                 </div>
                 <div id="containerCategory" class="space-y-8">
-                    
-                    <!-- <div class="flex justify-between">
-                        <span class="bg-[#F599BF]/75">Comida</span>
-                        <div>
-                            <a href="">Editar</a>
-                            <a href="" class="ml-3">Eliminar</a>
-                        </div>
-                    </div>
-                    <div class="flex justify-between">
-                        <span  class="bg-[#F599BF]/75">Servicios</span>
-                        <div>
-                            <a href="">Editar</a>
-                            <a href="" class="ml-3">Eliminar</a>
-                        </div>
-                    </div>
-                    <div class="flex justify-between">
-                        <span  class="bg-[#F599BF]/75">Educación</span>
-                        <div>
-                            <a href="">Editar</a>
-                            <a href="" class="ml-3">Eliminar</a>
-                        </div>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="bg-[#F599BF]/75">Transporte</span>
-                        <div>
-                            <a href="">Editar</a>
-                            <a href="" class="ml-3">Eliminar</a>
-                        </div>
-                    </div>
-                    <div class="flex justify-between">
-                        <span  class="bg-[#F599BF]/75">Trabajo</span>
-                        <div>
-                            <a href="">Editar</a>
-                            <a href="" class="ml-3">Eliminar</a>
-                        </div>
-                    </div> -->
 
                 </div>
             </div>
@@ -233,12 +185,12 @@
                         </select>
                     </div>
                     <div class="flex flex-col mt-5 font-bold">
-                        <label for="date" class="font-bold mb-1">Fecha</label>
-                        <input type="date" id="date" name="date" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
+                        <label for="dateForm" class="font-bold mb-1">Fecha</label>
+                        <input type="date" id="dateForm" name="dateForm" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
                     </div>
                     <div class="flex justify-end mt-10 font-bold">
                         <button class="py-3 px-5 bg-[#d8568c] hover:bg-pink-300 text-white rounded-lg font-bold text-lg">Cancelar</button>
-                        <button id="btnAgregarOperation" class="py-3 px-5 bg-[#be185d] hover:bg-pink-600 text-white rounded-lg font-bold text-lg ml-3">Agregar</button>
+                        <button id="btnAddOperation" class="py-3 px-5 bg-[#be185d] hover:bg-pink-600 text-white rounded-lg font-bold text-lg ml-3">Agregar</button>
                     </div>
                 </form>
             </div>
