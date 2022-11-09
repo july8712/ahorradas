@@ -28,18 +28,7 @@ const selectFilterCategory = $('#category');
 const containerCategory = $('#containerCategory')
 const inputCategory = $('#input-category')
 const btnAddCategory = $('#add-category')
-
 const btnAddOperation = $('#btnAddOperation')
-
-let btnEdit = $$('.btnEdit')
-let btnEditCategory = $('#btn-cat-edit')
-let btnDelete = $$('.btnDelete')
-// const inputSelectCategory = $('#categoryOperation')
-// let inputDescription = $('#input-description-operation')
-// let inputMont = $('#input-mont-operation')
-// let tbodyOperation = $('#tbodyOperation')
-
-
 
 // ver si estas variables van acá
 
@@ -49,13 +38,11 @@ let inputMont = $('#input-mont-operation')
 let tbodyOperation = $('#tbodyOperation')
 let inputDateForm = $('#dateForm')
 
-
 // Filters
 
 const hideFilters = $('#hideFilters');
 const formFilters = $('#formFilters');
 const date = $('#date');
-
 
 
 // ************** End Variables ****************
@@ -201,22 +188,20 @@ const generateCategory = (categories) => {
                 
             })
         }
-        
-const btnDelete = $$('.btnDelete')
+        const btnDelete = $$('.btnDelete')
         for (const btn of btnDelete) {
             btn.addEventListener('click', () =>{
                 // console.log(btn)
                 const btnDeleteId = btn.getAttribute("data-id")
                 // console.log(productId)
                 removeCategory(btnDeleteId)
-
                 // containerCategory.innerHTML= ""
                 generateCategory(removeCategory(btnDeleteId))
             })
         }
       
 }
-
+const btnEditCategory = $('#btn-cat-edit')
 const findCategory = (id) => {
     return categoryList.find(category => category.id === parseInt(id))
 }
@@ -254,28 +239,9 @@ btnEditCategory.addEventListener("click", () => {
 
 
 
-
-// // const removeCategory = (id) => {
-// //     return categoryList.filter(category => category.id !== parseInt(id))
-// // }
-
-for (const btn of btnEdit) {
-    btn.addEventListener('click', () =>{
-        changeSection(btnEdit)
-    })
-}
-for (const btn of btnDelete) {
-    btn.addEventListener('click', () =>{
-        const productId = btn.getAttribute("data-id")
-        // containerCategory.innerHTML= ""
-        // generateCategory(removeCategory(productId))
-    })
-}
-
 //////////////// CODIGO EN PROCESO ///////////////////////////
 
 // newOperationFunctionality
-
 
 let generateOperationTable = (categories) =>{
     categories.map(categories => {
@@ -285,7 +251,6 @@ let generateOperationTable = (categories) =>{
         `
     })
 }
-
 
 btnAddOperation.addEventListener("click", (e) => {
     e.preventDefault()
@@ -302,15 +267,12 @@ btnAddOperation.addEventListener("click", (e) => {
     
 })
 
-
 inputDateForm.addEventListener("change", (e) =>{
     dateSelect = e.target.value
 })
 
 const generateTable = (operationList) =>{
     for (const {description, category, mont} of operationList){
-        // console.log(operationList)
-
         tbodyOperation.innerHTML += `<tr>
         <th class="capitalize">${description}</th>
         <th>${category}</th>
@@ -322,6 +284,7 @@ const generateTable = (operationList) =>{
         
     }
 }
+
 
 // Date filter
 
@@ -358,10 +321,8 @@ btnNewOperation.addEventListener('click', () =>{
 btnAddCategory.addEventListener('click', () =>{
     let categoriesLocalStorage = getDataFromLocalStorage('categories')
     categoriesLocalStorage.push({
-        id:categoryList.length +1,
-
-        name: capitalize(capitalize(inputCategory.value)) 
-
+        id: categoriesLocalStorage.length,
+        name:capitalize(inputCategory.value) 
     })
     containerCategory.innerHTML= ""
     localStorage.setItem("categories", JSON.stringify(categoriesLocalStorage))
@@ -371,17 +332,8 @@ btnAddCategory.addEventListener('click', () =>{
     inputCategory.value = ""
     inputSelectCategory.innerHTML= "" 
     generateOperationTable(getDataFromLocalStorage('categories'))
+    console.log(getDataFromLocalStorage('categories'))
 })
-
-
-for (const btn of btnDelete) {
-    btn.addEventListener('click', () =>{
-        const productId = btn.getAttribute("data-id")
-        // containerCategory.innerHTML= ""
-        // generateCategory(removeCategory(productId))
-    })
-}
-// console.log(btnDelete, "este es el botón borrar" );
 
 selectFilterCategory.addEventListener('change', (e) =>{
     console.log(e.currentTarget.value)
