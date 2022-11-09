@@ -171,7 +171,7 @@ const generateCategory = (categories) => {
             <p id="${id}" class="bg-[#F599BF] p-1 rounded">${name}</p>
             <div>
                 <button class="btnEdit text-[#F599BF] font-semibold" onclick="categoryEdit(${id})">Editar</button>
-                <button class="btnDelete pl-3 font-bold text-red-600" data-id=${id} id="delete${id}">Eliminar</button>
+                <button class="btnDelete pl-3 font-bold text-red-600" data-id=${id}>Eliminar</button>
             </div>
         </div>
         `
@@ -191,34 +191,37 @@ const generateCategory = (categories) => {
         const btnDelete = $$('.btnDelete')
         for (const btn of btnDelete) {
             btn.addEventListener('click', () =>{
-                console.log(btn)
-                // const productId = btn.getAttribute("data-id")
+                // console.log(btn)
+                const btnDeleteId = btn.getAttribute("data-id")
+                // console.log(productId)
+                removeCategory(btnDeleteId)
                 // containerCategory.innerHTML= ""
-                // generateCategory(removeCategory(productId))
+                generateCategory(removeCategory(btnDeleteId))
             })
         }
-
-        
-
-        
+      
 }
-
-let btnEditCategory = $('#btn-cat-edit')
+const btnEditCategory = $('#btn-cat-edit')
 const findCategory = (id) => {
     return categoryList.find(category => category.id === parseInt(id))
 }
 const categoryEdit = (id) => {
     const chosenCategory = findCategory(id)
-    $("#input-edit-category").value = chosenCategory.name
-    btnEditCategory.setAttribute("data-id", id)
+    $(".input-edit-category").value = chosenCategory.name
+    btnEditCategory.setAttribute("data-id", parseInt(id))
 }
 const saveCategoryData = (id) => {
     return {
         id: id,
-        name: $("#input-edit-category").value   
-    }
+        name: $(".input-edit-category").value   
+    }  
 }
-const categoryEdit2 = (id) => {
+
+const removeCategory = (id) => {
+    return getDataFromLocalStorage('categories').filter(category => category.id !== parseInt(id))
+}
+
+const categoryEditInput = (id) => {
     return getDataFromLocalStorage('categories').map(category => {
         if (category.id === parseInt(id)) {
             return saveCategoryData(id)
@@ -227,14 +230,14 @@ const categoryEdit2 = (id) => {
     })
 }
 btnEditCategory.addEventListener("click", () => {
+    console.log(btnEditCategory)
     const catId = btnEditCategory.getAttribute("data-id")
+    console.log(catId)
     containerCategory.innerHTML= ""
-    generateCategory(categoryEdit2(parseInt(catId)))
+    generateCategory(categoryEditInput(catId))
 })
 
-// // const removeCategory = (id) => {
-// //     return categoryList.filter(category => category.id !== parseInt(id))
-// // }
+
 
 //////////////// CODIGO EN PROCESO ///////////////////////////
 
