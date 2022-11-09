@@ -144,6 +144,22 @@ if (!getDataFromLocalStorage('categories')) {
     saveDataInLocalStorage('categories', categoryList)
 }
 
+// filter 
+
+const filterListCategory = (categories) => {
+    categories.map(categories => {
+        const { name } = categories
+        selectFilterCategory.innerHTML += `
+        <option value="${name}">${name}</option>
+        `
+    })
+}
+// Function to capitalize the first letter
+
+const capitalize = (word) => {
+    return word[0].toUpperCase() + word.slice(1);
+}
+
 // generateCategory
 
 const generateCategory = (categories) => {
@@ -160,27 +176,34 @@ const generateCategory = (categories) => {
         </div>
         `
         })
+        const btnEdit = $$('.btnEdit')
+        for (const btn of btnEdit) {
+            btn.addEventListener('click', () =>{
+                //console.log(btn)
+            secBalance.style.display = 'none' 
+            secCategories.style.display = 'none'
+            secReports.style.display = 'none'
+            newOperation.style.display = 'none'
+            editCategory.style.display = 'block'
+                
+            })
+        }
+        const btnDelete = $$('.btnDelete')
+        for (const btn of btnDelete) {
+            btn.addEventListener('click', () =>{
+                console.log(btn)
+                // const productId = btn.getAttribute("data-id")
+                // containerCategory.innerHTML= ""
+                // generateCategory(removeCategory(productId))
+            })
+        }
+
+        
+
+        
 }
 
-const filterListCategory = (categories) => {
-    categories.map(categories => {
-        const { name } = categories
-        selectFilterCategory.innerHTML += `
-        <option value="${name}">${name}</option>
-        `
-    })
-}
-
-// Function to capitalize the first letter
-
-const capitalize = (word) => {
-    return word[0].toUpperCase() + word.slice(1);
-}
-
-//////////////// CODIGO EN PROCESO ///////////////////////////
-let btnEdit = $$('.btnEdit')
 let btnEditCategory = $('#btn-cat-edit')
-let btnDelete = $$('.btnDelete')
 const findCategory = (id) => {
     return categoryList.find(category => category.id === parseInt(id))
 }
@@ -209,25 +232,10 @@ btnEditCategory.addEventListener("click", () => {
     generateCategory(categoryEdit2(parseInt(catId)))
 })
 
-
-
-
 // // const removeCategory = (id) => {
 // //     return categoryList.filter(category => category.id !== parseInt(id))
 // // }
-for (const btn of btnEdit) {
-    btn.addEventListener('click', () =>{
-        changeSection(btnEdit)
-    })
-}
-for (const btn of btnDelete) {
-    btn.addEventListener('click', () =>{
-        const productId = btn.getAttribute("data-id")
-        // containerCategory.innerHTML= ""
-        // generateCategory(removeCategory(productId))
-    })
-}
-// console.log(btnDelete, "este es el botón borrar" );
+
 //////////////// CODIGO EN PROCESO ///////////////////////////
 
 // newOperationFunctionality
