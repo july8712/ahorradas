@@ -191,12 +191,11 @@ const generateCategory = (categories) => {
         const btnDelete = $$('.btnDelete')
         for (const btn of btnDelete) {
             btn.addEventListener('click', () =>{
-                // console.log(btn)
                 const btnDeleteId = btn.getAttribute("data-id")
-                // console.log(productId)
                 removeCategory(btnDeleteId)
-                // containerCategory.innerHTML= ""
+                saveDataInLocalStorage('categories', removeCategory(btnDeleteId))
                 generateCategory(removeCategory(btnDeleteId))
+                filterListCategory(removeCategory(btnDeleteId))
             })
         }
       
@@ -238,8 +237,6 @@ btnEditCategory.addEventListener("click", () => {
 })
 
 
-
-//////////////// CODIGO EN PROCESO ///////////////////////////
 
 // newOperationFunctionality
 
