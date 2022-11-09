@@ -211,7 +211,7 @@ const categoryEdit = (id) => {
 }
 const saveCategoryData = (id) => {
     return {
-        id: id,
+        id: parseInt(id),
         name: $(".input-edit-category").value   
     }  
 }
@@ -233,7 +233,8 @@ btnEditCategory.addEventListener("click", () => {
     const catId = btnEditCategory.getAttribute("data-id")
     console.log(catId)
     containerCategory.innerHTML= ""
-    generateCategory(categoryEditInput(catId))
+    saveDataInLocalStorage('categories', categoryEditInput(catId))
+    generateCategory(getDataFromLocalStorage('categories'))
 })
 
 
