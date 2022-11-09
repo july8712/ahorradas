@@ -11,7 +11,6 @@ const btnCategories = $('#btn-categories');
 const btnReports = $('#btn-reports');
 const btnNewOperation = $('#new-operation');
 
-
 // Sections
 
 const secBalance = $('#secBalance');
@@ -29,6 +28,9 @@ const selectFilterCategory = $('#category');
 const containerCategory = $('#containerCategory')
 const inputCategory = $('#input-category')
 const btnAddCategory = $('#add-category')
+
+const btnAddOperation = $('#btnAddOperation')
+
 let btnEdit = $$('.btnEdit')
 let btnEditCategory = $('#btn-cat-edit')
 let btnDelete = $$('.btnDelete')
@@ -38,24 +40,21 @@ let btnDelete = $$('.btnDelete')
 // let tbodyOperation = $('#tbodyOperation')
 
 
+
 // ver si estas variables van acá
 
 const inputSelectCategory = $('#categoryOperation')
 let inputDescription = $('#input-description-operation')
 let inputMont = $('#input-mont-operation')
 let tbodyOperation = $('#tbodyOperation')
+let inputDateForm = $('#dateForm')
+
 
 // Filters
 
 const hideFilters = $('#hideFilters');
 const formFilters = $('#formFilters');
 const date = $('#date');
-
-
-
-for(let i = 0; i < btnDelete.length; i++) {
-    console.log(btnDelete[i]);
-}
 
 
 
@@ -86,7 +85,6 @@ const categoryList = [
     },
 ]
 
-let saveCategories = [];
 let operationList = []
 
 // *************** Functions ***************
@@ -135,13 +133,13 @@ const changeSection = (id) => {
             editCategory.style.display = 'none'
         break;
 
-        case btnEdit:
-            secBalance.style.display = 'none' 
-            secCategories.style.display = 'none'
-            secReports.style.display = 'none'
-            newOperation.style.display = 'none'
-            editCategory.style.display = 'block'
-        break;
+        // case btnEdit:
+        //     secBalance.style.display = 'none' 
+        //     secCategories.style.display = 'none'
+        //     secReports.style.display = 'none'
+        //     newOperation.style.display = 'none'
+        //     editCategory.style.display = 'block'
+        // break;
    }
 }
 
@@ -181,7 +179,7 @@ const generateCategory = (categories) => {
 const filterListCategory = (categories) => {
     categories.map(categories => {
         const { name } = categories
-        // console.log(name)
+
         selectFilterCategory.innerHTML += `
         <option value="${name}">${name}</option>
         `
@@ -195,6 +193,9 @@ const capitalize = (word) => {
 }
 
 //////////////// CODIGO EN PROCESO ///////////////////////////
+let btnEdit = $$('.btnEdit')
+let btnEditCategory = $('#btn-cat-edit')
+let btnDelete = $$('.btnDelete')
 const findCategory = (id) => {
     return categoryList.find(category => category.id === parseInt(id))
 }
@@ -229,6 +230,20 @@ btnEditCategory.addEventListener("click", () => {
 // // const removeCategory = (id) => {
 // //     return categoryList.filter(category => category.id !== parseInt(id))
 // // }
+
+for (const btn of btnEdit) {
+    btn.addEventListener('click', () =>{
+        changeSection(btnEdit)
+    })
+}
+for (const btn of btnDelete) {
+    btn.addEventListener('click', () =>{
+        const productId = btn.getAttribute("data-id")
+        // containerCategory.innerHTML= ""
+        // generateCategory(removeCategory(productId))
+    })
+}
+
 //////////////// CODIGO EN PROCESO ///////////////////////////
 
 // newOperationFunctionality
@@ -237,19 +252,20 @@ btnEditCategory.addEventListener("click", () => {
 let generateOperationTable = (categories) =>{
     categories.map(categories => {
         const { name } = categories
-        // console.log(name)
         inputSelectCategory.innerHTML += `
         <option value="${name}">${name}</option>
         `
-    })}
+    })
+}
 
 
-btnAgregarOperation.addEventListener("click", (e) => {
+btnAddOperation.addEventListener("click", (e) => {
     e.preventDefault()
     operationList.push({
         description:inputDescription.value,
         category:inputSelectCategory.value,
         mont:inputMont.value
+        
     })
     $('#imgOperations').classList.add('hidden')
     $('#table').classList.remove('hidden')
@@ -259,19 +275,31 @@ btnAgregarOperation.addEventListener("click", (e) => {
 })
 
 
+inputDateForm.addEventListener("change", (e) =>{
+    dateSelect = e.target.value
+})
+
 const generateTable = (operationList) =>{
     for (const {description, category, mont} of operationList){
         // console.log(operationList)
+
         tbodyOperation.innerHTML += `<tr>
-        <th>${description}</th>
+        <th class="capitalize">${description}</th>
         <th>${category}</th>
-        <th>fecha</th>
+        <th>${dateSelect}</th>
         <th>${mont}</th>
-        <th>botones</th>
+        <th><button class="pl-3 font-bold text-red-600">Editar</button>
+        <button class="pl-3 font-bold text-red-600">Eliminar</button></th>
     </tr>`
         
     }
 }
+
+// Date filter
+
+const year = new Date().getFullYear()
+const month = new Date().getMonth()
+date.value = `${year}-${month+1}-01`
 
 // Date filter
 
@@ -292,7 +320,6 @@ btnBalances.addEventListener('click', () =>{
 btnCategories.addEventListener('click', () =>{
     changeSection(btnCategories)
     generateCategory(getDataFromLocalStorage('categories'))
-    generateCategory(getDataFromLocalStorage('categories'))
 })
 
 btnReports.addEventListener('click', () =>{
@@ -301,13 +328,8 @@ btnReports.addEventListener('click', () =>{
 
 btnNewOperation.addEventListener('click', () =>{
     changeSection(btnNewOperation)
+    
 })
-
-for (const btn of btnEdit) {
-    btn.addEventListener('click', () =>{
-        changeSection(btnEdit)
-    })
-}
 
 // Button for add category
 
@@ -315,7 +337,9 @@ btnAddCategory.addEventListener('click', () =>{
     let categoriesLocalStorage = getDataFromLocalStorage('categories')
     categoriesLocalStorage.push({
         id:categoryList.length +1,
-        name: capitalize( capitalize(inputCategory.value)) 
+
+        name: capitalize(capitalize(inputCategory.value)) 
+
     })
     containerCategory.innerHTML= ""
     localStorage.setItem("categories", JSON.stringify(categoriesLocalStorage))
@@ -327,6 +351,7 @@ btnAddCategory.addEventListener('click', () =>{
     generateOperationTable(getDataFromLocalStorage('categories'))
 })
 
+
 for (const btn of btnDelete) {
     btn.addEventListener('click', () =>{
         const productId = btn.getAttribute("data-id")
@@ -335,7 +360,6 @@ for (const btn of btnDelete) {
     })
 }
 // console.log(btnDelete, "este es el botón borrar" );
-
 
 selectFilterCategory.addEventListener('change', (e) =>{
     console.log(e.currentTarget.value)
