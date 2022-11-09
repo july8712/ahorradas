@@ -216,7 +216,7 @@ const btnDelete = $$('.btnDelete')
         }
       
 }
-const btnEditCategory = $('#btn-cat-edit')
+
 const findCategory = (id) => {
     return categoryList.find(category => category.id === parseInt(id))
 }
@@ -322,12 +322,6 @@ const generateTable = (operationList) =>{
         
     }
 }
-
-// Date filter
-
-const year = new Date().getFullYear()
-const month = new Date().getMonth()
-date.value = `${year}-${month+1}-01`
 
 // Date filter
 
