@@ -157,6 +157,22 @@ if (!getDataFromLocalStorage('categories')) {
     saveDataInLocalStorage('categories', categoryList)
 }
 
+// filter 
+
+const filterListCategory = (categories) => {
+    categories.map(categories => {
+        const { name } = categories
+        selectFilterCategory.innerHTML += `
+        <option value="${name}">${name}</option>
+        `
+    })
+}
+// Function to capitalize the first letter
+
+const capitalize = (word) => {
+    return word[0].toUpperCase() + word.slice(1);
+}
+
 // generateCategory
 
 const generateCategory = (categories) => {
@@ -168,49 +184,59 @@ const generateCategory = (categories) => {
             <p id="${id}" class="bg-[#F599BF] p-1 rounded">${name}</p>
             <div>
                 <button class="btnEdit text-[#F599BF] font-semibold" onclick="categoryEdit(${id})">Editar</button>
-                <button class="btnDelete pl-3 font-bold text-red-600" data-id=${id} id="delete${id}">Eliminar</button>
+                <button class="btnDelete pl-3 font-bold text-red-600" data-id=${id}>Eliminar</button>
             </div>
         </div>
         `
         })
+        const btnEdit = $$('.btnEdit')
+        for (const btn of btnEdit) {
+            btn.addEventListener('click', () =>{
+                //console.log(btn)
+            secBalance.style.display = 'none' 
+            secCategories.style.display = 'none'
+            secReports.style.display = 'none'
+            newOperation.style.display = 'none'
+            editCategory.style.display = 'block'
+                
+            })
+        }
+        
+const btnDelete = $$('.btnDelete')
+        for (const btn of btnDelete) {
+            btn.addEventListener('click', () =>{
+                // console.log(btn)
+                const btnDeleteId = btn.getAttribute("data-id")
+                // console.log(productId)
+                removeCategory(btnDeleteId)
+
+                // containerCategory.innerHTML= ""
+                generateCategory(removeCategory(btnDeleteId))
+            })
+        }
+      
 }
 
-
-const filterListCategory = (categories) => {
-    categories.map(categories => {
-        const { name } = categories
-
-        selectFilterCategory.innerHTML += `
-        <option value="${name}">${name}</option>
-        `
-    })
-}
-
-// Function to capitalize the first letter
-
-const capitalize = (word) => {
-    return word[0].toUpperCase() + word.slice(1);
-}
-
-//////////////// CODIGO EN PROCESO ///////////////////////////
-let btnEdit = $$('.btnEdit')
-let btnEditCategory = $('#btn-cat-edit')
-let btnDelete = $$('.btnDelete')
 const findCategory = (id) => {
     return categoryList.find(category => category.id === parseInt(id))
 }
 const categoryEdit = (id) => {
     const chosenCategory = findCategory(id)
-    $("#input-edit-category").value = chosenCategory.name
-    btnEditCategory.setAttribute("data-id", id)
+    $(".input-edit-category").value = chosenCategory.name
+    btnEditCategory.setAttribute("data-id", parseInt(id))
 }
 const saveCategoryData = (id) => {
     return {
         id: id,
-        name: $("#input-edit-category").value   
-    }
+        name: $(".input-edit-category").value   
+    }  
 }
-const categoryEdit2 = (id) => {
+
+const removeCategory = (id) => {
+    return getDataFromLocalStorage('categories').filter(category => category.id !== parseInt(id))
+}
+
+const categoryEditInput = (id) => {
     return getDataFromLocalStorage('categories').map(category => {
         if (category.id === parseInt(id)) {
             return saveCategoryData(id)
@@ -219,9 +245,11 @@ const categoryEdit2 = (id) => {
     })
 }
 btnEditCategory.addEventListener("click", () => {
+    console.log(btnEditCategory)
     const catId = btnEditCategory.getAttribute("data-id")
+    console.log(catId)
     containerCategory.innerHTML= ""
-    generateCategory(categoryEdit2(parseInt(catId)))
+    generateCategory(categoryEditInput(catId))
 })
 
 
@@ -294,12 +322,6 @@ const generateTable = (operationList) =>{
         
     }
 }
-
-// Date filter
-
-const year = new Date().getFullYear()
-const month = new Date().getMonth()
-date.value = `${year}-${month+1}-01`
 
 // Date filter
 
