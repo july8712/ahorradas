@@ -29,11 +29,11 @@
 
         <!-- Balance Section -->
         
-        <section id="secBalance" class="w-[60%]">
-            <div class="flex justify-between w-full">
+        <section id="secBalance" class="w-[80%] md:w-[60%]">
+            <div class="flex xl:flex-row sm:flex-col flex-col justify-between w-full">
                 <div>
-                    <div id="balance" class="bg-pink-100 w-80 p-7 mb-7 rounded-md shadow-inner text-lg">
-                        <h2 class="text-3xl font-black ">Balance</h2>
+                    <div id="balance" class="bg-pink-100 w-full sm:w-80 p-7 mb-7 rounded-md shadow-inner text-lg">
+                        <h2 class="md:text-3xl text-xl font-black ">Balance</h2>
                         <div class="flex justify-between mt-5 font-bold">
                             <p class="">Ganancias</p>
                             <p class="text-green-600">+$0</p>
@@ -48,9 +48,9 @@
                         </div>
                     </div>
 
-                    <div id="filters" class="bg-pink-100 w-80 p-7 rounded-md shadow-inner text-lg">
+                    <div id="filters" class="bg-pink-100 w-full sm:w-80 p-7 rounded-md shadow-inner text-lg">
                         <div class="flex justify-between items-end">
-                            <h3 class="text-3xl font-black">Filtros</h3>
+                            <h3 class="md:text-3xl text-xl font-black">Filtros</h3>
                             <button class="font-bold" id="hideFilters">Ocultar Filtros</button>
                         </div>
                         <form class="mt-5" id="formFilters">
@@ -91,28 +91,26 @@
                     </div>
                 </div>
 
-                <div id="operations" class="bg-pink-100 w-[750px] p-7 rounded-md shadow-inner h-max">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-2xl font-black">Operaciones</h3>
-                        <button class="py-3 px-5 bg-[#be185d] hover:bg-pink-600 text-white rounded-lg font-bold text-lg" id="new-operation">+ Nueva Operación</button>
+                <div id="operations" class="bg-pink-100 lg:w-[750px] w-full p-7 rounded-md shadow-inner h-max md:ml-7 mt-7">
+                    <div class="flex md:flex-row justify-between items-center">
+                        <h3 class="md:text-2xl text-xl font-black">Operaciones</h3>
+                        <button class="py-2 md:py-3 px-2 md:px-5 mt-0 bg-[#be185d] hover:bg-pink-600 text-white rounded-lg font-bold text-sm md:text-lg mt-3 md:mt-0" id="new-operation">+ Nueva Operación</button>
                     </div>
                     <div id="imgOperations" class="flex justify-center py-32">
                         <img src="assets/img/undraw_savings_re_eq4w.svg" alt="Savings" class="w-[400px]">
                     </div>
-                    <table id="table" class="w-full border-separate border-spacing-4 hidden">
-                        <thead>
-                            <tr>
-                                <th>Descripción</th>
-                                <th>Categoría</th>
-                                <th>Fecha</th>
-                                <th>Monto</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbodyOperation" class="font-light">
+                    <div id="table" class="w-full border-separate border-spacing-4 hidden">
+                        <div class="md:flex mt-7 mb-3 font-bold hidden">
+                            <h4 class="md:w-[300px] w-full text-center">Descripción</h4>
+                            <h4 class="md:w-[300px] w-full text-center">Categoría</h4>
+                            <h4 class="md:w-[300px] text-center">Fecha</h4>
+                            <h4 class="md:w-[300px] w-full text-center">Monto</h4>
+                            <h4 class="md:w-[300px] w-full text-center">Acciones</h4>
+                        </div>
+                        <div id="tbodyOperation" class="font-light">
                     
-                        </tbody>
-                    </table>
+                        </div>
+                    </div>
                 </div>
             </div> 
         </section>
