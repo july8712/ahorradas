@@ -252,16 +252,20 @@ let generateOperationTable = (categories) =>{
 
 btnAddOperation.addEventListener("click", (e) => {
     e.preventDefault()
-    operationList.push({
+
+    let operations = getDataFromLocalStorage("operations") || [];
+    operations.push({
         description:inputDescription.value,
         category:inputSelectCategory.value,
         mont:inputMont.value
-        
-    })
+    });
+
+    saveDataInLocalStorage('operations', operations)
+    
     $('#imgOperations').classList.add('hidden')
     $('#table').classList.remove('hidden')
     tbodyOperation.innerHTML= ""
-    generateTable(operationList)
+    generateTable(operations)
     
 })
 
@@ -269,17 +273,21 @@ inputDateForm.addEventListener("change", (e) =>{
     dateSelect = e.target.value
 })
 
-const generateTable = (operationList) =>{
-    for (const {description, category, mont} of operationList){
-        tbodyOperation.innerHTML += `<tr>
-        <th class="capitalize">${description}</th>
-        <th>${category}</th>
-        <th>${dateSelect}</th>
-        <th>${mont}</th>
-        <th><button class="pl-3 font-bold text-red-600">Editar</button>
-        <button class="pl-3 font-bold text-red-600">Eliminar</button></th>
-    </tr>`
-        
+const generateTable = (data) =>{
+    const operations = data || [];
+    if(operations.length > 0) {
+        for (const {description, category, dateSelect, mont} of operations){
+            tbodyOperation.innerHTML += `<tr>
+                <th class="capitalize">${description}</th>
+                <th>${category}</th>
+                <th>${dateSelect}</th>
+                <th>${mont}</th>
+                <th><button class="pl-3 font-bold text-red-600">Editar</button>
+                <button class="pl-3 font-bold text-red-600">Eliminar</button></th>
+            </tr>`
+        }
+        $('#imgOperations').classList.add('hidden')
+        $('#table').classList.remove('hidden')
     }
 }
 
@@ -353,4 +361,5 @@ window.addEventListener('load', () => {
     generateCategory(getDataFromLocalStorage('categories'))
     filterListCategory(getDataFromLocalStorage('categories'))
     generateOperationTable(getDataFromLocalStorage('categories'))
+    generateTable(getDataFromLocalStorage('operations'))
 })
