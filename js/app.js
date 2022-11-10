@@ -250,13 +250,17 @@ let generateOperationTable = (categories) =>{
     })
 }
 
+
 btnAddOperation.addEventListener("click", (e) => {
     e.preventDefault()
+
+    
 
     let operations = getDataFromLocalStorage("operations") || [];
     operations.push({
         description:inputDescription.value,
         category:inputSelectCategory.value,
+        dateSelect: inputDateForm.value,
         mont:inputMont.value
     });
 
@@ -266,7 +270,7 @@ btnAddOperation.addEventListener("click", (e) => {
     $('#table').classList.remove('hidden')
     tbodyOperation.innerHTML= ""
     generateTable(operations)
-    
+    $('#formNewOperation').reset()
 })
 
 inputDateForm.addEventListener("change", (e) =>{
@@ -280,8 +284,8 @@ const generateTable = (data) =>{
             tbodyOperation.innerHTML += `<tr>
                 <th class="capitalize">${description}</th>
                 <th>${category}</th>
-                <th>${dateSelect}</th>
-                <th>${mont}</th>
+                <th>${formatDate(dateSelect)}</th>
+                <th>$${mont}</th>
                 <th><button class="pl-3 font-bold text-red-600">Editar</button>
                 <button class="pl-3 font-bold text-red-600">Eliminar</button></th>
             </tr>`
@@ -291,6 +295,9 @@ const generateTable = (data) =>{
     }
 }
 
+const formatDate = (date) => {
+    return date.split("-").reverse().join("-");
+}
 
 // Date filter
 
