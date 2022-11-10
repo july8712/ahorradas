@@ -237,10 +237,15 @@ const categoryEditInput = (id) => {
     })
 }
 btnEditCategory.addEventListener("click", () => {
-    console.log(btnEditCategory)
+    // console.log(btnEditCategory)
     const catId = btnEditCategory.getAttribute("data-id")
-    console.log(catId)
+    // console.log(catId)
     containerCategory.innerHTML= ""
+    secBalance.style.display = 'none' 
+    secCategories.style.display = 'block'
+    secReports.style.display = 'none'
+    newOperation.style.display = 'none'
+    editCategory.style.display = 'none'
     saveDataInLocalStorage('categories', categoryEditInput(catId))
     generateCategory(getDataFromLocalStorage('categories'))
 })
