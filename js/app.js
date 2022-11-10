@@ -10,6 +10,7 @@ const btnBalances = $('#btn-balances');
 const btnCategories = $('#btn-categories');
 const btnReports = $('#btn-reports');
 const btnNewOperation = $('#new-operation');
+const btnCancel = $('#btn-cat-cancel');
 
 // Sections
 
@@ -127,9 +128,16 @@ const changeSection = (id) => {
         //     newOperation.style.display = 'none'
         //     editCategory.style.display = 'block'
         // break;
+        case btnCancel:
+            secBalance.style.display = 'none' 
+            secCategories.style.display = 'block'
+            secReports.style.display = 'none'
+            newOperation.style.display = 'none'
+            editCategory.style.display = 'none'
+        break;
+
    }
 }
-
 // Functions for Local Storage
 
 const getDataFromLocalStorage = (key) => {
@@ -327,6 +335,10 @@ btnReports.addEventListener('click', () =>{
 btnNewOperation.addEventListener('click', () =>{
     changeSection(btnNewOperation)
     
+})
+
+btnCancel.addEventListener('click', () =>{
+    changeSection(btnCancel)
 })
 
 // Button for add category
