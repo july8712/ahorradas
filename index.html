@@ -91,7 +91,7 @@
                     </div>
                 </div>
 
-                <div id="operations" class="bg-pink-100 lg:w-[750px] w-full p-7 rounded-md shadow-inner h-max md:ml-7 mt-7">
+                <div id="operations" class="bg-pink-100 w-full p-7 rounded-md shadow-inner h-max md:ml-7 mt-7">
                     <div class="flex md:flex-row justify-between items-center">
                         <h3 class="md:text-2xl text-xl font-black">Operaciones</h3>
                         <button class="py-2 md:py-3 px-2 md:px-5 mt-0 bg-[#be185d] hover:bg-pink-600 text-white rounded-lg font-bold text-sm md:text-lg mt-3 md:mt-0" id="new-operation">+ Nueva Operación</button>
@@ -100,12 +100,23 @@
                         <img src="assets/img/undraw_savings_re_eq4w.svg" alt="Savings" class="w-[400px]">
                     </div>
                     <div id="table" class="w-full border-separate border-spacing-4 hidden">
-                        <div class="md:flex mt-7 mb-3 font-bold hidden">
-                            <h4 class="md:w-[300px] w-full text-center">Descripción</h4>
-                            <h4 class="md:w-[300px] w-full text-center">Categoría</h4>
-                            <h4 class="md:w-[300px] text-center">Fecha</h4>
-                            <h4 class="md:w-[300px] w-full text-center">Monto</h4>
-                            <h4 class="md:w-[300px] w-full text-center">Acciones</h4>
+                        <div class="md:flex mt-7 mb-3 md:mb-4 font-bold hidden md:mb-5 md:w-auto md:px-o justify-between">
+                            
+                            <div class="md:w-[150px]">
+                                <h4 class="w-full text-center">Descripción</h4>
+                            </div>
+                            <div class="md:w-[150px]">
+                                <h4 class="w-full text-center">Categoría</h4>
+                            </div>
+                            <div class="md:w-[150px]">
+                                <h4 class="text-center">Fecha</h4>
+                            </div>
+                            <div class="md:w-[150px]">
+                                <h4 class="w-full text-center">Monto</h4>
+                            </div>
+                            <div class="md:w-[150px]">
+                                <h4 class="w-full text-center">Acciones</h4>
+                            </div>
                         </div>
                         <div id="tbodyOperation" class="font-light">
                     
@@ -158,7 +169,7 @@
                 <form action="" id="formNewOperation">
                     <div class="flex flex-col mt-5 font-bold">
                         <label for="description" class="font-bold mb-1">Descripción</label>
-                        <input type="text" name="description" placeholder="Supermercado" id="input-description-operation" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
+                        <input type="text" name="description" placeholder="Supermercado" id="input-description-operation" minlength="4" maxlength="20" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
                     </div>
                     <div class="flex flex-col mt-5 font-bold">
                         <label for="mont" class="font-bold mb-1">Monto</label>
