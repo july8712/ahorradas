@@ -290,15 +290,17 @@ const generateTable = (data) =>{
     if(operations.length > 0) {
         for (const {description, category, dateSelect, mont} of operations){
             tbodyOperation.innerHTML += `
-            <div class="flex font-semibold justify-between flex-wrap md:w-full">
+            <div class="flex font-semibold flex-wrap md:w-full md:px-0 justify-around" >
                 <div class="flex w-full justify-between md:w-auto">
-                    <p class="text-left mt-5 md:w-auto">${description}</p>
-                    <p class="text-right mt-5 md:w-auto">${category}</p>
+                    <p class="text-left md:text-center mt-5 md:mt-0 md:w-[150px]">${description}</p>
+                    <p class="text-right md:text-center mt-5 md:mt-0 md:w-[150px]">${category}</p>
                 </div>
-                <p class="md:w-auto text-center mt-5 md:inline-block hidden">${formatDate(dateSelect)}</p>
-                <div class="flex w-full md:w-auto mb-2 border-b-2 pb-3 border-[#be185d] justify-between">
-                    <div class="text-left mt-5 md:w-auto">$${mont}</div>
-                    <div class="mt-5 md:mt-0 flex justify-around md:w-auto">
+                <p class="md:w-[150px] text-center mt-5 md:mt-0 md:inline-block hidden">${formatDate(dateSelect)}</p>
+                <div class="flex w-full md:w-auto mb-2 border-b-2 md:border-b-0 pb-3 border-[#be185d] justify-between">
+                    <div class="md:w-[150px]">
+                        <p class="text-center mt-5 md:mt-0 md:w-[150px]">$${mont}</p>
+                    </div>
+                    <div class="mt-5 md:mt-0 flex justify-around md:w-[150px]">
                         <button class="pl-3 font-bold text-red-600">Editar</button>
                         <button class="pl-3 font-bold text-red-600">Eliminar</button>
                     </div>
