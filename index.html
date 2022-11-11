@@ -29,10 +29,10 @@
 
         <!-- Balance Section -->
         
-        <section id="secBalance" class="w-[80%] md:w-[60%]">
+        <section id="secBalance" class="w-[80%] md:w-[80%] sm:w-[80%] md:max-w-[1200px]">
             <div class="flex xl:flex-row sm:flex-col flex-col justify-between w-full">
                 <div>
-                    <div id="balance" class="bg-pink-100 w-full sm:w-80 p-7 mb-7 rounded-md shadow-inner text-lg">
+                    <div id="balance" class="bg-pink-100 w-full sm:w-full p-7 mb-7 rounded-md shadow-inner text-lg sm:min-w-[380px]">
                         <h2 class="md:text-3xl text-xl font-black ">Balance</h2>
                         <div class="flex justify-between mt-5 font-bold">
                             <p class="">Ganancias</p>
@@ -48,7 +48,7 @@
                         </div>
                     </div>
 
-                    <div id="filters" class="bg-pink-100 w-full sm:w-80 p-7 rounded-md shadow-inner text-lg">
+                    <div id="filters" class="bg-pink-100 w-full sm:w-full p-7 rounded-md shadow-inner text-lg">
                         <div class="flex justify-between items-end">
                             <h3 class="md:text-3xl text-xl font-black">Filtros</h3>
                             <button class="font-bold" id="hideFilters">Ocultar Filtros</button>
@@ -91,8 +91,8 @@
                     </div>
                 </div>
 
-                <div id="operations" class="bg-pink-100 w-full p-7 rounded-md shadow-inner h-max md:ml-7 mt-7">
-                    <div class="flex md:flex-row justify-between items-center">
+                <div id="operations" class="bg-pink-100 w-full xl:max-w-[810px] p-7 rounded-md shadow-inner h-max md:ml-0 mt-7 xl:ml-7 xl:mt-0">
+                    <div class="flex md:flex-row justify-between items-center xl:mb-7">
                         <h3 class="md:text-2xl text-xl font-black">Operaciones</h3>
                         <button class="py-2 md:py-3 px-2 md:px-5 mt-0 bg-[#be185d] hover:bg-pink-600 text-white rounded-lg font-bold text-sm md:text-lg mt-3 md:mt-0" id="new-operation">+ Nueva Operación</button>
                     </div>
@@ -100,7 +100,7 @@
                         <img src="assets/img/undraw_savings_re_eq4w.svg" alt="Savings" class="w-[400px]">
                     </div>
                     <div id="table" class="w-full border-separate border-spacing-4 hidden">
-                        <div class="md:flex mt-7 mb-3 md:mb-4 font-bold hidden md:mb-5 md:w-auto md:px-o justify-between">
+                        <div class="md:flex lg:flex mt-7 mb-3 md:mb-4 font-bold hidden md:hidden xl:flex md:mb-5 md:w-auto md:px-o justify-between">
                             
                             <div class="md:w-[150px]">
                                 <h4 class="w-full text-center">Descripción</h4>
@@ -162,7 +162,7 @@
         <!-- New Operation -->
 
         <section id="newOperation" class="hidden">
-            <div class="flex flex-col bg-pink-100 w-[700px] p-7 rounded-md shadow-inner">
+            <div class="flex flex-col bg-pink-100 sm:w-[700px] w-[100%] p-7 rounded-md shadow-inner">
                 <div class="mb-5">
                     <h2 class="text-3xl font-black">Nueva operación</h2>
                 </div>
@@ -197,7 +197,7 @@
                         <label for="dateForm" class="font-bold mb-1">Fecha</label>
                         <input type="date" id="dateForm" name="dateForm" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
                     </div>
-                    <div class="flex justify-end mt-10 font-bold">
+                    <div class="flex sm:justify-end justify-between mt-10 font-bold">
                         <button class="py-3 px-5 bg-[#d8568c] hover:bg-pink-300 text-white rounded-lg font-bold text-lg">Cancelar</button>
                         <button id="btnAddOperation" class="py-3 px-5 bg-[#be185d] hover:bg-pink-600 text-white rounded-lg font-bold text-lg ml-3">Agregar</button>
                     </div>
