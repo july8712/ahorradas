@@ -270,6 +270,11 @@ let generateOperationTable = (categories) =>{
     })
 }
 
+const colors = () => {
+    if (selectTypeOperation.value === 'Gasto') {
+        return true
+    }return false
+}
 
 btnAddOperation.addEventListener("click", (e) => {
     e.preventDefault()
@@ -282,7 +287,8 @@ btnAddOperation.addEventListener("click", (e) => {
         category:inputSelectCategory.value,
         dateSelect: inputDateForm.value,
         type: selectTypeOperation.value,
-        mont:inputMont.value
+        mont:inputMont.value,
+        selectTypeOperation: colors()
     });
 
     saveDataInLocalStorage('operations', operations)
@@ -301,7 +307,7 @@ inputDateForm.addEventListener("change", (e) =>{
 const generateTable = (data) =>{
     const operations = data || [];
     if(operations.length > 0) {
-        for (const {description, category, dateSelect, mont} of operations){
+        for (const {description, category, dateSelect, mont, selectTypeOperation} of operations){
             tbodyOperation.innerHTML += `
             <div class="flex font-semibold flex-wrap md:w-full md:px-0 justify-around" >
                 <div class="flex w-full justify-between md:w-auto">
@@ -311,7 +317,7 @@ const generateTable = (data) =>{
                 <p class="md:w-[150px] text-center mt-5 md:mt-0 hidden sm:hidden lg:inline-block  ">${formatDate(dateSelect)}</p>
                 <div class="flex w-full md:w-auto mb-2 border-b-2 md:border-b-0 pb-3 border-[#be185d] justify-between">
                     <div class="md:w-[150px]">
-                        <p class="text-center mt-5 md:mt-0 md:w-[150px]">$${mont}</p>
+                    <div class="text-left ${selectTypeOperation ? "text-red-600" : "text-green-600"} mt-5 md:w-auto">$${mont}</div>
                     </div>
                     <div class="mt-5 md:mt-0 flex justify-around md:w-[150px]">
                         <button class="pl-3 font-bold text-red-600">Editar</button>
