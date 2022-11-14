@@ -55,11 +55,11 @@
                         </div>
                         <form class="mt-5" id="formFilters">
                             <div class="flex flex-col">
-                                <label for="type" class="font-bold mb-1">Tipo</label>
-                                <select name="type" id="type" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
-                                    <option value="todos" selected>Todos</option>
-                                    <option value="gasto">Gasto</option>
-                                    <option value="ganancia">Ganancia</option>
+                                <label for="typeFilter" class="font-bold mb-1">Tipo</label>
+                                <select name="typeFilter" id="typeFilter" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
+                                    <option value="all" selected>Todos</option>
+                                    <option value="spent">Gasto</option>
+                                    <option value="gain">Ganancia</option>
                                 </select>
                             </div>
 
@@ -176,8 +176,8 @@
                         <input type="number" id="input-mont-operation" name="mont" placeholder="2000" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
                     </div>
                     <div class="flex flex-col mt-5 font-bold">
-                        <label for="type" class="font-bold mb-1">Tipo</label>
-                        <select name="type" id="type" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
+                        <label for="selectTypeOperation" class="font-bold mb-1">Tipo</label>
+                        <select name="selectTypeOperation" id="selectTypeOperation" class="py-2 px-3 bg-white border-1 border-[#be185d] rounded-md">
                             <option value="spent">Gasto</option>
                             <option value="gain">Ganancia</option>
                         </select>

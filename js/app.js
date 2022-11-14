@@ -44,6 +44,9 @@ let inputDateForm = $('#dateForm')
 const hideFilters = $('#hideFilters');
 const formFilters = $('#formFilters');
 const date = $('#date');
+const selectTypeOperation = $('#selectTypeOperation');
+const selectTypeFilter = $('#typeFilter');
+// const selectCategoryFilter = $('#category');
 
 
 // ************** End Variables ****************
@@ -53,22 +56,26 @@ const date = $('#date');
 const categoryList = [
     {
         id: 0,
-        name: "Comida"
+        name: "Todas"
     },
     {
         id: 1,
-        name: "Servicios"
+        name: "Comida"
     },
     {
         id: 2,
-        name: "Educación"
+        name: "Servicios"
     },
     {
         id: 3,
-        name: "Transporte"
+        name: "Educación"
     },
     {
         id: 4,
+        name: "Transporte"
+    },
+    {
+        id: 5,
         name: "Trabajo"
     },
 ]
@@ -267,13 +274,14 @@ let generateOperationTable = (categories) =>{
 btnAddOperation.addEventListener("click", (e) => {
     e.preventDefault()
 
-    
+    console.log("estoy acá",selectTypeOperation.value)
 
     let operations = getDataFromLocalStorage("operations") || [];
     operations.push({
         description:inputDescription.value,
         category:inputSelectCategory.value,
         dateSelect: inputDateForm.value,
+        type: selectTypeOperation.value,
         mont:inputMont.value
     });
 
@@ -327,6 +335,21 @@ const year = new Date().getFullYear()
 const month = new Date().getMonth()
 date.value = `${year}-${month+1}-01`
 
+// function Filters
+
+// const filteredOperations = [];
+const filterBy = (typeOfFilter, propiedad) => {
+    const operations = getDataFromLocalStorage('operations');
+    let filteredOperations = operations.filter(operation =>
+        
+        {
+            tbodyOperation.innerHTML = ""
+            return operation[propiedad] === typeOfFilter
+        } ) ;
+        generateTable(filteredOperations)
+}
+
+
 // ************** Events ****************
 
 logo.addEventListener('click', () =>{
@@ -374,10 +397,7 @@ btnAddCategory.addEventListener('click', () =>{
     console.log(getDataFromLocalStorage('categories'))
 })
 
-selectFilterCategory.addEventListener('change', (e) =>{
-    console.log(e.currentTarget.value)
-    // poner acá lo que va a pasar al cambiar el filtro de categoría
-})
+
 
 hideFilters.addEventListener('click',() => {
     formFilters.classList.toggle('hidden')
@@ -386,6 +406,26 @@ hideFilters.addEventListener('click',() => {
     }else{
         hideFilters.innerHTML = 'Ocultar Filtros'
     }
+})
+
+// event select filter of type
+
+selectTypeFilter.addEventListener('change', (e) => {
+    if(e.target.value != "all"){
+        filterBy(e.target.value, "type")   
+    }else{
+        tbodyOperation.innerHTML = ""
+        generateTable(getDataFromLocalStorage('operations'))
+    }
+})
+
+selectFilterCategory.addEventListener('change', (e) => {
+    if(e.target.value != "all"){
+        filterBy(e.target.value, "category")   
+    }else{
+        tbodyOperation.innerHTML = ""
+        generateTable(getDataFromLocalStorage('operations'))
+    }    
 })
 
 // Window on load
