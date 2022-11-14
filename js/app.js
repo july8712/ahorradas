@@ -349,6 +349,17 @@ const filterBy = (typeOfFilter, propiedad) => {
         generateTable(filteredOperations)
 }
 
+const filterByDate = (dateSince) => {
+    const operations = getDataFromLocalStorage('operations');
+    let filteredOperations = operations.filter(operation =>
+        
+        {
+            tbodyOperation.innerHTML = ""
+            return operation["dateSelect"] >= dateSince
+        } ) ;
+        generateTable(filteredOperations)
+}
+
 
 // ************** Events ****************
 
@@ -426,6 +437,10 @@ selectFilterCategory.addEventListener('change', (e) => {
         tbodyOperation.innerHTML = ""
         generateTable(getDataFromLocalStorage('operations'))
     }    
+})
+
+date.addEventListener('change', (e) => {
+    filterByDate(e.target.value)   
 })
 
 // Window on load
