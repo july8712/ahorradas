@@ -320,7 +320,7 @@ const generateTable = (data) =>{
                     <div class="text-left ${selectTypeOperation ? "text-red-600" : "text-green-600"} mt-5 md:w-auto">$${mont}</div>
                     </div>
                     <div class="mt-5 md:mt-0 flex justify-around md:w-[150px]">
-                        <button class="pl-3 font-bold text-red-600">Editar</button>
+                        <button class="pl-3 text-[#F599BF] font-semibold">Editar</button>
                         <button class="pl-3 font-bold text-red-600">Eliminar</button>
                     </div>
                 </div>
@@ -446,7 +446,7 @@ selectFilterCategory.addEventListener('change', (e) => {
 })
 
 date.addEventListener('change', (e) => {
-    filterByDate(e.target.value)   
+    filterByDate(e.target.value)
 })
 
 // Window on load
