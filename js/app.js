@@ -128,13 +128,6 @@ const changeSection = (id) => {
             editCategory.style.display = 'none'
         break;
 
-        // case btnEdit:
-        //     secBalance.style.display = 'none' 
-        //     secCategories.style.display = 'none'
-        //     secReports.style.display = 'none'
-        //     newOperation.style.display = 'none'
-        //     editCategory.style.display = 'block'
-        // break;
         case btnCancel:
             secBalance.style.display = 'none' 
             secCategories.style.display = 'block'
