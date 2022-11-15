@@ -310,7 +310,7 @@ const generateTable = (data) =>{
                 <p class="md:w-[150px] text-center mt-5 md:mt-0 hidden sm:hidden lg:inline-block  ">${formatDate(dateSelect)}</p>
                 <div class="flex w-full md:w-auto mb-2 border-b-2 md:border-b-0 pb-3 border-[#be185d] justify-between">
                     <div class="md:w-[150px]">
-                    <div class="text-left md:text-center ${selectTypeOperation ? "text-red-600" : "text-green-600"} mt-5 md:w-auto">$${mont}</div>
+                    <div class="text-left md:text-center ${selectTypeOperation ? "text-red-600" : "text-green-600"} md:w-auto">$${mont}</div>
                     </div>
                     <div class="mt-5 md:mt-0 flex justify-around md:w-[150px]">
                         <button class="btnEditOperation pl-3 font-bold text-red-600" >Editar</button>
