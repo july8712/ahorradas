@@ -320,16 +320,35 @@ const generateTable = (data) =>{
                     <div class="text-left ${selectTypeOperation ? "text-red-600" : "text-green-600"} mt-5 md:w-auto">$${mont}</div>
                     </div>
                     <div class="mt-5 md:mt-0 flex justify-around md:w-[150px]">
-                        <button class="pl-3 font-bold text-red-600">Editar</button>
-                        <button class="pl-3 font-bold text-red-600">Eliminar</button>
+                        <button class="btnEditOperation pl-3 font-bold text-red-600" >Editar</button>
+                        <button class="btnDeleteOperation pl-3 font-bold text-red-600">Eliminar</button>
                     </div>
                 </div>
             </div>`
+        } 
+        for (const btn of $$('.btnEditOperation')) {
+            btn.addEventListener('click', () =>{
+                // console.log(btn)
+                secBalance.style.display = 'none' 
+                secCategories.style.display = 'none'
+                secReports.style.display = 'none'
+                newOperation.style.display = 'block'
+                editCategory.style.display = 'none'
+            })
         }
+        for (const btn of $$('.btnDeleteOperation')){
+            btn.addEventListener('click', () => {
+                console.log(btn)  
+            })
+        }
+
         $('#imgOperations').classList.add('hidden')
         $('#table').classList.remove('hidden')
+        
     }
+    
 }
+
 
 const formatDate = (date) => {
     return date.split("-").reverse().join("-");
