@@ -152,6 +152,7 @@ if (!getDataFromLocalStorage('categories')) {
     saveDataInLocalStorage('categories', categoryList)
 }
 
+
 // filter 
 
 const filterListCategory = (categories) => {
@@ -228,6 +229,7 @@ const removeCategory = (id) => {
     return getDataFromLocalStorage('categories').filter(category => category.id !== parseInt(id))
 }
 
+
 const categoryEditInput = (id) => {
     return getDataFromLocalStorage('categories').map(category => {
         if (category.id === parseInt(id)) {
@@ -272,10 +274,11 @@ const colors = () => {
 btnAddOperation.addEventListener("click", (e) => {
     e.preventDefault()
 
-    console.log("estoy acá",selectTypeOperation.value)
+    // console.log("estoy acá",selectTypeOperation.value)
 
     let operations = getDataFromLocalStorage("operations") || [];
     operations.push({
+        id: operations.length +1,
         description:inputDescription.value,
         category:inputSelectCategory.value,
         dateSelect: inputDateForm.value,
@@ -300,7 +303,7 @@ inputDateForm.addEventListener("change", (e) =>{
 const generateTable = (data) =>{
     const operations = data || [];
     if(operations.length > 0) {
-        for (const {description, category, dateSelect, mont, selectTypeOperation} of operations){
+        for (const {id, description, category, dateSelect, mont, selectTypeOperation} of operations){
             tbodyOperation.innerHTML += `
             <div class="flex font-semibold flex-wrap md:w-full md:px-0 justify-around" >
                 <div class="flex w-full justify-between md:w-auto">
@@ -313,8 +316,8 @@ const generateTable = (data) =>{
                     <div class="text-left md:text-center ${selectTypeOperation ? "text-red-600" : "text-green-600"} md:w-auto">$${mont}</div>
                     </div>
                     <div class="mt-5 md:mt-0 flex justify-around md:w-[150px]">
-                        <button class="btnEditOperation pl-3 font-bold text-red-600" >Editar</button>
-                        <button class="btnDeleteOperation pl-3 font-bold text-red-600">Eliminar</button>
+                        <button class="btnEditOperation pl-3 font-bold text-red-600" onclick="operationEdit(${id})" data-id=${id} >Editar</button>
+                        <button class="btnDeleteOperation pl-3 font-bold text-red-600" data-id=${id}>Eliminar</button>
                     </div>
                 </div>
             </div>`
@@ -327,11 +330,22 @@ const generateTable = (data) =>{
                 secReports.style.display = 'none'
                 newOperation.style.display = 'block'
                 editCategory.style.display = 'none'
+                const operationId = btn.getAttribute("data-id")
+                saveDataInLocalStorage('operations', operationEditInput(operationId))
+                tbodyOperation.innerHTML= ""
+                generateTable(operationEditInput(operationId))
+                colors()
+                
             })
         }
         for (const btn of $$('.btnDeleteOperation')){
             btn.addEventListener('click', () => {
-                console.log(btn)  
+                console.log(btn) 
+                const btnDeleteIdd = btn.getAttribute("data-id")
+                removeOperation(btnDeleteIdd) 
+                saveDataInLocalStorage('operations', removeOperation(btnDeleteIdd))
+                tbodyOperation.innerHTML= ""
+                generateTable(removeOperation(btnDeleteIdd)) 
             })
         }
 
@@ -340,6 +354,42 @@ const generateTable = (data) =>{
         
     }
     
+}
+const removeOperation = (id) => {
+    return getDataFromLocalStorage('operations').filter(operation => operation.id !== parseInt(id))
+}
+const findOperation = (id) => {
+    return getDataFromLocalStorage('operations').find(operation => operation.id === parseInt(id))
+}
+const operationEdit = (id) => {
+    const chosenOperation = findOperation(id)
+    console.log(chosenOperation)
+    inputDescription.value = chosenOperation.description
+    inputDescription.value = chosenOperation.category
+    inputDateForm.value = chosenOperation.dateSelect
+    selectTypeOperation.value = chosenOperation.type
+    inputMont.value = chosenOperation.mont
+    
+    
+}
+const saveOperationData = (id) => {
+    return {
+        id: parseInt(id),
+        description:inputDescription.value,
+        category:inputDescription.value,
+        dateSelect:inputDateForm.value,
+        type:selectTypeOperation.value,
+        mont: inputMont.value,
+    }  
+}
+
+const operationEditInput = (id) => {
+    return getDataFromLocalStorage('operations').map(operation => {
+        if (operation.id === parseInt(id)) {
+            return saveOperationData(id)
+        }
+        return operation
+    })
 }
 
 
