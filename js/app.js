@@ -557,7 +557,9 @@ window.addEventListener('load', () => {
     filterListCategory(getDataFromLocalStorage('categories'))
     generateOperationTable(getDataFromLocalStorage('categories'))
     generateTable(getDataFromLocalStorage('operations'))
-    showBalance("Ganancia")
-    showBalance("Gasto")
-    showBalance("Total")
+    if (getDataFromLocalStorage('operations')) {
+        showBalance("Ganancia")
+        showBalance("Gasto")
+        showBalance("Total")
+    }
 })
