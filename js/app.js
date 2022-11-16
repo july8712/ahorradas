@@ -59,10 +59,10 @@ const selectOrder = $('#order');
 // ************** Arrays of Objects **************
 
 const categoryList = [
-    // {
-    //     id: 0,
-    //     name: "Todas"
-    // },
+    {
+        id: 0,
+        name: "Todas"
+    },
     {
         id: 1,
         name: "Comida"
@@ -269,10 +269,12 @@ btnEditCategory.addEventListener("click", () => {
 
 let generateOperationTable = (categories) =>{
     categories.map(categories => {
-        const { name } = categories
-        inputSelectCategory.innerHTML += `
+        const { name, id } = categories
+        if(id != 0){
+           inputSelectCategory.innerHTML += `
         <option value="${name}">${name}</option>
-        `
+        ` 
+        }
     })
 }
 
@@ -284,8 +286,6 @@ const colors = () => {
 
 btnAddOperation.addEventListener("click", (e) => {
     e.preventDefault()
-
-    // console.log("estoy acá",selectTypeOperation.value)
 
     let operations = getDataFromLocalStorage("operations") || [];
     operations.push({
