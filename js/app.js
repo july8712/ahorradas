@@ -279,7 +279,7 @@ btnAddOperation.addEventListener("click", (e) => {
     let operations = getDataFromLocalStorage("operations") || [];
     operations.push({
         id: operations.length +1,
-        description:inputDescription.value,
+        description:capitalize(inputDescription.value),
         category:inputSelectCategory.value,
         dateSelect: inputDateForm.value,
         type: selectTypeOperation.value,
