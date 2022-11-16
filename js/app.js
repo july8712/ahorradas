@@ -566,13 +566,18 @@ btnCancelOperation.addEventListener('click', () => {
 
 // Button for add category
 
+const idCategories = categoryList.length -1;
+localStorage.setItem("idCategory", JSON.stringify(idCategories))
+
 btnAddCategory.addEventListener('click', () =>{
     //validacion 
     let categoriesLocalStorage = getDataFromLocalStorage('categories')
+    let idStorage = getDataFromLocalStorage('idCategory') + 1
     categoriesLocalStorage.push({
-        id: categoriesLocalStorage.length +1,
+        id: idStorage,
         name:capitalize(inputCategory.value) 
     })
+    localStorage.setItem("idCategory", JSON.stringify(idStorage))
     containerCategory.innerHTML= ""
     localStorage.setItem("categories", JSON.stringify(categoriesLocalStorage))
     generateCategory(getDataFromLocalStorage('categories'))
