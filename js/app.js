@@ -37,7 +37,7 @@ const btnAddOperation = $('#btnAddOperation')
 
 // ver si estas variables van acá
 
-const inputSelectCategory = $('#categoryOperation')
+let inputSelectCategory = $('#categoryOperation')
 let inputDescription = $('#input-description-operation')
 let inputMont = $('#input-mont-operation')
 let tbodyOperation = $('#tbodyOperation')
@@ -382,7 +382,7 @@ const operationEdit = (id) => {
     const chosenOperation = findOperation(id)
     console.log(chosenOperation)
     inputDescription.value = chosenOperation.description
-    inputDescription.value = chosenOperation.category
+    inputSelectCategory.value = chosenOperation.category
     inputDateForm.value = chosenOperation.dateSelect
     selectTypeOperation.value = chosenOperation.type
     inputMont.value = chosenOperation.mont
@@ -393,7 +393,7 @@ const saveOperationData = (id) => {
     return {
         id: parseInt(id),
         description:inputDescription.value,
-        category:inputDescription.value,
+        category:inputSelectCategory.value,
         dateSelect:inputDateForm.value,
         type:selectTypeOperation.value,
         mont: inputMont.value,
