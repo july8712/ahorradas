@@ -316,7 +316,7 @@ const generateTable = (data) =>{
                     <div class="text-left md:text-center ${selectTypeOperation ? "text-red-600" : "text-green-600"} md:w-auto">$${mont}</div>
                     </div>
                     <div class="mt-5 md:mt-0 flex justify-around md:w-[150px]">
-                        <button class="btnEditOperation pl-3 font-bold text-red-600" onclick="operationEdit(${id})" data-id=${id} >Editar</button>
+                        <button class="btnEditOperation pl-3 text-[#F599BF] font-semibold" onclick="operationEdit(${id})" data-id=${id} >Editar</button>
                         <button class="btnDeleteOperation pl-3 font-bold text-red-600" data-id=${id}>Eliminar</button>
                     </div>
                 </div>
