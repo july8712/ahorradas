@@ -362,6 +362,9 @@ const generateTable = (data) =>{
     
 }
 const removeOperation = (id) => {
+    showBalance("Ganancia")
+    showBalance("Gasto")
+    showBalance("Total")
     return getDataFromLocalStorage('operations').filter(operation => operation.id !== parseInt(id))
 }
 const findOperation = (id) => {
@@ -434,9 +437,6 @@ const filterByDate = (dateSince) => {
         generateTable(filteredOperations)
 }
 
-const showBalances = ( operations ) => {
-
-}
 
 const calculateBalance = (balanceType) => {
     const operations = getDataFromLocalStorage('operations');
@@ -458,11 +458,25 @@ const showBalance = (type) => {
         const total = calculateBalance("Ganancia")-calculateBalance("Gasto")
         if (total >= 0) {
             totalBalance.innerHTML = "$" + total
+            if(totalBalance.classList.contains("text-red-600")){
+                totalBalance.classList.remove("text-red-600")
+                totalBalance.classList.add("text-green-600")
+                console.log(" if tiene clase roja");
+            }else{
+                totalBalance.classList.add("text-green-600")
+                console.log("sale por acá");
+            }
         }else{
             totalBalance.innerHTML = "-$" + Math.abs(total)
+            if(totalBalance.classList.contains("text-green-600")){
+                totalBalance.classList.remove("text-green-600")
+                totalBalance.classList.add("text-red-600")
+                console.log(" if tiene clase verde");
+            }else{
+                totalBalance.classList.add("text-green-600")
+            }
         }
     }
-    
 }
 // showBalance("Ganancia")
 // showBalance("Gasto")
