@@ -11,6 +11,7 @@ const btnCategories = $('#btn-categories');
 const btnReports = $('#btn-reports');
 const btnNewOperation = $('#new-operation');
 const btnCancel = $('#btn-cat-cancel');
+const btnCancelOperation = $('#btnCancelOperation')
 
 // Sections
 
@@ -49,6 +50,7 @@ const formFilters = $('#formFilters');
 const date = $('#date');
 const selectTypeOperation = $('#selectTypeOperation');
 const selectTypeFilter = $('#typeFilter');
+const selectOrder = $('#order');
 // const selectCategoryFilter = $('#category');
 
 
@@ -57,10 +59,10 @@ const selectTypeFilter = $('#typeFilter');
 // ************** Arrays of Objects **************
 
 const categoryList = [
-    {
-        id: 0,
-        name: "Todas"
-    },
+    // {
+    //     id: 0,
+    //     name: "Todas"
+    // },
     {
         id: 1,
         name: "Comida"
@@ -138,6 +140,15 @@ const changeSection = (id) => {
             newOperation.style.display = 'none'
             editCategory.style.display = 'none'
         break;
+
+        case btnCancelOperation:
+            secBalance.style.display = 'block' 
+            secCategories.style.display = 'none'
+            secReports.style.display = 'none'
+            newOperation.style.display = 'none'
+            editCategory.style.display = 'none'
+        break;
+
 
    }
 }
@@ -227,12 +238,9 @@ const saveCategoryData = (id) => {
         name: $(".input-edit-category").value   
     }  
 }
-
 const removeCategory = (id) => {
     return getDataFromLocalStorage('categories').filter(category => category.id !== parseInt(id))
 }
-
-
 const categoryEditInput = (id) => {
     return getDataFromLocalStorage('categories').map(category => {
         if (category.id === parseInt(id)) {
@@ -340,7 +348,7 @@ const generateTable = (data) =>{
                 saveDataInLocalStorage('operations', operationEditInput(operationId))
                 tbodyOperation.innerHTML= ""
                 generateTable(operationEditInput(operationId))
-                colors()
+               
                 
             })
         }
@@ -436,6 +444,56 @@ const filterByDate = (dateSince) => {
         } ) ;
         generateTable(filteredOperations)
 }
+// functions order by
+const orderByToLowerToHigherAmount  = (mont) => {
+    return getDataFromLocalStorage('operations').sort((a,b) => a.mont - b.mont)
+}
+const orderByToHigherToLowerAmount = (mont) => {
+    return getDataFromLocalStorage('operations').sort((a,b) => b.mont - a.mont)
+}
+const orderByZToA = (description) => {
+    return getDataFromLocalStorage('operations').sort((a,b) =>{
+    if (a.description < b.description) {
+        return 1
+    }if (a.description > b.description) {
+        return -1
+    } return 0
+    }) 
+}
+const orderByAToZ = (description) => {
+    return getDataFromLocalStorage('operations').sort((a,b) =>{
+        if (a.description > b.description) {
+            return 1
+        }if (a.description < b.description) {
+            return -1
+        } return 0
+    }) 
+}
+convertirFecha = (dateSelect) => {
+    let fechaSp = dateSelect.split("-");
+    let anio = new Date().getFullYear();
+    if (fechaSp.length == 3) {
+      anio = fechaSp[2];
+    }
+    var mes = fechaSp[1] - 1;
+    var dia = fechaSp[0];
+  
+    return new Date(anio, mes, dia);
+  }
+const orderByLessRecent = (dateSelect) => {
+    return getDataFromLocalStorage('operations').sort((a, b) => { 
+        return convertirFecha(a.dateSelect) - convertirFecha(b.dateSelect); 
+   })
+}
+const orderByMoreRecent = (dateSelect) => {
+    return getDataFromLocalStorage('operations').sort((a, b) => { 
+        return convertirFecha(b.dateSelect) - convertirFecha(a.dateSelect); 
+   })
+}
+
+const showBalances = ( operations ) => {
+
+}
 
 
 const calculateBalance = (balanceType) => {
@@ -503,19 +561,23 @@ btnReports.addEventListener('click', () =>{
 
 btnNewOperation.addEventListener('click', () =>{
     changeSection(btnNewOperation)
-    
 })
 
 btnCancel.addEventListener('click', () =>{
     changeSection(btnCancel)
 })
 
+btnCancelOperation.addEventListener('click', () => {
+    changeSection(btnCancelOperation)
+})
+
 // Button for add category
 
 btnAddCategory.addEventListener('click', () =>{
+    //validacion 
     let categoriesLocalStorage = getDataFromLocalStorage('categories')
     categoriesLocalStorage.push({
-        id: categoriesLocalStorage.length,
+        id: categoriesLocalStorage.length +1,
         name:capitalize(inputCategory.value) 
     })
     containerCategory.innerHTML= ""
@@ -562,6 +624,28 @@ selectFilterCategory.addEventListener('change', (e) => {
 
 date.addEventListener('change', (e) => {
     filterByDate(e.target.value)   
+})
+
+selectOrder.addEventListener('change', (e) => {
+    if(e.target.value == "mayMon"){
+        tbodyOperation.innerHTML = ""
+        generateTable(orderByToHigherToLowerAmount()) 
+    }if (e.target.value == "menMon") {
+        tbodyOperation.innerHTML = ""
+        generateTable(orderByToLowerToHigherAmount())
+    } if (e.target.value == "za") {
+        tbodyOperation.innerHTML = ""
+        generateTable(orderByZToA())  
+    }if (e.target.value == "az") {
+        tbodyOperation.innerHTML = ""
+        generateTable(orderByAToZ())    
+    }if (e.target.value == "masRec") {
+        tbodyOperation.innerHTML = ""
+        generateTable(orderByMoreRecent())
+    }if (e.target.value == "menRec") {
+        tbodyOperation.innerHTML = ""
+        generateTable(orderByLessRecent())
+    }
 })
 
 // Window on load
