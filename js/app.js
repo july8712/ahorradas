@@ -23,6 +23,9 @@ const editCategory = $('#editCategory');
 // Balance 
 
 const selectFilterCategory = $('#category');
+const positiveBalance = $('#positiveBalance')
+const negativeBalance = $('#negativeBalance')
+const totalBalance = $('#total')
 
 // Categories and add new operation
 
@@ -294,6 +297,9 @@ btnAddOperation.addEventListener("click", (e) => {
     tbodyOperation.innerHTML= ""
     generateTable(operations)
     $('#formNewOperation').reset()
+    showBalance("Ganancia")
+    showBalance("Gasto")
+    showBalance("Total")
 })
 
 inputDateForm.addEventListener("change", (e) =>{
@@ -428,6 +434,39 @@ const filterByDate = (dateSince) => {
         generateTable(filteredOperations)
 }
 
+const showBalances = ( operations ) => {
+
+}
+
+const calculateBalance = (balanceType) => {
+    const operations = getDataFromLocalStorage('operations');
+    return operations.filter(operation => 
+        {
+            return operation.type === balanceType
+        } )
+        .reduce((accumulator, operation) => accumulator + parseInt(operation.mont), 0) ;
+}
+
+
+
+const showBalance = (type) => {
+    if(type === 'Ganancia'){
+        positiveBalance.innerHTML = "$" + calculateBalance("Ganancia")
+    }else if(type === 'Gasto'){
+        negativeBalance.innerHTML = "-$" + calculateBalance("Gasto")
+    }else if(type === 'Total'){
+        const total = calculateBalance("Ganancia")-calculateBalance("Gasto")
+        if (total >= 0) {
+            totalBalance.innerHTML = "$" + total
+        }else{
+            totalBalance.innerHTML = "-$" + Math.abs(total)
+        }
+    }
+    
+}
+// showBalance("Ganancia")
+// showBalance("Gasto")
+// showBalance("Total")
 
 // ************** Events ****************
 
@@ -518,4 +557,7 @@ window.addEventListener('load', () => {
     filterListCategory(getDataFromLocalStorage('categories'))
     generateOperationTable(getDataFromLocalStorage('categories'))
     generateTable(getDataFromLocalStorage('operations'))
+    showBalance("Ganancia")
+    showBalance("Gasto")
+    showBalance("Total")
 })
