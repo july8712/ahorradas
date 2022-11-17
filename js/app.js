@@ -148,8 +148,6 @@ const changeSection = (id) => {
             newOperation.style.display = 'none'
             editCategory.style.display = 'none'
         break;
-
-
    }
 }
 // Functions for Local Storage
@@ -168,7 +166,6 @@ if (!getDataFromLocalStorage('categories')) {
 
 
 // filter 
-
 const filterListCategory = (categories) => {
     categories.map(categories => {
         const { name } = categories
@@ -177,14 +174,13 @@ const filterListCategory = (categories) => {
         `
     })
 }
-// Function to capitalize the first letter
 
+// Function to capitalize the first letter
 const capitalize = (word) => {
     return word[0].toUpperCase() + word.slice(1);
 }
 
 // generateCategory
-
 const generateCategory = (categories) => {
     containerCategory.innerHTML = ""
     categories.map(category => {
@@ -263,10 +259,7 @@ btnEditCategory.addEventListener("click", () => {
     generateCategory(getDataFromLocalStorage('categories'))
 })
 
-
-
 // newOperationFunctionality
-
 let generateOperationTable = (categories) =>{
     categories.map(categories => {
         const { name, id } = categories
@@ -277,13 +270,11 @@ let generateOperationTable = (categories) =>{
         }
     })
 }
-
 const colors = () => {
     if (selectTypeOperation.value === 'Gasto') {
         return true
     }return false
 }
-
 btnAddOperation.addEventListener("click", (e) => {
     e.preventDefault()
 
@@ -303,11 +294,18 @@ btnAddOperation.addEventListener("click", (e) => {
     $('#imgOperations').classList.add('hidden')
     $('#table').classList.remove('hidden')
     tbodyOperation.innerHTML= ""
-    generateTable(operations)
+    // generateTable(operations)
     $('#formNewOperation').reset()
     showBalance("Ganancia")
     showBalance("Gasto")
     showBalance("Total")
+    const operationId = btnAddOperation.getAttribute("data-id")
+    //console.log(operationId)
+    saveDataInLocalStorage('operations', operationEditInput(operationId))
+    tbodyOperation.innerHTML = ""
+    generateTable(getDataFromLocalStorage('operations'))
+
+    
 })
 
 inputDateForm.addEventListener("change", (e) =>{
@@ -343,12 +341,7 @@ const generateTable = (data) =>{
                 secCategories.style.display = 'none'
                 secReports.style.display = 'none'
                 newOperation.style.display = 'block'
-                editCategory.style.display = 'none'
-                const operationId = btn.getAttribute("data-id")
-                saveDataInLocalStorage('operations', operationEditInput(operationId))
-                tbodyOperation.innerHTML= ""
-                generateTable(operationEditInput(operationId))
-               
+                editCategory.style.display = 'none'   
                 
             })
         }
@@ -386,8 +379,7 @@ const operationEdit = (id) => {
     inputDateForm.value = chosenOperation.dateSelect
     selectTypeOperation.value = chosenOperation.type
     inputMont.value = chosenOperation.mont
-    
-    
+    btnAddOperation.setAttribute("data-id", parseInt(id))
 }
 const saveOperationData = (id) => {
     return {
@@ -399,7 +391,6 @@ const saveOperationData = (id) => {
         mont: inputMont.value,
     }  
 }
-
 const operationEditInput = (id) => {
     return getDataFromLocalStorage('operations').map(operation => {
         if (operation.id === parseInt(id)) {
@@ -408,11 +399,10 @@ const operationEditInput = (id) => {
         return operation
     })
 }
-
-
 const formatDate = (date) => {
     return date.split("-").reverse().join("-");
 }
+
 
 // Date filter
 
