@@ -523,7 +523,23 @@ const showBalance = (type) => {
     }
 }
 
+
 // ************** Events ****************
+$('#btn-menu-burguer').addEventListener('click', () => {
+    $('#navbar-menu-burguer').classList.remove('hidden')
+ 
+})
+$('#btn-balances-burguer').addEventListener('click', () => {
+    changeSection(btnBalances)
+})
+$('#btn-categories-burguer').addEventListener('click', () => {
+    changeSection(btnCategories)
+    generateCategory(getDataFromLocalStorage('categories'))
+})
+$('#btn-reports-burguer').addEventListener('click', () => {
+    changeSection(btnReports)
+    generateCategory(getDataFromLocalStorage('categories'))
+})
 
 logo.addEventListener('click', () =>{
     changeSection(logo)
