@@ -510,7 +510,7 @@ const showBalance = (type) => {
         negativeBalance.innerHTML = "-$" + calculateBalance("Gasto")
     }else if(type === 'Total'){
         const total = calculateBalance("Ganancia")-calculateBalance("Gasto")
-        console.log(total);
+        // console.log(total);
         if (total > 0) {
             totalBalance.innerHTML = "$" + total
             totalBalance.classList.add("text-green-600")
@@ -645,6 +645,44 @@ selectOrder.addEventListener('change', (e) => {
         generateTable(orderByLessRecent())
     }
 })
+
+// ****************************** Reporting functions *********************************
+
+// Top earning category
+// totalGainForCategory
+let categories = {}
+let result = 0;
+const separateCategories = (operations) => {
+    for (const operation of operations){
+        categories[operation.category] = operations
+            .filter((op) => op.category === operation.category)
+            .reduce((accumulator, operation) => accumulator + parseInt(operation.mont), 0);
+    }
+    return categories
+}
+const nameCategories = Object.keys(categories);
+
+console.log(nameCategories, "nombres");
+console.log(categories, "acá está resultado");
+
+
+let nameResult = ""
+
+separateCategories(getDataFromLocalStorage('operations'))
+const showResults = () => {
+    for(const name in categories) {
+        if( categories[name] > result){
+            result = categories[name]
+        nameResult = name
+        }
+    }
+return nameResult, result
+}
+showResults()
+console.log(nameResult,": ", result);
+ 
+
+
 
 // Window on load
 
