@@ -16,14 +16,28 @@
 <body>
     <header class="flex justify-between bg-pink-700 py-5 px-10 text-white shadow-xl">
         <a href="#" class="flex text-4xl" id="logo"><i class="fa-solid fa-wallet mr-3"></i><h1>AhorrADAs</h1></a>
-        <nav>
-            <ul class="flex ">
+        <nav class="hidden lg:block">
+            <ul class="flex">
                 <li class="hover:bg-pink-600 hover:rounded-lg py-2 px-3" id="btn-balances"><a href="#" class="text-2xl"><i class="fa-solid fa-chart-line mr-2"></i>Balances</a></li>
                 <li class="ml-7 hover:bg-pink-600 hover:rounded-lg py-2 px-3" id="btn-categories"><a href="#" class="text-2xl"><i class="fa-solid fa-tag mr-2"></i>Categorías</a></li>
-                <li class="ml-7 hover:bg-pink-600 hover:rounded-lg py-2 px-3"><a href="#" class="text-2xl" id="btn-reports"><i class="fa-solid fa-chart-pie mr-2"></i>Reportes</a></li>
+                <li class="ml-7 hover:bg-pink-600 hover:rounded-lg py-2 px-3" id="btn-reports"><a href="#" class="text-2xl"><i class="fa-solid fa-chart-pie mr-2"></i>Reportes</a></li>
             </ul>
-        </nav>
+        </nav> 
+        <a href="#" id="btn-menu-burguer" class="lg:hidden text-2xl"><i class="fa-solid fa-bars"></i></a>      
     </header>
+    <nav id="navbar-menu-burguer" class="hidden lg:hidden">
+        <ul class="flex-colum justify-end shadow-xl ">
+            <li id="btn-balances-burguer" class="py-5 pl-4">
+                <a href="#" class="text-2xl"><i class="fa-solid fa-chart-line mr-2"></i>Balances</a>
+            </li>
+            <li id="btn-categories-burguer" class="py-5 pl-4">
+                <a href="#" class="text-2xl"><i class="fa-solid fa-tag mr-2"></i>Categorías</a>
+            </li>
+            <li id="btn-reports-burguer" class="py-5 pl-4">
+                <a href="#" class="text-2xl"><i class="fa-solid fa-chart-pie mr-2"></i>Reportes</a>
+            </li>
+        </ul>
+    </nav>
 
     <main class="flex justify-center py-20  text-[#7a0f42]">
 
@@ -167,9 +181,11 @@
                         <div class="py-8">
                             <h3 class="text-2xl font-black">Resumen</h3>
                         </div> 
-                        <div>
-                            <div>
+                        <div class="">
+                            <div class="flex justify-between">
                                 <p>Categoría con mayor ganancia</p>
+                                <p>aca categoria</p>
+                                <p>aca monto</p>
                             </div>
                             <div>
                                 <p>Categoría con mayor gasto</p>
@@ -192,15 +208,19 @@
                         <div class="flex justify-between">
                             <div class="md:w-[150px]">
                                 <h4 class="w-full text-center">Categoria</h4>
+                                <p>aca categoria</p>
                             </div>
                             <div class="md:w-[150px]">
                                 <h4 class="w-full text-center">Ganancia</h4>
+                                <p>aca monto</p>
                             </div>
                             <div class="md:w-[150px]">
                                 <h4 class="w-full text-center">Gastos</h4>
+                                <p>aca monto</p>
                             </div>
                             <div class="md:w-[150px]">
                                 <h4 class="w-full text-center">Balance</h4>
+                                <p>aca monto</p>
                             </div>
                             
                         </div>
@@ -212,15 +232,19 @@
                         <div class="flex justify-between">
                             <div class="md:w-[150px]">
                                 <h4 class="w-full text-center">Mes</h4>
+                                <p>aca fecha</p>
                             </div>
                             <div class="md:w-[150px]">
                                 <h4 class="w-full text-center">Ganancia</h4>
+                                <p>aca monto</p>
                             </div>
                             <div class="md:w-[150px]">
                                 <h4 class="w-full text-center">Gastos</h4>
+                                <p>aca monto</p>
                             </div>
                             <div class="md:w-[150px]">
                                 <h4 class="w-full text-center">Balance</h4>
+                                <p>aca monto</p>
                             </div>
                         </div>
                         <div>
