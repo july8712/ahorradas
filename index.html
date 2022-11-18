@@ -265,7 +265,8 @@
         <section id="newOperation" class="hidden">
             <div class="flex flex-col bg-pink-100 sm:w-[700px] w-[100%] p-7 rounded-md shadow-inner">
                 <div class="mb-5">
-                    <h2 class="text-3xl font-black">Nueva operación</h2>
+                    <h2 id="h2-form" class="text-3xl font-black">Nueva operación</h2>
+                    <h2 id="h2-form-edit" class="text-3xl font-black hidden">Editar Operación</h2>
                 </div>
                 <form action="" id="formNewOperation">
                     <div class="flex flex-col mt-5 font-bold">
@@ -301,6 +302,7 @@
                     <div class="flex sm:justify-end justify-between mt-10 font-bold">
                         <button id="btnCancelOperation"class="py-3 px-5 bg-[#d8568c] hover:bg-pink-300 text-white rounded-lg font-bold text-lg">Cancelar</button>
                         <button id="btnAddOperation" class="py-3 px-5 bg-[#be185d] hover:bg-pink-600 text-white rounded-lg font-bold text-lg ml-3">Agregar</button>
+                        <button id="btnEditarOp" class="py-3 px-5 bg-[#be185d] hover:bg-pink-600 text-white rounded-lg font-bold text-lg ml-3 hidden">Editar</button>
                     </div>
                 </form>
             </div>
