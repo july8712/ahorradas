@@ -289,8 +289,11 @@ const colors = () => {
 
 const idOperation = -1
 saveDataInLocalStorage('idOperation', idOperation)
-const initialOperations = []
-saveDataInLocalStorage('operations', initialOperations)
+
+if (!getDataFromLocalStorage("operations") && getDataFromLocalStorage("operations").length <= 0) {
+    const initialOperations = []
+    saveDataInLocalStorage('operations', initialOperations)
+}
 
 btnAddOperation.addEventListener("click", (e) => {
     e.preventDefault()
