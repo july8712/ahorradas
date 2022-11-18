@@ -53,6 +53,13 @@ const selectTypeFilter = $('#typeFilter');
 const selectOrder = $('#order');
 // const selectCategoryFilter = $('#category');
 
+// Reports
+
+// let nameResult = ""
+const catMoreGain = $('#catMoreGain')
+const amountMoreGain = $('#amountMoreGain')
+const catMinorGain = $('#catMinorGain')
+const amountMinorGain = $('#amountMinorGain')
 
 // ************** End Variables ****************
 
@@ -123,6 +130,10 @@ const changeSection = (id) => {
             secReports.style.display = 'block'
             newOperation.style.display = 'none'
             editCategory.style.display = 'none'
+            separateCategories(getDataFromLocalStorage('operations'), "Ganancia", positiveCategories)
+            separateCategories(getDataFromLocalStorage('operations'), "Gasto", negativeCategories )
+            printReport(positiveCategories, "Ganancia")
+            printReport(negativeCategories, "Gasto")
         break;
 
         case btnNewOperation:
@@ -275,12 +286,20 @@ const colors = () => {
         return true
     }return false
 }
+
+const idOperation = -1
+saveDataInLocalStorage('idOperation', idOperation)
+const initialOperations = []
+saveDataInLocalStorage('operations', initialOperations)
+
 btnAddOperation.addEventListener("click", (e) => {
     e.preventDefault()
-
+    
     let operations = getDataFromLocalStorage("operations") || [];
+    let id = parseInt(getDataFromLocalStorage('idOperation'))+1;
+    console.log(id, "id");
     operations.push({
-        id: operations.length +1,
+        id: id,
         description:capitalize(inputDescription.value),
         category:inputSelectCategory.value,
         dateSelect: inputDateForm.value,
@@ -288,9 +307,11 @@ btnAddOperation.addEventListener("click", (e) => {
         mont:inputMont.value,
         selectTypeOperation: colors()
     });
-
-    saveDataInLocalStorage('operations', operations)
+    // printReport(positiveCategories, "Ganancia")
+    // printReport(negativeCategories, "Gasto")
     
+    saveDataInLocalStorage('operations', operations)
+    saveDataInLocalStorage('idOperation', id)
     $('#imgOperations').classList.add('hidden')
     $('#table').classList.remove('hidden')
     tbodyOperation.innerHTML= ""
@@ -304,7 +325,7 @@ btnAddOperation.addEventListener("click", (e) => {
     saveDataInLocalStorage('operations', operationEditInput(operationId))
     tbodyOperation.innerHTML = ""
     generateTable(getDataFromLocalStorage('operations'))
-
+ 
     
 })
 
@@ -353,6 +374,8 @@ const generateTable = (data) =>{
                 saveDataInLocalStorage('operations', removeOperation(btnDeleteIdd))
                 tbodyOperation.innerHTML= ""
                 generateTable(removeOperation(btnDeleteIdd)) 
+                // printReport(positiveCategories, "Ganancia")
+                // printReport(negativeCategories, "Gasto")
             })
         }
 
@@ -366,6 +389,8 @@ const removeOperation = (id) => {
     showBalance("Ganancia")
     showBalance("Gasto")
     showBalance("Total")
+    // printReport(positiveCategories, "Ganancia")
+    // printReport(negativeCategories, "Gasto")
     return getDataFromLocalStorage('operations').filter(operation => operation.id !== parseInt(id))
 }
 const findOperation = (id) => {
@@ -652,44 +677,67 @@ selectOrder.addEventListener('change', (e) => {
     }
 })
 
-// ****************************** Reporting functions *********************************
+// ****************************** Reports functions *********************************
 
 // Top earning category
 // totalGainForCategory
-let categories = {}
-let result = 0;
-const separateCategories = (operations) => {
+let positiveCategories = {}
+let negativeCategories = {}
+// let result = 0;
+const separateCategories = (operations, type, newArray) => {
     for (const operation of operations){
-        categories[operation.category] = operations
-            .filter((op) => op.category === operation.category)
+       
+        newArray[operation.category] = operations
+            .filter((op) => op.category === operation.category && op.type === type)
             .reduce((accumulator, operation) => accumulator + parseInt(operation.mont), 0);
+            
     }
-    return categories
+    return newArray
 }
-const nameCategories = Object.keys(categories);
+// const nameCategories = Object.keys(positiveCategories);
 
-console.log(nameCategories, "nombres");
-console.log(categories, "acá está resultado");
+// console.log(nameCategories, "nombres");
+// console.log(getDataFromLocalStorage('operations'), "acá está resultado");
 
 
-let nameResult = ""
 
-separateCategories(getDataFromLocalStorage('operations'))
-const showResults = () => {
-    for(const name in categories) {
-        if( categories[name] > result){
-            result = categories[name]
-        nameResult = name
+
+console.log(positiveCategories)
+const showResults = (array) => {
+    let nameResult, result = 0;
+    for(const name in array) {
+        if( array[name] > result){
+            result = array[name]
+            nameResult = (name !== undefined) ? name : "Categoría"
         }
     }
-return nameResult, result
+    return {nameResult, result};
 }
-showResults()
-console.log(nameResult,": ", result);
- 
 
 
 
+
+
+const printReport = (array, type) => {
+    console.log(array, type)
+
+
+    const {nameResult, result} = showResults(array);
+    console.log(nameResult, result);
+    if (type === "Ganancia") {
+        catMoreGain.innerHTML = `${nameResult}`
+        amountMoreGain.innerHTML = `$${result}`
+    }
+    if (type === "Gasto"){
+       catMinorGain.innerHTML = `${nameResult}`
+        amountMinorGain.innerHTML = `$${result}` 
+    }
+}
+
+// printReport(positiveCategories, "Ganancia")
+// printReport(negativeCategories, "Gasto")
+separateCategories(getDataFromLocalStorage('operations'), "Ganancia", positiveCategories)
+separateCategories(getDataFromLocalStorage('operations'), "Gasto", negativeCategories )
 // Window on load
 
 window.addEventListener('load', () => {
@@ -702,4 +750,6 @@ window.addEventListener('load', () => {
         showBalance("Gasto")
         showBalance("Total")
     }
+    // printReport(positiveCategories, "Ganancia")
+    // printReport(negativeCategories, "Gasto")
 })
