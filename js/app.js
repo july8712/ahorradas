@@ -277,7 +277,7 @@ const colors = () => {
 }
 btnAddOperation.addEventListener("click", (e) => {
     e.preventDefault()
-
+    
     let operations = getDataFromLocalStorage("operations") || [];
     operations.push({
         id: operations.length +1,
@@ -294,18 +294,19 @@ btnAddOperation.addEventListener("click", (e) => {
     $('#imgOperations').classList.add('hidden')
     $('#table').classList.remove('hidden')
     tbodyOperation.innerHTML= ""
-    // generateTable(operations)
+    generateTable(operations)
     $('#formNewOperation').reset()
     showBalance("Ganancia")
     showBalance("Gasto")
     showBalance("Total")
-    const operationId = btnAddOperation.getAttribute("data-id")
+ 
+})
+$('#btnEditarOp').addEventListener('click', () => {
+    const operationId = $('#btnEditarOp').getAttribute("data-id")
     //console.log(operationId)
     saveDataInLocalStorage('operations', operationEditInput(operationId))
     tbodyOperation.innerHTML = ""
     generateTable(getDataFromLocalStorage('operations'))
-
-    
 })
 
 inputDateForm.addEventListener("change", (e) =>{
@@ -341,7 +342,11 @@ const generateTable = (data) =>{
                 secCategories.style.display = 'none'
                 secReports.style.display = 'none'
                 newOperation.style.display = 'block'
-                editCategory.style.display = 'none'   
+                editCategory.style.display = 'none' 
+                btnAddOperation.classList.add('hidden')
+                $('#h2-form').classList.add('hidden')
+                $('#btnEditarOp').classList.remove('hidden')
+                $('#h2-form-edit').classList.remove('hidden')
                 
             })
         }
@@ -379,7 +384,7 @@ const operationEdit = (id) => {
     inputDateForm.value = chosenOperation.dateSelect
     selectTypeOperation.value = chosenOperation.type
     inputMont.value = chosenOperation.mont
-    btnAddOperation.setAttribute("data-id", parseInt(id))
+    $('#btnEditarOp').setAttribute("data-id", parseInt(id))
 }
 const saveOperationData = (id) => {
     return {
@@ -459,25 +464,25 @@ const orderByAToZ = (description) => {
         } return 0
     }) 
 }
-convertirFecha = (dateSelect) => {
+orderDate = (dateSelect) => {
     let fechaSp = dateSelect.split("-");
-    let anio = new Date().getFullYear();
+    let year = new Date().orderDate
     if (fechaSp.length == 3) {
-      anio = fechaSp[2];
+      year = fechaSp[2];
     }
-    var mes = fechaSp[1] - 1;
-    var dia = fechaSp[0];
+    var month = fechaSp[1] - 1;
+    var day = fechaSp[0];
   
-    return new Date(anio, mes, dia);
+    return new Date(year, month, day);
   }
 const orderByLessRecent = (dateSelect) => {
     return getDataFromLocalStorage('operations').sort((a, b) => { 
-        return convertirFecha(a.dateSelect) - convertirFecha(b.dateSelect); 
+        return orderDate(a.dateSelect) - orderDate(b.dateSelect); 
    })
 }
 const orderByMoreRecent = (dateSelect) => {
     return getDataFromLocalStorage('operations').sort((a, b) => { 
-        return convertirFecha(b.dateSelect) - convertirFecha(a.dateSelect); 
+        return orderDate(b.dateSelect) - orderDate(a.dateSelect); 
    })
 }
 
@@ -576,7 +581,6 @@ const idCategories = categoryList.length -1;
 localStorage.setItem("idCategory", JSON.stringify(idCategories))
 
 btnAddCategory.addEventListener('click', () =>{
-    //validacion 
     let categoriesLocalStorage = getDataFromLocalStorage('categories')
     let idStorage = getDataFromLocalStorage('idCategory') + 1
     categoriesLocalStorage.push({
