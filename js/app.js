@@ -60,6 +60,8 @@ const catMoreGain = $('#catMoreGain')
 const amountMoreGain = $('#amountMoreGain')
 const catMinorGain = $('#catMinorGain')
 const amountMinorGain = $('#amountMinorGain')
+const catMoreBalance = $('#catMoreBalance')
+const amountMoreBalance = $('#amountMoreBalance')
 
 // ************** End Variables ****************
 
@@ -130,10 +132,11 @@ const changeSection = (id) => {
             secReports.style.display = 'block'
             newOperation.style.display = 'none'
             editCategory.style.display = 'none'
-            separateCategories(getDataFromLocalStorage('operations'), "Ganancia", positiveCategories)
-            separateCategories(getDataFromLocalStorage('operations'), "Gasto", negativeCategories )
-            printReport(positiveCategories, "Ganancia")
-            printReport(negativeCategories, "Gasto")
+            separateCategories(getDataFromLocalStorage('operations'), balanceCategories)
+            printReport(balanceCategories, "Ganancia")
+            printReport(balanceCategories, "Gasto")
+            printReport(balanceCategories, "balance")
+            calculateTotalsForCategories(balanceCategories, "Ganancia")
         break;
 
         case btnNewOperation:
@@ -178,6 +181,7 @@ if (!getDataFromLocalStorage('categories')) {
 
 // filter 
 const filterListCategory = (categories) => {
+    if (categories.length < 0) return;
     categories.map(categories => {
         const { name } = categories
         selectFilterCategory.innerHTML += `
@@ -193,6 +197,7 @@ const capitalize = (word) => {
 
 // generateCategory
 const generateCategory = (categories) => {
+    if (categories.length < 0) return;
     containerCategory.innerHTML = ""
     categories.map(category => {
         const { id, name } = category
@@ -272,6 +277,7 @@ btnEditCategory.addEventListener("click", () => {
 
 // newOperationFunctionality
 let generateOperationTable = (categories) =>{
+    if (categories.length < 0) return;
     categories.map(categories => {
         const { name, id } = categories
         if(id != 0){
@@ -290,7 +296,7 @@ const colors = () => {
 const idOperation = -1
 saveDataInLocalStorage('idOperation', idOperation)
 
-if (!getDataFromLocalStorage("operations") && getDataFromLocalStorage("operations").length <= 0) {
+if (!getDataFromLocalStorage("operations") || getDataFromLocalStorage("operations").length <= 0) {
     const initialOperations = []
     saveDataInLocalStorage('operations', initialOperations)
 }
@@ -558,6 +564,7 @@ const showBalance = (type) => {
 }
 
 
+
 // ************** Events ****************
 $('#btn-menu-burguer').addEventListener('click', () => {
     $('#navbar-menu-burguer').classList.remove('hidden')
@@ -689,17 +696,27 @@ selectOrder.addEventListener('change', (e) => {
 
 // Top earning category
 // totalGainForCategory
-let positiveCategories = {}
-let negativeCategories = {}
+let balanceCategories = {}
 // let result = 0;
-const separateCategories = (operations, type, newArray) => {
+const separateCategories = (operations, newArray) => {
     for (const operation of operations){
+        newArray[operation.category] = {}
        
-        newArray[operation.category] = operations
-            .filter((op) => op.category === operation.category && op.type === type)
+        newArray[operation.category]["Ganancia"] = [];
+        newArray[operation.category]["Ganancia"] = operations
+            .filter((op) => op.category === operation.category && op.type === "Ganancia")
             .reduce((accumulator, operation) => accumulator + parseInt(operation.mont), 0);
-            
+
+        newArray[operation.category]["Gasto"] = [];
+        newArray[operation.category]["Gasto"] = operations
+            .filter((op) => op.category === operation.category && op.type === "Gasto")
+            .reduce((accumulator, operation) => accumulator + parseInt(operation.mont), 0);
+        
+        newArray[operation.category]["balance"] = newArray[operation.category]["Ganancia"] - newArray[operation.category]["Gasto"];
     }
+
+    console.log(newArray)
+
     return newArray
 }
 // const nameCategories = Object.keys(positiveCategories);
@@ -710,42 +727,82 @@ const separateCategories = (operations, type, newArray) => {
 
 
 
-console.log(positiveCategories)
-const showResults = (array) => {
+const showResults = (array, type) => {
+    
     let nameResult, result = 0;
     for(const name in array) {
-        if( array[name] > result){
-            result = array[name]
-            nameResult = (name !== undefined) ? name : "Categoría"
+        for (const column in array[name]) {       
+            if(column === type && array[name][column] > result){
+                result = array[name][column]
+                nameResult = name
+            }
         }
     }
     return {nameResult, result};
 }
 
-
-
-
-
 const printReport = (array, type) => {
-    console.log(array, type)
-
-
-    const {nameResult, result} = showResults(array);
-    console.log(nameResult, result);
+    // console.log(array, type)
+    const {nameResult, result} = showResults(array, type);
     if (type === "Ganancia") {
         catMoreGain.innerHTML = `${nameResult}`
         amountMoreGain.innerHTML = `$${result}`
     }
     if (type === "Gasto"){
-       catMinorGain.innerHTML = `${nameResult}`
+        catMinorGain.innerHTML = `${nameResult}`
         amountMinorGain.innerHTML = `$${result}` 
+    }
+    if (type === "balance"){
+        catMoreBalance.innerHTML = `${nameResult}`
+        amountMoreBalance.innerHTML = `$${result}` 
+    }
+    
+    console.log(nameResult, result, "acá está show balance");
+}
+
+const totals = {}
+const contCategory = $("#contCategory")
+
+const calculateTotalsForCategories = (object, type) => { 
+    console.log(object)
+    for (let balanceCategory in object) {
+        contCategory.innerHTML += `<div class="flex justify-between ">
+                                    <p class="w-full text-center">${balanceCategory}</p>
+                                    <p class="w-full text-center">$${object[balanceCategory]["Ganancia"]}</p>
+                                    <p class="w-full text-center">$${object[balanceCategory]["Gasto"]}</p>
+                                    <p class="w-full text-center">$${object[balanceCategory]["balance"]}</p>
+                                 </div>`;
     }
 }
 
-// printReport(positiveCategories, "Ganancia")
-// printReport(negativeCategories, "Gasto")
-separateCategories(getDataFromLocalStorage('operations'), "Ganancia", positiveCategories)
-separateCategories(getDataFromLocalStorage('operations'), "Gasto", negativeCategories )
+
+
+// console.log(positiveCategories)
+// console.log(positiveCategories, "funcion nueva de prueba");
+
+// console.log(showResults(positiveCategories));
+
+
+// separateCategories(getDataFromLocalStorage('operations'), balanceCategories)
+
+
+
+// console.log(getDataFromLocalStorage('operations'), "Ganancia", positiveCategories), "ganancia";
+
+
+// const calculateTotalsForCategories = (tipo) => {
+//     const operations = getDataFromLocalStorage('operations');
+//     return operations.filter(operation => 
+//         {
+//             return operation.category && operation.type === tipo
+//         } )
+//         .reduce((accumulator, operation) => accumulator + parseInt(operation.mont), 0)
+// }
+
+
+// console.log(calculateTotalsForCategories("Gasto"), "nueva funcion");
+// console.log(calculateTotalsForCategories("Ganancia"), "nueva funcion");
+
 // Window on load
 
 window.addEventListener('load', () => {
