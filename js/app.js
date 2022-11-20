@@ -293,22 +293,25 @@ const colors = () => {
     }return false
 }
 
-const idOperation = -1
-saveDataInLocalStorage('idOperation', idOperation)
+// const idOperation = -1
+// saveDataInLocalStorage('idOperation', idOperation)
 
-if (!getDataFromLocalStorage("operations") || getDataFromLocalStorage("operations").length <= 0) {
-    const initialOperations = []
-    saveDataInLocalStorage('operations', initialOperations)
+ if (!getDataFromLocalStorage("operations") || getDataFromLocalStorage("operations").length <= 0) {
+     const initialOperations = []
+     saveDataInLocalStorage('operations', initialOperations)
+ }
+const randomId = (num1, num2) => {
+    return Math.floor(Math.random() * (num2 - num1 + 1)) + num1;
 }
 
 btnAddOperation.addEventListener("click", (e) => {
     e.preventDefault()
     
     let operations = getDataFromLocalStorage("operations") || [];
-    let id = parseInt(getDataFromLocalStorage('idOperation'))+1;
-    console.log(id, "id");
+    // let id = parseInt(getDataFromLocalStorage('idOperation'))+1;
+    // console.log(id, "id");
     operations.push({
-        id: id,
+        id: randomId(10,500),
         description:capitalize(inputDescription.value),
         category:inputSelectCategory.value,
         dateSelect: inputDateForm.value,
@@ -318,7 +321,7 @@ btnAddOperation.addEventListener("click", (e) => {
     });
     
     saveDataInLocalStorage('operations', operations)
-    saveDataInLocalStorage('idOperation', id)
+    // saveDataInLocalStorage('idOperation', id)
     $('#imgOperations').classList.add('hidden')
     $('#table').classList.remove('hidden')
     tbodyOperation.innerHTML= ""
@@ -335,6 +338,7 @@ $('#btnEditarOp').addEventListener('click', () => {
     saveDataInLocalStorage('operations', operationEditInput(operationId))
     tbodyOperation.innerHTML = ""
     generateTable(getDataFromLocalStorage('operations'))
+    
 
 })
 
@@ -611,17 +615,17 @@ btnCancelOperation.addEventListener('click', () => {
 
 // Button for add category
 
-const idCategories = categoryList.length -1;
-localStorage.setItem("idCategory", JSON.stringify(idCategories))
+// const idCategories = categoryList.length -1;
+// localStorage.setItem("idCategory", JSON.stringify(idCategories))
 
 btnAddCategory.addEventListener('click', () =>{
     let categoriesLocalStorage = getDataFromLocalStorage('categories')
-    let idStorage = getDataFromLocalStorage('idCategory') + 1
+    // let idStorage = getDataFromLocalStorage('idCategory') + 1
     categoriesLocalStorage.push({
-        id: idStorage,
+        id: randomId(10,500),
         name:capitalize(inputCategory.value) 
     })
-    localStorage.setItem("idCategory", JSON.stringify(idStorage))
+    // localStorage.setItem("idCategory", JSON.stringify(idStorage))
     containerCategory.innerHTML= ""
     localStorage.setItem("categories", JSON.stringify(categoriesLocalStorage))
     generateCategory(getDataFromLocalStorage('categories'))
@@ -863,6 +867,7 @@ const calculateTotalsForCategories = (object, type) => {
                                  </div>`;
     }
 }
+
 
 
 
