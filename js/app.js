@@ -1,7 +1,7 @@
 const $ = (selector) => document.querySelector(selector)
 const $$ = (selector) => document.querySelectorAll(selector)
 
-// ************** Variables ****************
+// ***** Variables *******
 
 // Buttons
 
@@ -63,9 +63,9 @@ const amountMinorGain = $('#amountMinorGain')
 const catMoreBalance = $('#catMoreBalance')
 const amountMoreBalance = $('#amountMoreBalance')
 
-// ************** End Variables ****************
+// ***** End Variables *******
 
-// ************** Arrays of Objects **************
+// ***** Arrays of Objects *****
 
 const categoryList = [
     {
@@ -96,7 +96,7 @@ const categoryList = [
 
 let operationList = []
 
-// *************** Functions ***************
+// ***** Functions *****
 
 // changeSection
 
@@ -316,8 +316,6 @@ btnAddOperation.addEventListener("click", (e) => {
         mont:inputMont.value,
         selectTypeOperation: colors()
     });
-    // printReport(positiveCategories, "Ganancia")
-    // printReport(negativeCategories, "Gasto")
     
     saveDataInLocalStorage('operations', operations)
     saveDataInLocalStorage('idOperation', id)
@@ -565,7 +563,7 @@ const showBalance = (type) => {
 
 
 
-// ************** Events ****************
+// ***** Events *******
 $('#btn-menu-burguer').addEventListener('click', () => {
     $('#navbar-menu-burguer').classList.remove('hidden')
  
@@ -677,7 +675,7 @@ selectOrder.addEventListener('change', (e) => {
     }if (e.target.value == "menMon") {
         tbodyOperation.innerHTML = ""
         generateTable(orderByToLowerToHigherAmount())
-    } if (e.target.value == "za") {
+    }if (e.target.value == "za") {
         tbodyOperation.innerHTML = ""
         generateTable(orderByZToA())  
     }if (e.target.value == "az") {
@@ -692,7 +690,7 @@ selectOrder.addEventListener('change', (e) => {
     }
 })
 
-// ****************************** Reports functions *********************************
+// ********** Reports functions ***********
 
 // Top earning category
 // totalGainForCategory
@@ -702,20 +700,35 @@ const separateCategories = (operations, newArray) => {
     for (const operation of operations){
         newArray[operation.category] = {}
        
-        newArray[operation.category]["Ganancia"] = [];
         newArray[operation.category]["Ganancia"] = operations
             .filter((op) => op.category === operation.category && op.type === "Ganancia")
             .reduce((accumulator, operation) => accumulator + parseInt(operation.mont), 0);
 
-        newArray[operation.category]["Gasto"] = [];
+
         newArray[operation.category]["Gasto"] = operations
             .filter((op) => op.category === operation.category && op.type === "Gasto")
             .reduce((accumulator, operation) => accumulator + parseInt(operation.mont), 0);
         
         newArray[operation.category]["balance"] = newArray[operation.category]["Ganancia"] - newArray[operation.category]["Gasto"];
+
+        newArray[operation.category]["Month"] = operation.dateSelect.slice(5,7)
+            // .filter((op) => op.category === operation.category && op.type === "Ganancia")
+            // .reduce((accumulator, operation) => accumulator + parseInt(operation.mont), 0);
+
+        newArray[operation.category]["Year"] = operation.dateSelect.slice(0,4)
+
+        console.log(newArray[operation.category]["Month"], "-", newArray[operation.category]["Year"])
+
     }
 
-    console.log(newArray)
+    // console.log(newArray)
+
+
+
+
+    // juntas todos los meses en array
+    // recorrer array de meses y filtras por mes y sumas balance por mes
+    // buscar
 
     return newArray
 }
@@ -726,9 +739,36 @@ const separateCategories = (operations, newArray) => {
 
 
 
+const filterOfDate = () => {
+    const arrayDates = [];
+    for (const dates of getDataFromLocalStorage('operations')) {
+        let dateOfCreation = dates.dateSelect.slice(0,7)
+        if(arrayDates.indexOf(dateOfCreation) == -1) {
+            arrayDates.push(dateOfCreation);
+        }
+    }
+    return arrayDates;
+}
+
+const separateDates = (operations, type) => {
+    let balanceDates = {}
+    const arrayDates = filterOfDate();
+    for (const operation of operations){
+        for(const date of arrayDates) {
+            if(operation.dateSelect.slice(0,7) === date && operation.type === type) {
+                if(balanceDates[date]) {
+                    balanceDates[date] += parseInt(operation.mont);
+                } else {
+                    balanceDates[date] = parseInt(operation.mont);
+                }
+            }
+        }
+    }
+    console.log(balanceDates, "balanceDates")
+    return balanceDates
+}
 
 const showResults = (array, type) => {
-    
     let nameResult, result = 0;
     for(const name in array) {
         for (const column in array[name]) {       
@@ -741,9 +781,52 @@ const showResults = (array, type) => {
     return {nameResult, result};
 }
 
+const getHigherDate = (array, type) => {
+    // console.log(array, "getHigherDate");
+    let nameDatePositive, nameDateNegative, resultDatePositive = 0, resultDateNegative = 0;
+    for(const name in array) {
+        if(type === "positive"){
+            if(resultDatePositive < array[name]){
+            resultDatePositive = array[name]
+            nameDatePositive = name
+            }
+        }else if (type === "negative"){
+            if(resultDateNegative < array[name]){
+            resultDateNegative = array[name]
+            nameDateNegative = name
+            }
+        }
+        
+    }
+     if(type === "positive"){
+         return {nameDatePositive, resultDatePositive};//{"2022-11":234}
+     }else{
+        return {nameDateNegative, resultDateNegative};
+     }
+}
+
+const negativeDates = separateDates(getDataFromLocalStorage('operations'), "Gasto");
+const positiveDates = separateDates(getDataFromLocalStorage('operations'), "Ganancia");
+
+console.log(getHigherDate(positiveDates), "acaaaaaaaaaaaaaaaaaaaaaaaaaa");
+console.log(getHigherDate(negativeDates), "acaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+const monthMoreGain = $("#monthMoreGain")
+const montAmountMoreGain = $("#montAmountMoreGain")
+const monthMinorGain = $("#monthMinorGain")
+const montAmountMinorGain = $("#montAmountMinorGain")
+
+console.log(positiveDates, "positiveDates");
 const printReport = (array, type) => {
-    // console.log(array, type)
+
     const {nameResult, result} = showResults(array, type);
+
+    const {nameDatePositive, resultDatePositive} = getHigherDate(positiveDates, "positive")
+    const {nameDateNegative, resultDateNegative} = getHigherDate(negativeDates, "negative")
+
+    console.log(nameDatePositive,resultDatePositive, "positiveDates de print reports");
+    console.log(nameDateNegative,resultDateNegative, "negativeDates de print reports");
+
     if (type === "Ganancia") {
         catMoreGain.innerHTML = `${nameResult}`
         amountMoreGain.innerHTML = `$${result}`
@@ -756,6 +839,11 @@ const printReport = (array, type) => {
         catMoreBalance.innerHTML = `${nameResult}`
         amountMoreBalance.innerHTML = `$${result}` 
     }
+
+    monthMoreGain.innerHTML = `${nameDatePositive}`
+    montAmountMoreGain.innerHTML = `${resultDatePositive}`
+    monthMinorGain.innerHTML = `${nameDateNegative}`
+    montAmountMinorGain.innerHTML = `${resultDateNegative}`
     
     console.log(nameResult, result, "acá está show balance");
 }
@@ -764,6 +852,7 @@ const totals = {}
 const contCategory = $("#contCategory")
 
 const calculateTotalsForCategories = (object, type) => { 
+    contCategory.innerHTML = ""
     console.log(object)
     for (let balanceCategory in object) {
         contCategory.innerHTML += `<div class="flex justify-between ">
