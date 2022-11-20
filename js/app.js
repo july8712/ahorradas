@@ -874,11 +874,11 @@ const printReport = (array, type) => {
 
     if (type === "Ganancia") {
         catMoreGain.innerHTML = `${nameResult}`
-        amountMoreGain.innerHTML = `$${result}`
+        amountMoreGain.innerHTML = `+$${result}`
     }
     if (type === "Gasto"){
         catMinorGain.innerHTML = `${nameResult}`
-        amountMinorGain.innerHTML = `$${result}` 
+        amountMinorGain.innerHTML = `-$${result}` 
     }
     if (type === "balance"){
         catMoreBalance.innerHTML = `${nameResult}`
@@ -886,17 +886,17 @@ const printReport = (array, type) => {
     }
 
     monthMoreGain.innerHTML = `${nameDatePositive}`
-    montAmountMoreGain.innerHTML = `${resultDatePositive}`
+    montAmountMoreGain.innerHTML = `+${resultDatePositive}`
     monthMinorGain.innerHTML = `${nameDateNegative}`
-    montAmountMinorGain.innerHTML = `${resultDateNegative}`
+    montAmountMinorGain.innerHTML = `-${resultDateNegative}`
     
     console.log(nameResult, result, "acá está show balance");
     contDates.innerHTML = ""
     for( const date in arrayBalanceDate){
-        contDates.innerHTML += `<div class="flex justify-between ">
+        contDates.innerHTML += `<div class="flex justify-between py-4">
                                     <p class="w-full text-center">${date}</p>
-                                    <p class="w-full text-center">$${arrayBalanceDate[date]["Ganancia"]}</p>
-                                    <p class="w-full text-center">$${arrayBalanceDate[date]["Gasto"]}</p>
+                                    <p class="w-full text-center text-green-500">+$${arrayBalanceDate[date]["Ganancia"]}</p>
+                                    <p class="w-full text-center text-red-500">-$${arrayBalanceDate[date]["Gasto"]}</p>
                                     <p class="w-full text-center">$${arrayBalanceDate[date]["balance"]}</p>
                                  </div>`;
         console.log(arrayBalanceDate[date], date, arrayBalanceDate[date]["Ganancia"], arrayBalanceDate[date]["Gasto"], arrayBalanceDate[date]["balance"]);
@@ -915,10 +915,10 @@ const calculateTotalsForCategories = (object, type) => {
     contCategory.innerHTML = ""
     console.log(object, "acá está el objeto de categorías")
     for (let balanceCategory in object) {
-        contCategory.innerHTML += `<div class="flex justify-between ">
+        contCategory.innerHTML += `<div class="flex justify-between py-4">
                                     <p class="w-full text-center">${balanceCategory}</p>
-                                    <p class="w-full text-center">$${object[balanceCategory]["Ganancia"]}</p>
-                                    <p class="w-full text-center">$${object[balanceCategory]["Gasto"]}</p>
+                                    <p class="w-full text-center text-green-500">+$${object[balanceCategory]["Ganancia"]}</p>
+                                    <p class="w-full text-center text-red-500">-$${object[balanceCategory]["Gasto"]}</p>
                                     <p class="w-full text-center">$${object[balanceCategory]["balance"]}</p>
                                  </div>`;
     }
