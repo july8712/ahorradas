@@ -233,10 +233,18 @@ const generateCategory = (categories) => {
         for (const btn of btnDelete) {
             btn.addEventListener('click', () =>{
                 const btnDeleteId = btn.getAttribute("data-id")
-                removeCategory(btnDeleteId)
-                saveDataInLocalStorage('categories', removeCategory(btnDeleteId))
-                generateCategory(removeCategory(btnDeleteId))
-                filterListCategory(removeCategory(btnDeleteId))
+                const categoryToRemove = getDataFromLocalStorage('categories').filter(category => category.id === parseInt(btnDeleteId));
+                const categories = removeCategory(btnDeleteId);
+
+                const operations = getDataFromLocalStorage('operations')
+                    .filter(operation => operation.category !== categoryToRemove[0].name);
+                
+                saveDataInLocalStorage("operations", operations)
+                saveDataInLocalStorage('categories', categories)
+                generateCategory(categories)
+                filterListCategory(categories)
+                tbodyOperation.innerHTML = ""
+                generateTable(operations);
             })
         }
       
@@ -396,10 +404,10 @@ const generateTable = (data) =>{
             btn.addEventListener('click', () => {
                 console.log(btn) 
                 const btnDeleteIdd = btn.getAttribute("data-id")
-                removeOperation(btnDeleteIdd) 
-                saveDataInLocalStorage('operations', removeOperation(btnDeleteIdd))
+                const operations = removeOperation(btnDeleteIdd) 
+                saveDataInLocalStorage('operations', operations)
                 tbodyOperation.innerHTML= ""
-                generateTable(removeOperation(btnDeleteIdd)) 
+                generateTable(operations) 
             })
         }
         $('#imgOperations').classList.add('hidden')
@@ -411,6 +419,7 @@ const removeOperation = (id) => {
     showBalance("Ganancia")
     showBalance("Gasto")
     showBalance("Total")
+    console.log(getDataFromLocalStorage('operations').filter(operation => operation.id !== parseInt(id)))
     return getDataFromLocalStorage('operations').filter(operation => operation.id !== parseInt(id))
 }
 
