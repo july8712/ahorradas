@@ -581,7 +581,7 @@ const showBalance = (type) => {
 
 // ***** Events *******
 $('#btn-menu-burguer').addEventListener('click', () => {
-    $('#navbar-menu-burguer').classList.remove('hidden')
+    $('#navbar-menu-burguer').classList.toggle('hidden')
  
 })
 $('#btn-balances-burguer').addEventListener('click', () => {
