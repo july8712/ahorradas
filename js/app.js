@@ -369,9 +369,9 @@ const generateTable = (data) =>{
         for (const {id, description, category, dateSelect, amount, selectTypeOperation} of operations){
             tbodyOperation.innerHTML += `
             <div class="flex font-semibold flex-wrap md:w-full md:px-0 justify-around" >
-                <div class="flex w-full justify-between md:w-auto">
+                <div class="flex w-full justify-between md:w-[300px]">
                     <p class="text-left md:text-center mt-5 md:mt-0 md:w-[150px]">${description}</p>
-                    <p class="text-right md:text-center mt-5 md:mt-0 md:w-[150px]">${category}</p>
+                    <p class="bg-[#F599BF] mb-4 rounded text-right md:text-center mt-5 md:mt-0 md:w-[80px] mr-9">${category}</p>
                 </div>
                 <p class="md:w-[150px] text-center mt-5 md:mt-0 hidden sm:hidden lg:inline-block  ">${formatDate(dateSelect)}</p>
                 <div class="flex w-full md:w-auto mb-2 border-b-2 md:border-b-0 pb-3 border-[#be185d] justify-between">
