@@ -486,36 +486,46 @@ const filterByDate = (dateSince) => {
 
 // functions order by
 
-const orderByToLowerToHigherAmount  = (mont) => {
-    return getDataFromLocalStorage('operations').sort((a,b) => a.mont - b.mont)
+const orderByToLowerOrHigherAmount  = (orderBy) => {
+    switch (orderBy) {
+        case "ab":
+            return getDataFromLocalStorage('operations').sort((a,b) => a.mont - b.mont)
+        break
+        case "ba":
+            return getDataFromLocalStorage('operations').sort((a,b) => b.mont - a.mont)
+        break
+    }
 }
-const orderByToHigherToLowerAmount = (mont) => {
-    return getDataFromLocalStorage('operations').sort((a,b) => b.mont - a.mont)
-}
+
 
 // unificar funciones de orden
 
-const orderByZToA = (description) => {
-    return getDataFromLocalStorage('operations').sort((a,b) =>{
-    if (a.description < b.description) {
-        return 1
-    }if (a.description > b.description) {
-        return -1
-    } return 0
-    }) 
+const orderBy = (order) => {
+    let orderByLetter = []
+    switch (order) {
+        case "za":
+            orderByLetter = getDataFromLocalStorage('operations').sort((a,b) =>{
+            if (a.description < b.description) {
+                return 1
+            }if (a.description > b.description) {
+                return -1
+            } return 0
+            }) 
+        break;
+        case "az":
+            orderByLetter = getDataFromLocalStorage('operations').sort((a,b) =>{
+                if (a.description > b.description) {
+                    return 1
+                }if (a.description < b.description) {
+                    return -1
+                } return 0
+            }) 
+        break
+    }
+    return orderByLetter
 }
 
-const orderByAToZ = (description) => {
-    return getDataFromLocalStorage('operations').sort((a,b) =>{
-        if (a.description > b.description) {
-            return 1
-        }if (a.description < b.description) {
-            return -1
-        } return 0
-    }) 
-}
-
-orderDate = (dateSelect) => {
+const orderDate = (dateSelect) => {
     let fechaSp = dateSelect.split("-");
     let year = new Date().orderDate
     if (fechaSp.length == 3) {
@@ -527,16 +537,21 @@ orderDate = (dateSelect) => {
     return new Date(year, month, day);
 }
 
-const orderByLessRecent = () => {
-    return getDataFromLocalStorage('operations').sort((a, b) => { 
-        return orderDate(a.dateSelect) - orderDate(b.dateSelect); 
-   })
-}
-
-const orderByMoreRecent = () => {
-    return getDataFromLocalStorage('operations').sort((a, b) => { 
-        return orderDate(b.dateSelect) - orderDate(a.dateSelect); 
-   })
+const orderByLessOrMoreRecent = (order) => {
+    let orderDateFor = []
+    switch (order) {
+        case "less":
+            orderDateFor = getDataFromLocalStorage('operations').sort((a, b) => { 
+            return orderDate(a.dateSelect) - orderDate(b.dateSelect); 
+            }) 
+        break
+        case "more":
+            orderDateFor =  getDataFromLocalStorage('operations').sort((a, b) => { 
+            return orderDate(b.dateSelect) - orderDate(a.dateSelect); 
+            })
+        break
+        }
+    return orderDateFor
 }
 
 const calculateBalance = (balanceType) => {
@@ -680,22 +695,22 @@ date.addEventListener('change', (e) => {
 selectOrder.addEventListener('change', (e) => {
     if(e.target.value == "mayMon"){
         tbodyOperation.innerHTML = ""
-        generateTable(orderByToHigherToLowerAmount()) 
+        generateTable(orderByToLowerOrHigherAmount("ba")) 
     }if (e.target.value == "menMon") {
         tbodyOperation.innerHTML = ""
-        generateTable(orderByToLowerToHigherAmount())
+        generateTable(orderByToLowerOrHigherAmount("ab"))
     }if (e.target.value == "za") {
         tbodyOperation.innerHTML = ""
-        generateTable(orderByZToA())  
+        generateTable(orderBy("za"))  
     }if (e.target.value == "az") {
         tbodyOperation.innerHTML = ""
-        generateTable(orderByAToZ())    
+        generateTable(orderBy("az"))    
     }if (e.target.value == "masRec") {
         tbodyOperation.innerHTML = ""
-        generateTable(orderByMoreRecent())
+        generateTable(orderByLessOrMoreRecent("more"))
     }if (e.target.value == "menRec") {
         tbodyOperation.innerHTML = ""
-        generateTable(orderByLessRecent())
+        generateTable(orderByLessOrMoreRecent("less"))
     }
 })
 
