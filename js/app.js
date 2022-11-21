@@ -208,7 +208,7 @@ const generateCategory = (categories) => {
         if (id != 0) {
             containerCategory.innerHTML += `
             <div class="flex justify-between">
-                <p id="${id}" class="bg-[#F599BF] p-1 rounded">${name}</p>
+                <p id="${id}" class="bg-[#F599BF] p-1 rounded font-semibold">${name}</p>
                 <div>
                     <button class="btnEdit text-[#F599BF] font-semibold" onclick="categoryEdit(${id})">Editar</button>
                     <button class="btnDelete pl-3 font-bold text-red-600" data-id=${id}>Eliminar</button>
@@ -929,25 +929,29 @@ const contCategory = $("#contCategory")
 
 const calculateTotalsForCategories = (object) => { 
     contCategory.innerHTML = ""
+    
     for (let balanceCategory in object) {
+        const balance = object[balanceCategory]["balance"] < 0 ? "-$" + Math.abs(object[balanceCategory]["balance"]) : "$" + object[balanceCategory]["balance"]
         contCategory.innerHTML += `<div class="flex justify-between py-4 font-medium">
-                                    <p class=" text-right bg-[#F599BF] p-1 rounded">${balanceCategory}</p>
-                                    <p class=" text-right text-green-500">+$${object[balanceCategory]["gain"]}</p>
-                                    <p class=" text-right text-red-500">-$${object[balanceCategory]["spent"]}</p>
-                                    <p class=" text-right">$${object[balanceCategory]["balance"]}</p>
+                                    <p class=" text-right bg-[#F599BF] p-1 rounded font-semibold">${balanceCategory}</p>
+                                    <p class=" text-right text-green-500 font-bold">+$${object[balanceCategory]["gain"]}</p>
+                                    <p class=" text-right text-red-500 font-bold">-$${object[balanceCategory]["spent"]}</p>
+                                    <p class=" text-right font-bold">${balance}</p>
                                  </div>`;
     }
 }
+// totalBalance.innerHTML = "-$" + Math.abs(total)
 
 const calculateTotalsForMonth = () => {
     const arrayBalanceDate = showDataByMonth()
     contDates.innerHTML = ""
     for( const date in arrayBalanceDate){
+        const balance = arrayBalanceDate[date]["balance"] < 0 ? "-$" + Math.abs(arrayBalanceDate[date]["balance"]) : "$" + arrayBalanceDate[date]["balance"]
         contDates.innerHTML += `<div class="flex justify-between py-4 font-medium">
-                                    <p class="text-right">${date}</p>
-                                    <p class="text-right text-green-500">+$${arrayBalanceDate[date]["gain"]}</p>
-                                    <p class="text-right text-red-500">-$${arrayBalanceDate[date]["spent"]}</p>
-                                    <p class="text-right">$${arrayBalanceDate[date]["balance"]}</p>
+                                    <p class="text-right font-bold">${date}</p>
+                                    <p class="text-right text-green-500 font-bold">+$${arrayBalanceDate[date]["gain"]}</p>
+                                    <p class="text-right text-red-500 font-bold">-$${arrayBalanceDate[date]["spent"]}</p>
+                                    <p class="text-right font-bold">${balance}</p>
                                  </div>`;
     }
 }
