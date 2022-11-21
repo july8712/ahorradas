@@ -47,6 +47,4 @@ Luego tenemos los "Totales por Categoría" que muestra cada categoría empleada 
 Por último los "Totales por Mes" que muestra todos los meses que incluimos en las operaciones y calcula su gasto, ganancia y balance de cada uno.    
 
 ![proyecto](/assets/img/reports-dos-readme.PNG)    
-
-
-        [VER ACA](https://july8712.github.io/ahorradas/)    
+   
