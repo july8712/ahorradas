@@ -221,7 +221,6 @@ const generateCategory = (categories) => {
         const btnEdit = $$('.btnEdit')
         for (const btn of btnEdit) {
             btn.addEventListener('click', () =>{
-                //console.log(btn)
             secBalance.style.display = 'none' 
             secCategories.style.display = 'none'
             secReports.style.display = 'none'
@@ -356,6 +355,7 @@ inputDateForm.addEventListener("change", (e) =>{
 
 const generateTable = (data) =>{
     const operations = data || [];
+    inputDateForm.value = currentDate
     if(operations.length > 0) {
         for (const {id, description, category, dateSelect, mont, selectTypeOperation} of operations){
             tbodyOperation.innerHTML += `
@@ -456,8 +456,10 @@ const formatDate = (date) => {
 
 const year = new Date().getFullYear()
 const month = new Date().getMonth()
+const day = new Date().getDate()
+const currentDate = `${year}-${month+1}-${day}`
 date.value = `${year}-${month+1}-01`
-
+console.log(currentDate, "currentDate");
 // function Filters
 
 const filterBy = (typeOfFilter, propiedad) => {
@@ -525,13 +527,13 @@ orderDate = (dateSelect) => {
     return new Date(year, month, day);
 }
 
-const orderByLessRecent = (dateSelect) => {
+const orderByLessRecent = () => {
     return getDataFromLocalStorage('operations').sort((a, b) => { 
         return orderDate(a.dateSelect) - orderDate(b.dateSelect); 
    })
 }
 
-const orderByMoreRecent = (dateSelect) => {
+const orderByMoreRecent = () => {
     return getDataFromLocalStorage('operations').sort((a, b) => { 
         return orderDate(b.dateSelect) - orderDate(a.dateSelect); 
    })
