@@ -919,9 +919,9 @@ const printReport = (array, type) => {
     }
     
     monthMoreGain.innerHTML = `${nameDatePositive}`
-    monthAmountMoreGain.innerHTML = `+${resultDatePositive}`
+    monthAmountMoreGain.innerHTML = `+$${resultDatePositive}`
     monthMinorGain.innerHTML = `${nameDateNegative}`
-    montAmountMinorGain.innerHTML = `-${resultDateNegative}`
+    montAmountMinorGain.innerHTML = `-$${resultDateNegative}`
 }
 
 const totals = {}
@@ -964,4 +964,6 @@ window.addEventListener('load', () => {
         showBalance("spent")
         showBalance("total")
     }
+    selectTypeFilter.value = "all"
+    selectOrder.value = "masRec"
 })
