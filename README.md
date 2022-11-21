@@ -45,5 +45,6 @@ En esta ultima sección nos encontramos con un Reporte basado en las operaciones
 Luego tenemos los "Totales por Categoría" que muestra cada categoría empleada para generar gastos, ganancias y balances.    
 
 Por último los "Totales por Mes" que muestra todos los meses que incluimos en las operaciones y calcula su gasto, ganancia y balance de cada uno.    
-   
+
+![proyecto](/assets/img/reports-dos-readme.PNG)    
    
