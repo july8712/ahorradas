@@ -904,11 +904,11 @@ const contCategory = $("#contCategory")
 const calculateTotalsForCategories = (object) => { 
     contCategory.innerHTML = ""
     for (let balanceCategory in object) {
-        contCategory.innerHTML += `<div class="flex justify-between py-4">
-                                    <p class="w-full text-center">${balanceCategory}</p>
-                                    <p class="w-full text-center text-green-500">+$${object[balanceCategory]["Ganancia"]}</p>
-                                    <p class="w-full text-center text-red-500">-$${object[balanceCategory]["Gasto"]}</p>
-                                    <p class="w-full text-center">$${object[balanceCategory]["balance"]}</p>
+        contCategory.innerHTML += `<div class="flex justify-between py-4 font-medium">
+                                    <p class=" text-right bg-[#F599BF] p-1 rounded">${balanceCategory}</p>
+                                    <p class=" text-right text-green-500">+$${object[balanceCategory]["Ganancia"]}</p>
+                                    <p class=" text-right text-red-500">-$${object[balanceCategory]["Gasto"]}</p>
+                                    <p class=" text-right">$${object[balanceCategory]["balance"]}</p>
                                  </div>`;
     }
 }
@@ -917,11 +917,11 @@ const calculateTotalsForMonth = () => {
     const arrayBalanceDate = showDataByMonth()
     contDates.innerHTML = ""
     for( const date in arrayBalanceDate){
-        contDates.innerHTML += `<div class="flex justify-between py-4">
-                                    <p class="w-full text-center">${date}</p>
-                                    <p class="w-full text-center text-green-500">+$${arrayBalanceDate[date]["Ganancia"]}</p>
-                                    <p class="w-full text-center text-red-500">-$${arrayBalanceDate[date]["Gasto"]}</p>
-                                    <p class="w-full text-center">$${arrayBalanceDate[date]["balance"]}</p>
+        contDates.innerHTML += `<div class="flex justify-between py-4 font-medium">
+                                    <p class="text-right">${date}</p>
+                                    <p class="text-right text-green-500">+$${arrayBalanceDate[date]["Ganancia"]}</p>
+                                    <p class="text-right text-red-500">-$${arrayBalanceDate[date]["Gasto"]}</p>
+                                    <p class="text-right">$${arrayBalanceDate[date]["balance"]}</p>
                                  </div>`;
     }
 }
