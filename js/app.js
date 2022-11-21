@@ -33,9 +33,10 @@ const totalBalance = $('#total')
 const containerCategory = $('#containerCategory')
 const inputCategory = $('#input-category')
 const btnAddCategory = $('#add-category')
+const btnEditCategory = $('#btn-cat-edit')
 const btnAddOperation = $('#btnAddOperation')
 
-// ver si estas variables van acá
+// Form to new operation
 
 let inputSelectCategory = $('#categoryOperation')
 let inputDescription = $('#input-description-operation')
@@ -61,6 +62,10 @@ const amountMinorGain = $('#amountMinorGain')
 const catMoreBalance = $('#catMoreBalance')
 const amountMoreBalance = $('#amountMoreBalance')
 const contDates = $("#contDates")
+const monthMoreGain = $("#monthMoreGain")
+const monthAmountMoreGain = $("#monthAmountMoreGain")
+const monthMinorGain = $("#monthMinorGain")
+const montAmountMinorGain = $("#montAmountMinorGain")
 
 // ***** End Variables *******
 
@@ -92,8 +97,6 @@ const categoryList = [
         name: "Trabajo"
     },
 ]
-
-let operationList = []
 
 // ***** Functions *****
 
@@ -174,16 +177,31 @@ const changeSection = (id) => {
 const getDataFromLocalStorage = (key) => {
     return JSON.parse(localStorage.getItem(key))
 }
-
 const saveDataInLocalStorage = (key, data) => {
     localStorage.setItem(key, JSON.stringify(data))
 }
-
 if (!getDataFromLocalStorage('categories')) {
     saveDataInLocalStorage('categories', categoryList)
 }
 
-// filter 
+// Function to capitalize the first letter
+const capitalize = (word) => {
+    return word[0].toUpperCase() + word.slice(1);
+}
+
+// Function to get random ID
+const randomId = (num1, num2) => {
+    return Math.floor(Math.random() * (num2 - num1 + 1)) + num1;
+}
+
+// Function to print on color the Amounts
+const colors = () => {
+    if (selectTypeOperation.value === 'spent') {
+        return true
+    }return false
+}
+
+// filter categories to show in "Filtros"
 const filterListCategory = (categories) => {
     if (categories.length < 0) return;
     categories.map(categories => {
@@ -194,12 +212,8 @@ const filterListCategory = (categories) => {
     })
 }
 
-// Function to capitalize the first letter
-const capitalize = (word) => {
-    return word[0].toUpperCase() + word.slice(1);
-}
-
 // generateCategory
+
 const generateCategory = (categories) => {
     if (categories.length < 0) return;
     containerCategory.innerHTML = ""
@@ -216,22 +230,20 @@ const generateCategory = (categories) => {
             </div>
             `
         }
-        
-        })
+    })
         const btnEdit = $$('.btnEdit')
         for (const btn of btnEdit) {
-            btn.addEventListener('click', () =>{
+            btn.addEventListener('click', () => {
             secBalance.style.display = 'none' 
             secCategories.style.display = 'none'
             secReports.style.display = 'none'
             newOperation.style.display = 'none'
-            editCategory.style.display = 'block'
-                
+            editCategory.style.display = 'block'  
             })
         }
         const btnDelete = $$('.btnDelete')
         for (const btn of btnDelete) {
-            btn.addEventListener('click', () =>{
+            btn.addEventListener('click', () => {
                 const btnDeleteId = btn.getAttribute("data-id")
                 const categoryToRemove = getDataFromLocalStorage('categories').filter(category => category.id === parseInt(btnDeleteId));
                 const categories = removeCategory(btnDeleteId);
@@ -246,12 +258,9 @@ const generateCategory = (categories) => {
                 tbodyOperation.innerHTML = ""
                 generateTable(operations);
             })
-        }
-       
-      
+        }      
 }
 
-const btnEditCategory = $('#btn-cat-edit')
 const findCategory = (id) => {
     return getDataFromLocalStorage("categories").find(category => category.id === parseInt(id))
 }
@@ -269,10 +278,6 @@ const saveCategoryData = (id) => {
     }  
 }
 
-const removeCategory = (id) => {
-    return getDataFromLocalStorage('categories').filter(category => category.id !== parseInt(id))
-}
-
 const categoryEditInput = (id) => {
     return getDataFromLocalStorage('categories').map(category => {
         if (category.id === parseInt(id)) {
@@ -282,19 +287,11 @@ const categoryEditInput = (id) => {
     })
 }
 
-btnEditCategory.addEventListener("click", () => {
-    const catId = btnEditCategory.getAttribute("data-id")
-    containerCategory.innerHTML= ""
-    secBalance.style.display = 'none' 
-    secCategories.style.display = 'block'
-    secReports.style.display = 'none'
-    newOperation.style.display = 'none'
-    editCategory.style.display = 'none'
-    saveDataInLocalStorage('categories', categoryEditInput(catId))
-    generateCategory(getDataFromLocalStorage('categories'))
-})
+const removeCategory = (id) => {
+    return getDataFromLocalStorage('categories').filter(category => category.id !== parseInt(id))
+}
 
-// newOperationFunctionality
+// new Operation Functionality
 
 let generateOperationTable = (categories) =>{
     if (categories.length < 0) return;
@@ -308,61 +305,15 @@ let generateOperationTable = (categories) =>{
     })
 }
 
-const colors = () => {
-    if (selectTypeOperation.value === 'spent') {
-        return true
-    }return false
-}
-
 if (!getDataFromLocalStorage("operations") || getDataFromLocalStorage("operations").length <= 0) {
     const initialOperations = []
     saveDataInLocalStorage('operations', initialOperations)
 }
-const randomId = (num1, num2) => {
-    return Math.floor(Math.random() * (num2 - num1 + 1)) + num1;
-}
 
-btnAddOperation.addEventListener("click", (e) => {
-    e.preventDefault() 
-    saveDateToValiteForms()
-    const approvedForm = validateForm()
-    if (approvedForm) {
-    let operations = getDataFromLocalStorage("operations") || [];
-    operations.push({
-        id: randomId(10,500),
-        description:capitalize(inputDescription.value),
-        category:inputSelectCategory.value,
-        dateSelect: inputDateForm.value,
-        type: selectTypeOperation.value,
-        amount:inputAmount.value,
-        selectTypeOperation: colors()
-    });
-    saveDataInLocalStorage('operations', operations)
-    $('#imgOperations').classList.add('hidden')
-    $('#table').classList.remove('hidden')
-    tbodyOperation.innerHTML= ""
-    generateTable(operations)
-    $('#formNewOperation').reset()
-    showBalance("gain")
-    showBalance("spent")
-    showBalance("total")
-    printReport(balanceCategories, "gain")
-    printReport(balanceCategories, "spent")
-    printReport(balanceCategories, "balance")
-    dateForm.value = currentDate
+// Validate Forms
 
-    // $('#imgReports').classList.add('hidden')
-    // $('#tableReports').classList.remove('hidden')
-
-} else {
-    alert("Completa todos los datos para Agregar Nueva Operacion")
-}
-$('#imgReports').classList.add('hidden')
-    $('#tableReports').classList.remove('hidden')
- 
-})
 let valueInput, valueAmount, valueType, valueDate, valueCategory
-const saveDateToValiteForms = () =>{
+const saveDataToValiteForms = () =>{
     valueInput= inputDescription.value
     valueAmount= inputAmount.value
     valueType= selectTypeOperation
@@ -377,18 +328,7 @@ const validateForm = () => {
     }
 }
 
-$('#btnEditarOp').addEventListener('click', () => {
-    const operationId = $('#btnEditarOp').getAttribute("data-id")
-    saveDataInLocalStorage('operations', operationEditInput(operationId))
-    tbodyOperation.innerHTML = ""
-    generateTable(getDataFromLocalStorage('operations'))
-    
-
-})
-
-inputDateForm.addEventListener("change", (e) =>{
-    dateSelect = e.target.value
-})
+// generateTable
 
 const generateTable = (data) =>{
     const operations = data || [];
@@ -415,7 +355,6 @@ const generateTable = (data) =>{
         } 
         for (const btn of $$('.btnEditOperation')) {
             btn.addEventListener('click', () =>{
-                // console.log(btn)
                 secBalance.style.display = 'none' 
                 secCategories.style.display = 'none'
                 secReports.style.display = 'none'
@@ -424,8 +363,7 @@ const generateTable = (data) =>{
                 btnAddOperation.classList.add('hidden')
                 $('#h2-form').classList.add('hidden')
                 $('#btnEditarOp').classList.remove('hidden')
-                $('#h2-form-edit').classList.remove('hidden')
-                
+                $('#h2-form-edit').classList.remove('hidden') 
             })
         }
         for (const btn of $$('.btnDeleteOperation')){
@@ -486,20 +424,22 @@ const operationEditInput = (id) => {
     })
 }
 
+// Date filter
+
 const formatDate = (date) => {
     return date.split("-").reverse().join("-");
 }
-
-// Date filter
 
 const year = new Date().getFullYear()
 const month = new Date().getMonth()
 const day = new Date().getDate()
 const currentDate = `${year}-${month+1}-${day}`
+
 date.value = `${year}-${month+1}-01`
-console.log(currentDate, "currentDate");
+
 
 // function Filters
+
 let filters = {
     type: "",
     category: "",
@@ -544,7 +484,6 @@ const filterBy = (filters) => {
                 break;
         }
     }
-
     tbodyOperation.innerHTML = ""
     generateTable(operations)
 }
@@ -563,9 +502,6 @@ const orderByToLowerOrHigherAmount  = (orderBy, operations) => {
     }
     return order
 }
-
-
-// unificar funciones de orden
 
 const orderBy = (order, operations) => {
     let orderByLetter = []
@@ -621,6 +557,8 @@ const orderByLessOrMoreRecent = (order, operations) => {
     return orderDateFor
 }
 
+// functions to calculate balance
+
 const calculateBalance = (balanceType) => {
     const operations = getDataFromLocalStorage('operations');
     return operations.filter(operation => 
@@ -659,23 +597,211 @@ const showBalance = (type) => {
     }
 }
 
+// Reports functions 
+
+let balanceCategories = {}
+
+const separateCategories = (operations, newArray) => {
+    for (const operation of operations){
+        newArray[operation.category] = {}
+       
+        newArray[operation.category]["gain"] = operations
+            .filter((op) => op.category === operation.category && op.type === "gain")
+            .reduce((accumulator, operation) => accumulator + parseInt(operation.amount), 0);
 
 
-// ***** Events *******
+        newArray[operation.category]["spent"] = operations
+            .filter((op) => op.category === operation.category && op.type === "spent")
+            .reduce((accumulator, operation) => accumulator + parseInt(operation.amount), 0);
+        
+        newArray[operation.category]["balance"] = newArray[operation.category]["gain"] - newArray[operation.category]["spent"];
+        newArray[operation.category]["Month"] = operation.dateSelect.slice(5,7)
+        newArray[operation.category]["Year"] = operation.dateSelect.slice(0,4)
+    }
+    return newArray
+}
+
+const filterOfDate = () => {
+    const arrayDates = [];
+    for (const dates of getDataFromLocalStorage('operations')) {
+        let dateOfCreation = dates.dateSelect.slice(0,7)
+        if(arrayDates.indexOf(dateOfCreation) == -1) {
+            arrayDates.push(dateOfCreation);
+        }
+    }
+    return arrayDates;
+}
+
+const separateDates = (operations, type) => {
+    let balanceDates = {}
+    const arrayDates = filterOfDate();
+    for (const operation of operations){
+        for(const date of arrayDates) {
+            if(operation.dateSelect.slice(0,7) === date && operation.type === type) {
+                if(balanceDates[date]) {
+                    balanceDates[date] += parseInt(operation.amount);
+                } else {
+                    balanceDates[date] = parseInt(operation.amount);
+                }
+            }
+        }
+    }
+    return balanceDates
+}
+
+const showDataByMonth = () => {
+    let dataByMonth = {};
+    const operations = getDataFromLocalStorage('operations');
+    const arrayDates = filterOfDate();
+
+    for (const operation of operations){
+        for(const date of arrayDates) {
+            if(operation.dateSelect.slice(0,7) === date) {
+                if(dataByMonth[date]) {
+                    if(dataByMonth[date][operation.type]) {
+                        dataByMonth[date][operation.type] += parseInt(operation.amount);
+                    } else {
+                        dataByMonth[date][operation.type] = parseInt(operation.amount);
+                    }
+                } else {
+                    dataByMonth[date] = {};
+                    dataByMonth[date][operation.type] = parseInt(operation.amount);
+                }
+            }
+        }
+    }
+    for (const date in dataByMonth) {
+        const categories = ["gain", "spent"];
+        categories.map((category) => {
+            if (!dataByMonth[date][category]) {
+                dataByMonth[date][category] = 0;
+            }
+        });
+        dataByMonth[date]["balance"] = 
+        parseInt(dataByMonth[date]["gain"]) - 
+        parseInt(dataByMonth[date]["spent"]);
+    }
+    return dataByMonth
+}
+
+const showResults = (array, type) => {
+    let nameResult, result = 0;
+    for(const name in array) {
+        for (const column in array[name]) {       
+            if(column === type && array[name][column] > result){
+                result = array[name][column]
+                nameResult = name
+            }
+        }
+    }
+    return {nameResult, result};
+}
+
+const getHigherDate = (array, type) => {
+    let nameDatePositive, nameDateNegative, resultDatePositive = 0, resultDateNegative = 0;
+    for(const name in array) {
+        if(type === "positive"){
+            if(resultDatePositive < array[name]){
+            resultDatePositive = array[name]
+            nameDatePositive = name
+            }
+        }else if (type === "negative"){
+            if(resultDateNegative < array[name]){
+            resultDateNegative = array[name]
+            nameDateNegative = name
+            }
+        }
+    }
+    if(type === "positive"){
+        return {nameDatePositive, resultDatePositive};
+    }else{
+        return {nameDateNegative, resultDateNegative};
+    }
+}
+
+let negativeDates = separateDates(getDataFromLocalStorage('operations'), "spent");
+let positiveDates = separateDates(getDataFromLocalStorage('operations'), "gain");
+
+// Function for print reports
+
+const printReport = (array, type) => {
+
+    const {nameResult, result} = showResults(array, type);
+    const {nameDatePositive, resultDatePositive} = getHigherDate(positiveDates, "positive")
+    const {nameDateNegative, resultDateNegative} = getHigherDate(negativeDates, "negative")
+    calculateTotalsForMonth()
+    if (type === "gain") {
+        catMoreGain.innerHTML = `${nameResult}`
+        amountMoreGain.innerHTML = `+$${result}`
+    }
+    if (type === "spent"){
+        catMinorGain.innerHTML = `${nameResult}`
+        amountMinorGain.innerHTML = `-$${result}` 
+    }
+    if (type === "balance"){
+        catMoreBalance.innerHTML = `${nameResult}`
+        amountMoreBalance.innerHTML = `$${result}` 
+    }
+    
+    monthMoreGain.innerHTML = `${nameDatePositive}`
+    monthAmountMoreGain.innerHTML = `+$${resultDatePositive}`
+    monthMinorGain.innerHTML = `${nameDateNegative}`
+    montAmountMinorGain.innerHTML = `-$${resultDateNegative}`
+}
+
+const totals = {}
+const contCategory = $("#contCategory")
+
+const calculateTotalsForCategories = (object) => { 
+    contCategory.innerHTML = ""
+    
+    for (let balanceCategory in object) {
+        const balance = object[balanceCategory]["balance"] < 0 ? "-$" + Math.abs(object[balanceCategory]["balance"]) : "$" + object[balanceCategory]["balance"]
+        contCategory.innerHTML += `<div class="flex justify-between py-4 font-medium">
+                                    <p class=" text-center p-1 rounded font-semibold w-1/4"><span class="bg-[#F599BF] p-1 rounded">${balanceCategory}</span></p>
+                                    <p class=" text-center text-green-500 font-bold w-1/4">+$${object[balanceCategory]["gain"]}</p>
+                                    <p class=" text-center text-red-500 font-bold w-1/4">-$${object[balanceCategory]["spent"]}</p>
+                                    <p class=" text-center font-bold w-1/4">${balance}</p>
+                                 </div>`;
+    }
+}
+
+const calculateTotalsForMonth = () => {
+    const arrayBalanceDate = showDataByMonth()
+    contDates.innerHTML = ""
+    for( const date in arrayBalanceDate){
+        const balance = arrayBalanceDate[date]["balance"] < 0 ? "-$" + Math.abs(arrayBalanceDate[date]["balance"]) : "$" + arrayBalanceDate[date]["balance"]
+        contDates.innerHTML += `<div class="flex justify-between py-4 font-medium text-center">
+                                    <p class="font-bold w-1/4 text-center">${date}</p>
+                                    <p class="text-green-500 font-bold w-1/4 text-center">+$${arrayBalanceDate[date]["gain"]}</p>
+                                    <p class="text-red-500 font-bold w-1/4 text-center">-$${arrayBalanceDate[date]["spent"]}</p>
+                                    <p class="font-bold w-1/4 text-center">${balance}</p>
+                                 </div>`;
+    }
+}
+
+// Events
 $('#btn-menu-burguer').addEventListener('click', () => {
     $('#navbar-menu-burguer').classList.toggle('hidden')
  
 })
+
 $('#btn-balances-burguer').addEventListener('click', () => {
     changeSection(btnBalances)
 })
+
 $('#btn-categories-burguer').addEventListener('click', () => {
     changeSection(btnCategories)
     generateCategory(getDataFromLocalStorage('categories'))
 })
+
 $('#btn-reports-burguer').addEventListener('click', () => {
     changeSection(btnReports)
     generateCategory(getDataFromLocalStorage('categories'))
+})
+
+inputDateForm.addEventListener("change", (e) =>{
+    dateSelect = e.target.value
 })
 
 logo.addEventListener('click', () =>{
@@ -706,9 +832,62 @@ btnCancel.addEventListener('click', () =>{
 btnCancelOperation.addEventListener('click', () => {
     changeSection(btnCancelOperation)
 })
-
-// Button for add category
-
+// button edit category
+btnEditCategory.addEventListener("click", () => {
+    const catId = btnEditCategory.getAttribute("data-id")
+    containerCategory.innerHTML= ""
+    secBalance.style.display = 'none' 
+    secCategories.style.display = 'block'
+    secReports.style.display = 'none'
+    newOperation.style.display = 'none'
+    editCategory.style.display = 'none'
+    saveDataInLocalStorage('categories', categoryEditInput(catId))
+    generateCategory(getDataFromLocalStorage('categories'))
+})
+//button edit operation
+$('#btnEditarOp').addEventListener('click', () => {
+    const operationId = $('#btnEditarOp').getAttribute("data-id")
+    saveDataInLocalStorage('operations', operationEditInput(operationId))
+    tbodyOperation.innerHTML = ""
+    generateTable(getDataFromLocalStorage('operations'))
+})
+//button add operation
+btnAddOperation.addEventListener("click", (e) => {
+    e.preventDefault() 
+    saveDataToValiteForms()
+    const approvedForm = validateForm()
+    if (approvedForm) {
+    let operations = getDataFromLocalStorage("operations") || [];
+    operations.push({
+        id: randomId(10,500),
+        description:capitalize(inputDescription.value),
+        category:inputSelectCategory.value,
+        dateSelect: inputDateForm.value,
+        type: selectTypeOperation.value,
+        amount:inputAmount.value,
+        selectTypeOperation: colors()
+    });
+    saveDataInLocalStorage('operations', operations)
+    $('#imgOperations').classList.add('hidden')
+    $('#table').classList.remove('hidden')
+    tbodyOperation.innerHTML= ""
+    generateTable(operations)
+    $('#formNewOperation').reset()
+    showBalance("gain")
+    showBalance("spent")
+    showBalance("total")
+    printReport(balanceCategories, "gain")
+    printReport(balanceCategories, "spent")
+    printReport(balanceCategories, "balance")
+    dateForm.value = currentDate
+} else {
+    alert("Completa todos los datos para Agregar Nueva Operacion")
+}
+$('#imgReports').classList.add('hidden')
+$('#tableReports').classList.remove('hidden')
+ 
+})
+//button add category
 btnAddCategory.addEventListener('click', () =>{
     let categoriesLocalStorage = getDataFromLocalStorage('categories')
     let newCategory = capitalize(inputCategory.value.toLowerCase())
@@ -781,208 +960,6 @@ selectOrder.addEventListener('change', (e) => {
     filters.order = e.target.value;
     filterBy(filters);
 })
-
-// ********** Reports functions ***********
-
-// Top earning category
-// totalGainForCategory
-let balanceCategories = {}
-
-const separateCategories = (operations, newArray) => {
-    for (const operation of operations){
-        newArray[operation.category] = {}
-       
-        newArray[operation.category]["gain"] = operations
-            .filter((op) => op.category === operation.category && op.type === "gain")
-            .reduce((accumulator, operation) => accumulator + parseInt(operation.amount), 0);
-
-
-        newArray[operation.category]["spent"] = operations
-            .filter((op) => op.category === operation.category && op.type === "spent")
-            .reduce((accumulator, operation) => accumulator + parseInt(operation.amount), 0);
-        
-        newArray[operation.category]["balance"] = newArray[operation.category]["gain"] - newArray[operation.category]["spent"];
-        newArray[operation.category]["Month"] = operation.dateSelect.slice(5,7)
-        newArray[operation.category]["Year"] = operation.dateSelect.slice(0,4)
-    }
-    return newArray
-}
-
-
-const filterOfDate = () => {
-    const arrayDates = [];
-    for (const dates of getDataFromLocalStorage('operations')) {
-        let dateOfCreation = dates.dateSelect.slice(0,7)
-        if(arrayDates.indexOf(dateOfCreation) == -1) {
-            arrayDates.push(dateOfCreation);
-        }
-    }
-    console.log(arrayDates, "arrayDates");
-    return arrayDates;
-}
-
-const separateDates = (operations, type) => {
-    let balanceDates = {}
-    const arrayDates = filterOfDate();
-    for (const operation of operations){
-        for(const date of arrayDates) {
-            if(operation.dateSelect.slice(0,7) === date && operation.type === type) {
-                if(balanceDates[date]) {
-                    balanceDates[date] += parseInt(operation.amount);
-                } else {
-                    balanceDates[date] = parseInt(operation.amount);
-                }
-            }
-        }
-    }
-    console.log(balanceDates, "balanceDates")
-    return balanceDates
-}
-
-const showDataByMonth = () => {
-    let dataByMonth = {};
-    const operations = getDataFromLocalStorage('operations');
-    const arrayDates = filterOfDate();
-// recorro el array de operaciones
-    for (const operation of operations){
-        // recorro el array de fechas
-        for(const date of arrayDates) {
-            // filtro la operación por fecha
-            if(operation.dateSelect.slice(0,7) === date) {
-                // pregunto si la fecha existe en el objeto nuevo
-                if(dataByMonth[date]) {
-                    // si existe crea un nuevo valor con el tipo gasto/ganancia y le asigna el monto
-                    if(dataByMonth[date][operation.type]) {
-                        dataByMonth[date][operation.type] += parseInt(operation.amount);
-                    } else {
-                        dataByMonth[date][operation.type] = parseInt(operation.amount);
-                    }
-                } else {
-                    // si no existe lo crea
-                    dataByMonth[date] = {};
-                    dataByMonth[date][operation.type] = parseInt(operation.amount);
-                }
-            }
-        }
-    }
-    // vuelvo a recorrer el nuevo objeto y si no existe le agrego un valor de gasto y uno de ganancia
-    for (const date in dataByMonth) {
-        const categories = ["gain", "spent"];
-        categories.map((category) => {
-            if (!dataByMonth[date][category]) {
-                dataByMonth[date][category] = 0;
-            }
-        });
-        // calculo el balance
-        dataByMonth[date]["balance"] = 
-        parseInt(dataByMonth[date]["gain"]) - 
-        parseInt(dataByMonth[date]["spent"]);
-    }
-    // devuelvo el objeto para mostrar los totales por fecha
-    return dataByMonth
-}
-
-const showResults = (array, type) => {
-    let nameResult, result = 0;
-    for(const name in array) {
-        for (const column in array[name]) {       
-            if(column === type && array[name][column] > result){
-                result = array[name][column]
-                nameResult = name
-            }
-        }
-    }
-    return {nameResult, result};
-}
-
-const getHigherDate = (array, type) => {
-    let nameDatePositive, nameDateNegative, resultDatePositive = 0, resultDateNegative = 0;
-    for(const name in array) {
-        if(type === "positive"){
-            if(resultDatePositive < array[name]){
-            resultDatePositive = array[name]
-            nameDatePositive = name
-            }
-        }else if (type === "negative"){
-            if(resultDateNegative < array[name]){
-            resultDateNegative = array[name]
-            nameDateNegative = name
-            }
-        }
-    }
-    if(type === "positive"){
-        return {nameDatePositive, resultDatePositive};
-    }else{
-        return {nameDateNegative, resultDateNegative};
-    }
-}
-
-let negativeDates = separateDates(getDataFromLocalStorage('operations'), "spent");
-let positiveDates = separateDates(getDataFromLocalStorage('operations'), "gain");
-
-const monthMoreGain = $("#monthMoreGain")
-const monthAmountMoreGain = $("#monthAmountMoreGain")
-const monthMinorGain = $("#monthMinorGain")
-const montAmountMinorGain = $("#montAmountMinorGain")
-
-// Function for print reports
-
-const printReport = (array, type) => {
-
-    const {nameResult, result} = showResults(array, type);
-    const {nameDatePositive, resultDatePositive} = getHigherDate(positiveDates, "positive")
-    const {nameDateNegative, resultDateNegative} = getHigherDate(negativeDates, "negative")
-    calculateTotalsForMonth()
-    if (type === "gain") {
-        catMoreGain.innerHTML = `${nameResult}`
-        amountMoreGain.innerHTML = `+$${result}`
-    }
-    if (type === "spent"){
-        catMinorGain.innerHTML = `${nameResult}`
-        amountMinorGain.innerHTML = `-$${result}` 
-    }
-    if (type === "balance"){
-        catMoreBalance.innerHTML = `${nameResult}`
-        amountMoreBalance.innerHTML = `$${result}` 
-    }
-    
-    monthMoreGain.innerHTML = `${nameDatePositive}`
-    monthAmountMoreGain.innerHTML = `+$${resultDatePositive}`
-    monthMinorGain.innerHTML = `${nameDateNegative}`
-    montAmountMinorGain.innerHTML = `-$${resultDateNegative}`
-}
-
-const totals = {}
-const contCategory = $("#contCategory")
-
-const calculateTotalsForCategories = (object) => { 
-    contCategory.innerHTML = ""
-    
-    for (let balanceCategory in object) {
-        const balance = object[balanceCategory]["balance"] < 0 ? "-$" + Math.abs(object[balanceCategory]["balance"]) : "$" + object[balanceCategory]["balance"]
-        contCategory.innerHTML += `<div class="flex justify-between py-4 font-medium">
-                                    <p class=" text-center p-1 rounded font-semibold w-1/4"><span class="bg-[#F599BF] p-1 rounded">${balanceCategory}</span></p>
-                                    <p class=" text-center text-green-500 font-bold w-1/4">+$${object[balanceCategory]["gain"]}</p>
-                                    <p class=" text-center text-red-500 font-bold w-1/4">-$${object[balanceCategory]["spent"]}</p>
-                                    <p class=" text-center font-bold w-1/4">${balance}</p>
-                                 </div>`;
-    }
-}
-// totalBalance.innerHTML = "-$" + Math.abs(total)
-
-const calculateTotalsForMonth = () => {
-    const arrayBalanceDate = showDataByMonth()
-    contDates.innerHTML = ""
-    for( const date in arrayBalanceDate){
-        const balance = arrayBalanceDate[date]["balance"] < 0 ? "-$" + Math.abs(arrayBalanceDate[date]["balance"]) : "$" + arrayBalanceDate[date]["balance"]
-        contDates.innerHTML += `<div class="flex justify-between py-4 font-medium text-center">
-                                    <p class="font-bold w-1/4 text-center">${date}</p>
-                                    <p class="text-green-500 font-bold w-1/4 text-center">+$${arrayBalanceDate[date]["gain"]}</p>
-                                    <p class="text-red-500 font-bold w-1/4 text-center">-$${arrayBalanceDate[date]["spent"]}</p>
-                                    <p class="font-bold w-1/4 text-center">${balance}</p>
-                                 </div>`;
-    }
-}
 
 // Window on load
 
