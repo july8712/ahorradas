@@ -205,15 +205,18 @@ const generateCategory = (categories) => {
     containerCategory.innerHTML = ""
     categories.map(category => {
         const { id, name } = category
-        containerCategory.innerHTML += `
-        <div class="flex justify-between">
-            <p id="${id}" class="bg-[#F599BF] p-1 rounded">${name}</p>
-            <div>
-                <button class="btnEdit text-[#F599BF] font-semibold" onclick="categoryEdit(${id})">Editar</button>
-                <button class="btnDelete pl-3 font-bold text-red-600" data-id=${id}>Eliminar</button>
+        if (id != 0) {
+            containerCategory.innerHTML += `
+            <div class="flex justify-between">
+                <p id="${id}" class="bg-[#F599BF] p-1 rounded">${name}</p>
+                <div>
+                    <button class="btnEdit text-[#F599BF] font-semibold" onclick="categoryEdit(${id})">Editar</button>
+                    <button class="btnDelete pl-3 font-bold text-red-600" data-id=${id}>Eliminar</button>
+                </div>
             </div>
-        </div>
-        `
+            `
+        }
+        
         })
         const btnEdit = $$('.btnEdit')
         for (const btn of btnEdit) {
@@ -626,7 +629,7 @@ btnAddCategory.addEventListener('click', () =>{
     let categoriesLocalStorage = getDataFromLocalStorage('categories')
     categoriesLocalStorage.push({
         id: randomId(10,500),
-        name:capitalize(inputCategory.value) 
+        name:capitalize(inputCategory.value.toLowerCase()), 
     })
     containerCategory.innerHTML= ""
     localStorage.setItem("categories", JSON.stringify(categoriesLocalStorage))
@@ -638,8 +641,6 @@ btnAddCategory.addEventListener('click', () =>{
     generateOperationTable(getDataFromLocalStorage('categories'))
     console.log(getDataFromLocalStorage('categories'))
 })
-
-
 
 hideFilters.addEventListener('click',() => {
     formFilters.classList.toggle('hidden')
