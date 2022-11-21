@@ -247,6 +247,7 @@ const generateCategory = (categories) => {
                 generateTable(operations);
             })
         }
+       
       
 }
 
@@ -323,6 +324,9 @@ const randomId = (num1, num2) => {
 
 btnAddOperation.addEventListener("click", (e) => {
     e.preventDefault() 
+    saveDateToValiteForms()
+    const approvedForm = validateForm()
+    if (approvedForm) {
     let operations = getDataFromLocalStorage("operations") || [];
     operations.push({
         id: randomId(10,500),
@@ -346,8 +350,32 @@ btnAddOperation.addEventListener("click", (e) => {
     printReport(balanceCategories, "spent")
     printReport(balanceCategories, "balance")
     dateForm.value = currentDate
+
+    // $('#imgReports').classList.add('hidden')
+    // $('#tableReports').classList.remove('hidden')
+
+} else {
+    alert("Completa todos los datos para Agregar Nueva Operacion")
+}
+$('#imgReports').classList.add('hidden')
+    $('#tableReports').classList.remove('hidden')
  
 })
+let valueInput, valueAmount, valueType, valueDate, valueCategory
+const saveDateToValiteForms = () =>{
+    valueInput= inputDescription.value
+    valueAmount= inputAmount.value
+    valueType= selectTypeOperation
+    valueDate= inputDateForm.value
+    valueCategory= inputSelectCategory.value
+}
+const validateForm = () => {
+    if (valueInput !== "" && valueAmount !== "" && valueType !== "" && valueDate !== "" && valueCategory !== "") {
+        return true
+    }else{
+       return false
+    }
+}
 
 $('#btnEditarOp').addEventListener('click', () => {
     const operationId = $('#btnEditarOp').getAttribute("data-id")
