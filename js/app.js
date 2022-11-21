@@ -134,10 +134,10 @@ const changeSection = (id) => {
             separateCategories(getDataFromLocalStorage('operations'), balanceCategories)
             calculateTotalsForCategories(balanceCategories)
             showDataByMonth()
-            separateDates(getDataFromLocalStorage('operations'), "Gasto");
-            separateDates(getDataFromLocalStorage('operations'), "Ganancia");
-            // getHigherDate(positiveDates, "positive")
-            // getHigherDate(positiveDates, "negative")
+            negativeDates = separateDates(getDataFromLocalStorage('operations'), "Gasto");
+            positiveDates = separateDates(getDataFromLocalStorage('operations'), "Ganancia");
+            getHigherDate(positiveDates, "positive")
+            getHigherDate(negativeDates, "negative")
             printReport(balanceCategories, "Ganancia")
             printReport(balanceCategories, "Gasto")
             printReport(balanceCategories, "balance")
@@ -647,19 +647,30 @@ btnCancelOperation.addEventListener('click', () => {
 
 btnAddCategory.addEventListener('click', () =>{
     let categoriesLocalStorage = getDataFromLocalStorage('categories')
-    categoriesLocalStorage.push({
-        id: randomId(10,500),
-        name:capitalize(inputCategory.value.toLowerCase()), 
-    })
-    containerCategory.innerHTML= ""
-    localStorage.setItem("categories", JSON.stringify(categoriesLocalStorage))
-    generateCategory(getDataFromLocalStorage('categories'))
-    selectFilterCategory.innerHTML= ""
-    filterListCategory(getDataFromLocalStorage('categories'));
-    inputCategory.value = ""
-    inputSelectCategory.innerHTML= "" 
-    generateOperationTable(getDataFromLocalStorage('categories'))
-    console.log(getDataFromLocalStorage('categories'))
+    let newCategory = capitalize(inputCategory.value.toLowerCase())
+
+    let categoryExists = false;
+    for (const category of categoriesLocalStorage) {
+        if(newCategory === category.name){
+            categoryExists = true;
+        }
+    }
+ 
+    if(!categoryExists){
+        categoriesLocalStorage.push({
+            id: randomId(10,500),
+            name:newCategory 
+        })
+        containerCategory.innerHTML= ""
+        localStorage.setItem("categories", JSON.stringify(categoriesLocalStorage))
+        generateCategory(getDataFromLocalStorage('categories'))
+        selectFilterCategory.innerHTML= ""
+        filterListCategory(getDataFromLocalStorage('categories'));
+        inputCategory.value = ""
+        inputSelectCategory.innerHTML= "" 
+        generateOperationTable(getDataFromLocalStorage('categories'))
+        console.log(getDataFromLocalStorage('categories'))
+    }
 })
 
 hideFilters.addEventListener('click',() => {
@@ -852,8 +863,8 @@ const getHigherDate = (array, type) => {
     }
 }
 
-const negativeDates = separateDates(getDataFromLocalStorage('operations'), "Gasto");
-const positiveDates = separateDates(getDataFromLocalStorage('operations'), "Ganancia");
+let negativeDates = separateDates(getDataFromLocalStorage('operations'), "Gasto");
+let positiveDates = separateDates(getDataFromLocalStorage('operations'), "Ganancia");
 
 const monthMoreGain = $("#monthMoreGain")
 const monthAmountMoreGain = $("#monthAmountMoreGain")
