@@ -933,10 +933,10 @@ const calculateTotalsForCategories = (object) => {
     for (let balanceCategory in object) {
         const balance = object[balanceCategory]["balance"] < 0 ? "-$" + Math.abs(object[balanceCategory]["balance"]) : "$" + object[balanceCategory]["balance"]
         contCategory.innerHTML += `<div class="flex justify-between py-4 font-medium">
-                                    <p class=" text-right bg-[#F599BF] p-1 rounded font-semibold">${balanceCategory}</p>
-                                    <p class=" text-right text-green-500 font-bold">+$${object[balanceCategory]["gain"]}</p>
-                                    <p class=" text-right text-red-500 font-bold">-$${object[balanceCategory]["spent"]}</p>
-                                    <p class=" text-right font-bold">${balance}</p>
+                                    <p class=" text-center p-1 rounded font-semibold w-1/4"><span class="bg-[#F599BF] p-1 rounded">${balanceCategory}</span></p>
+                                    <p class=" text-center text-green-500 font-bold w-1/4">+$${object[balanceCategory]["gain"]}</p>
+                                    <p class=" text-center text-red-500 font-bold w-1/4">-$${object[balanceCategory]["spent"]}</p>
+                                    <p class=" text-center font-bold w-1/4">${balance}</p>
                                  </div>`;
     }
 }
@@ -947,11 +947,11 @@ const calculateTotalsForMonth = () => {
     contDates.innerHTML = ""
     for( const date in arrayBalanceDate){
         const balance = arrayBalanceDate[date]["balance"] < 0 ? "-$" + Math.abs(arrayBalanceDate[date]["balance"]) : "$" + arrayBalanceDate[date]["balance"]
-        contDates.innerHTML += `<div class="flex justify-between py-4 font-medium">
-                                    <p class="text-right font-bold">${date}</p>
-                                    <p class="text-right text-green-500 font-bold">+$${arrayBalanceDate[date]["gain"]}</p>
-                                    <p class="text-right text-red-500 font-bold">-$${arrayBalanceDate[date]["spent"]}</p>
-                                    <p class="text-right font-bold">${balance}</p>
+        contDates.innerHTML += `<div class="flex justify-between py-4 font-medium text-center">
+                                    <p class="font-bold w-1/4 text-center">${date}</p>
+                                    <p class="text-green-500 font-bold w-1/4 text-center">+$${arrayBalanceDate[date]["gain"]}</p>
+                                    <p class="text-red-500 font-bold w-1/4 text-center">-$${arrayBalanceDate[date]["spent"]}</p>
+                                    <p class="font-bold w-1/4 text-center">${balance}</p>
                                  </div>`;
     }
 }
